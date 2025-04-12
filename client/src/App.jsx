@@ -1,35 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom"
+import HomePage from "./pages/home"
+import HouseCleaningPage from "./pages/house-cleaning"
+import OfficeCleaningPage from "./pages/office-cleaning"
+import ToiletCleaningPage from "./pages/toilet-cleaning"
+import WindowCleaningPage from "./pages/window-cleaning"
+import "./App.css"
+import "./service-page.css" // Make sure service page CSS is imported
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/services/house-cleaning" element={<HouseCleaningPage />} />
+      <Route path="/services/office-cleaning" element={<OfficeCleaningPage />} />
+      <Route path="/services/toilet-cleaning" element={<ToiletCleaningPage />} />
+      <Route path="/services/window-cleaning" element={<WindowCleaningPage />} />
+    </Routes>
   )
 }
-
-export default App
