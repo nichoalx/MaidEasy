@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.login-container {
+    max-height: 920px;
+    max-width: 600px;
+    margin: 100px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 7px #3e4772e6;
+}
+
+.header .text {
+    color: #3e4772;
+    font-size: 37px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2px;
+}
+
+.groups {
+    width: 100%;
+}
+  
+.groups label {
+    font-size: 14px;
+    color: #000;
+    margin-left: 35px;
+    font-weight: 500;
+}
+
+.inputs {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    background: #e5edff;
+    border-radius: 20px;
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 3px;
+    margin-top: 5px;
+}
+
+.same-row {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.input-pair {
+    width: 47.3%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-pair label {
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.inputs img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.inputs input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #000000;
+    border: #8d96a9;
+}
+
+.inputs select {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #000000;
+    border: #8d96a9;
+}
+
+.login-button {
+    width: 90%;
+    padding: 10px;
+    background-color: #3e4772;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 250;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 40px auto 0; 
+    display: block;
+    border: 1px solid #ccc;
+}
+
+.create-account-button {
+    width: 90%;
+    padding: 12px;
+    background-color: #3e4772;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 30px auto 0;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
+}
+.create-account-button:hover {
+    background-color: #2f3865;
+}
+
+.password-input {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 3px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.inputs.error {
+    border: 1px solid red;
+    background-color: #ffe5e5; 
+}
+
+.inputs.error input::placeholder {
+    color: red;
+}

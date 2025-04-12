@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.login-container {
+    max-height: 420px;
+    max-width: 370px;
+    margin: 100px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 7px #3e4772e6;
+}
+
+.header .text {
+    color: #3e4772;
+    font-size: 37px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.body .text {
+    color: #8d96a9;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.groups {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+.groups label {
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 8px;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.inputs {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    background: #e5edff;
+    border-radius: 20px;
+    padding: 10px 16px;
+    margin: 0px auto 0; 
+    border: 1px solid #ccc;
+}
+
+.inputs img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.inputs input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #000000;
+    border: #8d96a9;
+}
+
+.login-button {
+    width: 90%;
+    padding: 10px;
+    background-color: #3e4772;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 250;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 40px auto 0; 
+    display: block;
+    border: 1px solid #ccc;
+}
+
+.footer-text {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    color: #000000;
+}
+
+.footer-text span {
+    color: #3e4772;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.inputs.error {
+    border: 1px solid red;
+    background-color: #ffe5e5; /* light red background */
+}
+
+.inputs.error input::placeholder {
+    color: red;
+}
