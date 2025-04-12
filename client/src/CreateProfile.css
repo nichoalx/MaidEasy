@@ -116,7 +116,7 @@
 .radio-group label {
     display: flex;
     align-items: center;
-    gap: 20px; /* ← This controls the space between the radio and the text */
+    gap: 20px; 
     color: #000;
     line-height: 1.7;
   }

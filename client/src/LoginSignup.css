@@ -113,7 +113,7 @@
 
 .inputs.error {
     border: 1px solid red;
-    background-color: #ffe5e5; /* light red background */
+    background-color: #ffe5e5; 
 }
 
 .inputs.error input::placeholder {
