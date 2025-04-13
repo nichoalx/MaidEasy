@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { Trash2, ArrowLeft } from "lucide-react"
 
+
 export default function ToiletCleaningPage() {
   return (
     <div className="page-container">

@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom"
-import HomePage from "./pages/home"
-import HouseCleaningPage from "./pages/house-cleaning"
-import OfficeCleaningPage from "./pages/office-cleaning"
-import ToiletCleaningPage from "./pages/toilet-cleaning"
-import WindowCleaningPage from "./pages/window-cleaning"
+import HomePage from "./main-page/home"
+import HouseCleaningPage from "./main-page/house-cleaning"
+import OfficeCleaningPage from "./main-page/office-cleaning"
+import ToiletCleaningPage from "./main-page/toilet-cleaning"
+import WindowCleaningPage from "./main-page/window-cleaning"
 import "./App.css"
-import "./service-page.css" // Make sure service page CSS is imported
+import "./service-page.css"
 
 export default function App() {
   return (

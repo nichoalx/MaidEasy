@@ -8,6 +8,7 @@
     --gray-700: #374151;
     --gray-600: #4b5563;
     --gray-400: #9ca3af;
+    --sky-blue: #e5edff;
   }
   
   .page-container {
@@ -20,7 +21,7 @@
   
   /* Header Styles */
   .service-header {
-    background-color: var(--navy);
+    background-color: var(--white);
     color: var(--white);
   }
   
@@ -75,7 +76,7 @@
   /* Service Details */
   .service-details {
     padding: 3rem 0;
-    background-color: var(--white);
+    background-color: var(--sky-blue);
   }
   
   .service-container {

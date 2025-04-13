@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
 import { Home, Star, Trash2, Send, Search, ArrowRight } from "lucide-react"
-// Try to import the image correctly
 import logoImg from "../assets/nick.png"
 
 export default function HomePage() {
@@ -56,7 +55,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Rest of the component remains the same */}
       {/* Services Section */}
       <section className="services-section">
         <div className="services-container">
