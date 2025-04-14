@@ -25,7 +25,7 @@ def get_all_users():
 @user_admin_routes.route('/api/users/<int:user_id>', methods=['GET'])
 def get_user_by_id(user_id):
     user = user_controller.get_user_by_id(user_id)
-    if user:
+    if not user:
         return jsonify({"message": "User not found"}), 404
     return jsonify(user), 200
 
