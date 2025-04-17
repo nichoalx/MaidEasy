@@ -19,9 +19,11 @@ class UserController:
             password=data.get('password'),  # Pass the plain text password
             type_of_user=data.get('type_of_user')
         )
-        db.session.add(user)
-        db.session.commit()
-        return {"message": "User created successfully", "user": user.to_dict()}
+        if user:
+            db.session.add(user)
+            db.session.commit()
+            return {"message": "User created successfully", "user": user.to_dict()}
+        return {"error": "User creation failed"}
 
     def get_user_by_id(self, user_id):
         """Retrieve a user by their ID."""
