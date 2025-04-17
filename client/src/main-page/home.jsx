@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { Home, Star, Trash2, Send, Search, ArrowRight } from "lucide-react"
-import logoImg from "../assets/nick.png"
+import logoImg from "../Assets/nick.png"
+import livingRoomBg from "../Assets/livingroom.png";
 
 export default function HomePage() {
   return (
@@ -15,22 +16,36 @@ export default function HomePage() {
               Indonesia
             </h1>
           </div>
-          <button className="login-button">Login</button>
+          <button
+            className="login-button"
+            onClick={() => window.open("/login", "_blank")}
+          >
+            Login
+          </button>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-background">
-          <div className="hero-curve"></div>
+        <div
+          className="hero-background"
+          style={{
+            backgroundImage: `url(${livingRoomBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
+          }}
+        >
+          <div className="hero-overlay" />
         </div>
+
 
         <div className="hero-container">
           <div className="hero-content">
             <div className="hero-text">
               <h2 className="hero-title">A New Solutions For Your Home Cleaning</h2>
               <p className="hero-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit eius mod tempor incididunt ut labore
+                Lorem ipsum dolor sit amet, consectetur dipiscing <br />elit eius mod tempor incididunt ut labore
               </p>
               <div className="search-container">
                 <input type="text" placeholder="What service do you want to search?" className="search-input" />
@@ -55,17 +70,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Section */}
       <section className="services-section">
         <div className="services-container">
           <div className="services-header">
             <div className="services-title-container">
-              <h2 className="services-title">Always Provide The Best Service</h2>
+              <h2 className="services-title">Always Provide The <br />Best Service</h2>
             </div>
             <div className="services-subtitle-container">
               <h3 className="services-subtitle">Our Services</h3>
               <p className="services-description">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, <br />sed do eiusmod tempor incididunt ut labore
               </p>
             </div>
           </div>
