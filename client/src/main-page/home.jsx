@@ -43,7 +43,7 @@ export default function HomePage() {
         <div className="hero-container">
           <div className="hero-content">
             <div className="hero-text">
-              <h2 className="hero-title">A New Solutions For Your Home Cleaning</h2>
+              <h2 className="hero-title">Cleaning Made Easy</h2>
               <p className="hero-description">
                 Lorem ipsum dolor sit amet, consectetur dipiscing <br />elit eius mod tempor incididunt ut labore
               </p>
@@ -74,7 +74,7 @@ export default function HomePage() {
         <div className="services-container">
           <div className="services-header">
             <div className="services-title-container">
-              <h2 className="services-title">Always Provide The <br />Best Service</h2>
+              <h2 className="services-title">Ensuring The <br />Best Service</h2>
             </div>
             <div className="services-subtitle-container">
               <h3 className="services-subtitle">Our Services</h3>
@@ -219,7 +219,7 @@ export default function HomePage() {
           </div>
 
           <div className="footer-copyright">
-            <p>2024 "Procleaning" All Rights Reserved</p>
+            <p>2025 "MaidEasy" All Rights Reserved</p>
           </div>
         </div>
       </footer>

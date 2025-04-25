@@ -1,6 +1,7 @@
 from app.entity import User
 from app.extensions import db
 from werkzeug.security import generate_password_hash
+import re  
 
 class UserController:
     def get_all_users(self):
@@ -10,6 +11,18 @@ class UserController:
 
     def create_user(self, data):
         """Create a new user and save it to the database."""
+        # Validate email format
+        if not self._validate_email(data.get('email')):
+            return {"error": "Invalid email format"}
+            
+        # Check for existing email
+        if User.query.filter_by(email=data.get('email')).first():
+            return {"error": "Email already exists"}
+            
+        # Validate password length
+        if len(data.get('password', '')) < 8:
+            return {"error": "Password must be at least 8 characters"}
+            
         user = User(
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
@@ -24,6 +37,13 @@ class UserController:
             db.session.commit()
             return {"message": "User created successfully", "user": user.to_dict()}
         return {"error": "User creation failed"}
+
+    def _validate_email(self, email):
+        """Validate email format using regex"""
+        if not email:
+            return False
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return re.match(pattern, email) is not None
 
     def get_user_by_id(self, user_id):
         """Retrieve a user by their ID."""

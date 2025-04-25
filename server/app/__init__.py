@@ -1,7 +1,7 @@
 from flask import Flask
 from .config import config_by_name
 from .extensions import db, jwt, cors
-from .views import user_admin_routes
+from .views import user_routes
 
 def create_app(config_name="development"):
     app = Flask(__name__)
@@ -17,6 +17,6 @@ def create_app(config_name="development"):
         db.create_all()
     
     # Register blueprints
-    app.register_blueprint(user_admin_routes)
+    app.register_blueprint(user_routes)
     
     return app
