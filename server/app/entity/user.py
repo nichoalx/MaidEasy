@@ -6,72 +6,59 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local dependencies
 from ..extensions import db
-# from .profile import Profile TO ADD LATER
+
 class User(db.Model):
     __tablename__ = 'users'
     
-    user_id = db.Column(db.Integer, primary_key=True, autoIncrement=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    dob = db.Column(db.String(50), nullable=False)
+    dob = db.Column(db.Date, nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
     type_of_user = db.Column(db.String(20), nullable=False)
 
-    # ADD LATER WHEN PROFILE IS READY
-    # Foreign key to the Profile model
-    # user_profile = db.Column(db.String(100), db.ForeignKey('profiles.name'), nullable=False)
-
-    # Relationship with Profile model
-    # profile = db.relationship('Profile', backref='users')
-
-    def set_password(self, password): # Hash the password before storing it.
+    def set_password(self, password):
         self.password = generate_password_hash(password)
 
-    def check_password(self, password) -> bool: # Check the hashed password against the provided password.
+    def check_password(self, password) -> bool:
         return check_password_hash(self.password, password)
 
-    def to_dict(self) -> dict[Self]: # Convert the User object to a dictionary for JSON serialization.
+    def to_dict(self) -> dict:
         return {
             'user_id': self.user_id,
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'dob': self.dob.isoformat(),
+            'dob': self.dob.isoformat() if self.dob else None,
             'contact_number': self.contact_number,
             'type_of_user': self.type_of_user
         }
-    
-    @classmethod
-    def createUser(cls, first_name: str, last_name: str, 
-                   email: str, password: str, 
-                   dob: str, contact_number: str, 
-                   type_of_user: str) -> tuple[bool, str]: # Create a new user in the database.
-        
-        if cls.query.filter_by(email=email).one_or_none():
-            return False, "Email already exists"
-        
-        if not email or not password or not dob: # or not user_profile: TO DO LATER # Validate fields
-            return False, 400
-        
-        # if not Profile.queryUserProfile(profile_name=user_profile): TO DO LATER
-        #     return False, 404
 
+    # ------- CRUD OPERATIONS ---------
+
+    @classmethod
+    def create_user(cls, first_name: str, last_name: str, email: str, password: str,
+                    dob: str, contact_number: str, type_of_user: str) -> tuple[dict, int]:
+
+        if cls.query.filter_by(email=email).first():
+            return {"error": "Email already exists"}, 409
+        
         if type_of_user == "admin":
-            return False, "Admin user creation is not allowed"
+            return {"error": "Admin user creation is not allowed"}, 403
         
         try:
-            dob = datetime.strptime(dob, '%Y-%m-%d').date()
+            dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
         except ValueError:
-            return False, "Invalid date format. Use YYYY-MM-DD."
-        
+            return {"error": "Invalid date format. Use YYYY-MM-DD."}, 400
+
         new_user = cls(
             first_name=first_name,
             last_name=last_name,
             email=email,
             password=generate_password_hash(password),
-            dob=datetime.strptime(dob, '%Y-%m-%d').date(),
+            dob=dob_date,
             contact_number=contact_number,
             type_of_user=type_of_user
         )
@@ -79,62 +66,67 @@ class User(db.Model):
         with current_app.app_context():
             db.session.add(new_user)
             db.session.commit()
-        
-        return True, "User created successfully"
-    
-    @classmethod
-    def updateUser(cls, user_id: int, first_name: str, last_name: str, 
-                   email: str, password: str, dob: str, 
-                   contact_number: str, type_of_user: str) -> tuple[bool, str]:
-        try:
-            user = cls.queryUser(email)
 
-            if not user:
-                return False, "User not found"
-            
-            if first_name is not None:
-                user.first_name = first_name
-            if last_name is not None:
-                user.last_name = last_name
-            if email is not None:
-                user.email = email
-            if password is not None:
-                user.set_password(password)
-            if dob is not None:
-                user.dob = datetime.strptime(dob, '%Y-%m-%d').date()
-            if contact_number is not None:
-                user.contact_number = contact_number
-            if type_of_user is not None:
-                user.type_of_user = type_of_user
-            
+        return new_user.to_dict(), 201
+
+    @classmethod
+    def update_user(cls, user_id: int, update_data: dict) -> tuple[dict, int]:
+        user = cls.query.get(user_id)
+        if not user:
+            return {"error": "User not found"}, 404
+
+        try:
+            # Update only if field exists and is not empty 
+            if update_data.get('first_name'):
+                user.first_name = update_data['first_name']
+            if update_data.get('last_name'):
+                user.last_name = update_data['last_name']
+            if update_data.get('email'):
+                user.email = update_data['email']
+            if update_data.get('password'):
+                user.set_password(update_data['password'])
+            if update_data.get('dob'):
+                try:
+                    user.dob = datetime.strptime(update_data['dob'], '%Y-%m-%d').date()
+                except ValueError:
+                    return {"error": "Invalid date format. Use YYYY-MM-DD."}, 400
+            if update_data.get('contact_number'):
+                if not update_data['contact_number'].isdigit() or len(update_data['contact_number']) < 8:
+                    return {"error": "Invalid contact number"}, 400
+                user.contact_number = update_data['contact_number']
+            if update_data.get('type_of_user'):
+                user.type_of_user = update_data['type_of_user']
+
             db.session.commit()
-            return True, "User updated successfully"
-        
+            return user.to_dict(), 200
+
         except Exception as e:
             db.session.rollback()
-            return False, str(e)
-        
+            return {"error": str(e)}, 500
+
+
     @classmethod
-    def queryUser(cls, email: str) -> tuple[bool, str]: # Query a user by their email.
-        return cls.query.filter_by(email=email).one_or_none()
-    
+    def get_user_by_id(cls, user_id: int) -> tuple[dict, int]:
+        user = cls.query.get(user_id)
+        if not user:
+            return {"error": "User not found"}, 404
+        return user.to_dict(), 200
+
     @classmethod
-    def queryAllUsers(cls) -> list[Self]: # Query all users in the database.
-        return cls.query.all() 
-    
+    def get_all_users(cls) -> tuple[list, int]:
+        users = cls.query.all()
+        return [user.to_dict() for user in users], 200
+
     @classmethod
-    def checkLogin(cls, email:str, password: str) -> tuple[bool, str]: # Check if the user can log in with the provided credentials.
-        user = cls.queryUser(email)
+    def check_login(cls, email: str, password: str) -> tuple[bool, str]:
+        user = cls.query.filter_by(email=email).first()
         if not user or not user.check_password(password):
             return False, "Invalid email or password"
-        
-
         return True, "Login successful"
-    
+
     @classmethod
-    def searchUser(cls, email, first_name, last_name, contact_number) -> list[Self]:
+    def search_users(cls, email=None, first_name=None, last_name=None, contact_number=None) -> list:
         query = cls.query
-        
         if email:
             query = query.filter(cls.email == email)
         if first_name:
@@ -144,20 +136,32 @@ class User(db.Model):
         if contact_number:
             query = query.filter(cls.contact_number == contact_number)
 
-        users = query.all()
-        user_list = [user.to_dict() for user in users]
-        return user_list 
+        return [user.to_dict() for user in query.all()]
 
     @classmethod
-    def viewUser(cls, user_id: int) -> dict:
-        user = cls.queryUser(user_id)
-
+    def delete_user(cls, user_id: int) -> tuple[dict, int]:
+        user = cls.query.get(user_id)
         if not user:
-            return False, "User not found"
-        
-        return user.to_dict(), 200
-    
+            return {"error": "User not found"}, 404
 
+        db.session.delete(user)
+        db.session.commit()
+        return {"message": "User deleted successfully"}, 200
 
+    @classmethod
+    def suspend_user(cls, user_id: int) -> tuple[dict, int]:
+        user = cls.query.get(user_id)
+        if not user:
+            return {"error": "User not found"}, 404
 
-  
+        try:
+            if user.type_of_user == "suspended":
+                return {"error": "User is already suspended"}, 400
+
+            user.type_of_user = "suspended"
+            db.session.commit()
+            return {"message": f"User {user.email} suspended successfully."}, 200
+
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500
