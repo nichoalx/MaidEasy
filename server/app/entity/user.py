@@ -1,11 +1,11 @@
 # Libraries
 from flask import current_app
 from datetime import datetime
-from typing_extensions import Self
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local dependencies
 from ..extensions import db
+from server.app.entity.profile import Profile
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -17,7 +17,10 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     dob = db.Column(db.Date, nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
-    type_of_user = db.Column(db.String(20), nullable=False)
+    type_of_user = db.Column(db.String(20), nullable=False) 
+
+    profile_id = db.Column(db.Integer, db.ForeignKey('profiles.profile_id'), nullable=False)
+    profile = db.relationship('Profile', backref='users')  # optional reverse access
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -32,8 +35,9 @@ class User(db.Model):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'dob': self.dob.isoformat() if self.dob else None,
-            'contact_number': self.contact_number,
-            'type_of_user': self.type_of_user
+            'type_of_user': self.type_of_user,
+            'profile_id': self.profile_id,
+            'profile_name': self.profile.name if self.profile else None
         }
 
     # ------- CRUD OPERATIONS ---------
@@ -42,7 +46,7 @@ class User(db.Model):
     def create_user(cls, first_name: str, last_name: str, email: str, password: str,
                     dob: str, contact_number: str, type_of_user: str) -> tuple[dict, int]:
 
-        if cls.query.filter_by(email=email).first():
+        if cls.query.filter_by(email=email).one_or_none():
             return {"error": "Email already exists"}, 409
         
         if type_of_user == "admin":
@@ -114,8 +118,7 @@ class User(db.Model):
 
     @classmethod
     def get_all_users(cls) -> tuple[list, int]:
-        users = cls.query.all()
-        return [user.to_dict() for user in users], 200
+        return [user.to_dict() for user in cls.query.all()], 200
 
     @classmethod
     def check_login(cls, email: str, password: str) -> tuple[bool, str]:
@@ -126,7 +129,6 @@ class User(db.Model):
 
     @classmethod
     def search_users(cls, email=None, first_name=None, last_name=None, contact_number=None) -> list:
-        query = cls.query
         if email:
             query = query.filter(cls.email == email)
         if first_name:
@@ -136,7 +138,7 @@ class User(db.Model):
         if contact_number:
             query = query.filter(cls.contact_number == contact_number)
 
-        return [user.to_dict() for user in query.all()]
+        return [user.to_dict() for user in cls.query.all()]
 
     @classmethod
     def delete_user(cls, user_id: int) -> tuple[dict, int]:

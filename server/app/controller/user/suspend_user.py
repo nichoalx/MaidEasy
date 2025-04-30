@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from server.app.entity.user import User
-from server.app.controller.auth.permission_required import admin_required
+from server.app.controller.auth.permission_required import admin_required, login_required
 
 suspend_user_blueprint = Blueprint('suspend_user', __name__)
 
 class SuspendUserController:
     @admin_required
+    @login_required
     @suspend_user_blueprint.route('/api/users/<int:user_id>/suspend', methods=['PUT'])
     def suspend_user(user_id):
         data = request.get_json()

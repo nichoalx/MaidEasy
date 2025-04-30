@@ -1,25 +1,102 @@
-from app.extensions import db
+from server.app.extensions import db
+from datetime import datetime
 
 class Cleaner(db.Model):
     __tablename__ = 'cleaners'
 
-    cleaner_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    years_of_experience = db.Column(db.Integer, nullable=False)
-    availability = db.Column(db.String(100), nullable=False)
-    bio = db.Column(db.String(255))
-
-    def __init__(self, user_id, years_of_experience, availability, bio=None):
-        self.user_id = user_id
-        self.years_of_experience = years_of_experience
-        self.availability = availability
-        self.bio = bio
+    service_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cleaner_id = db.Column(db.Integer, db.ForeignKey('cleaners.cleaner_id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255))
+    price = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    view_count = db.Column(db.Integer, default=0)
+    shortlist_count = db.Column(db.Integer, default=0)
 
     def to_dict(self):
         return {
+            "service_id": self.service_id,
             "cleaner_id": self.cleaner_id,
-            "user_id": self.user_id,
-            "years_of_experience": self.years_of_experience,
-            "availability": self.availability,
-            "bio": self.bio
+            "name": self.name,
+            "category": self.category,
+            "description": self.description,
+            "price": self.price,
+            "created_at": self.created_at.isoformat(),
+            "view_count": self.view_count,
+            "shortlist_count": self.shortlist_count
         }
+
+    @classmethod
+    def create_service(cls, cleaner_id, name, category, description, price):
+        new_service = cls(
+            cleaner_id=cleaner_id,
+            name=name,
+            category=category,
+            description=description,
+            price=price
+        )
+        db.session.add(new_service)
+        db.session.commit()
+        return new_service.to_dict(), 201
+
+    @classmethod
+    def update_service(cls, service_id, data):
+        service = cls.query.get(service_id)
+        if not service:
+            return {"error": "Service not found"}, 404
+
+        if 'name' in data:
+            service.name = data['name']
+        if 'category' in data:
+            service.category = data['category']
+        if 'description' in data:
+            service.description = data['description']
+        if 'price' in data:
+            service.price = data['price']
+
+        db.session.commit()
+        return service.to_dict(), 200
+
+    @classmethod
+    def delete_service(cls, service_id):
+        service = cls.query.get(service_id)
+        if not service:
+            return {"error": "Service not found"}, 404
+
+        db.session.delete(service)
+        db.session.commit()
+        return {"message": "Service deleted successfully"}, 200
+
+    @classmethod
+    def get_services_by_cleaner(cls, cleaner_id):
+        services = cls.query.filter_by(cleaner_id=cleaner_id).all()
+        return [s.to_dict() for s in services], 200
+
+    @classmethod
+    def search_services(cls, cleaner_id, name=None, category=None):
+        query = cls.query.filter_by(cleaner_id=cleaner_id)
+        if name:
+            query = query.filter(cls.name.ilike(f"%{name}%"))
+        if category:
+            query = query.filter(cls.category.ilike(f"%{category}%"))
+
+        return [s.to_dict() for s in query.all()], 200
+
+    @classmethod
+    def increment_view(cls, service_id):
+        service = cls.query.get(service_id)
+        if service:
+            service.view_count += 1
+            db.session.commit()
+            return {"message": "View count incremented"}, 200
+        return {"error": "Service not found"}, 404
+
+    @classmethod
+    def increment_shortlist(cls, service_id):
+        service = cls.query.get(service_id)
+        if service:
+            service.shortlist_count += 1
+            db.session.commit()
+            return {"message": "Shortlist count incremented"}, 200
+        return {"error": "Service not found"}, 404

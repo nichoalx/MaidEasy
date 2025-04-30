@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from server.app.entity.user import User
-from server.app.controller.auth.permission_required import admin_required
+from server.app.controller.auth.permission_required import admin_required, login_required
 
 create_user_blueprint = Blueprint('create_user', __name__)
 
 class CreateUserController:
     @admin_required
+    
     @create_user_blueprint.route('/api/users/create_user', methods=['POST'])
     def create_user():
         data = request.get_json()
