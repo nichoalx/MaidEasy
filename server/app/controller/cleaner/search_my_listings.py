@@ -5,6 +5,7 @@ from server.app.controller.auth.permission_required import login_required
 search_my_listings_blueprint = Blueprint('search_my_listings', __name__)
 
 class SearchMyListingsController:
+    @staticmethod
     @login_required
     @search_my_listings_blueprint.route('/api/cleaner/search_my_listings', methods=['GET'])
     def search_my_listings():
