@@ -17,7 +17,14 @@ from .controller import (
     view_profile_blueprint,
     suspend_profile_blueprint,
     login_blueprint,
-    logout_blueprint
+    logout_blueprint,
+    shortlist_add_blueprint,
+    search_cleaner_blueprint,
+    search_bookings_blueprint,
+    search_shortlist_blueprint,
+    view_services_blueprint,
+    view_bookings_blueprint,
+    view_shortlist_blueprint
 )
 
 def create_app(config_name="development"):
@@ -48,6 +55,15 @@ def create_app(config_name="development"):
     # Register auth-related blueprints
     app.register_blueprint(login_blueprint)
     app.register_blueprint(logout_blueprint)
+
+    # Register homeowner-related blueprints
+    app.register_blueprint(shortlist_add_blueprint)
+    app.register_blueprint(search_cleaner_blueprint)
+    app.register_blueprint(search_bookings_blueprint)
+    app.register_blueprint(search_shortlist_blueprint)
+    app.register_blueprint(view_services_blueprint)
+    app.register_blueprint(view_bookings_blueprint)
+    app.register_blueprint(view_shortlist_blueprint)
 
     # Create database tables
     with app.app_context():

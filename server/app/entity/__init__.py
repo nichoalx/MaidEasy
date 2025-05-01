@@ -5,7 +5,8 @@
 # from .booking import Booking
 # from .category import Category
 from .cleaner import Cleaner
-# from .homeowner import Homeowner
+from .homeowner import Homeowner
+from .homeowner import HomeownerShortlist
 from .profile import Profile
 # from .report import Report
 # from .review import Review

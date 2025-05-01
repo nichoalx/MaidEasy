@@ -1,21 +1,29 @@
-from flask import Blueprint, request, jsonify, session
-from server.app.entity.homeowner import HomeOwner
+from flask import Blueprint, request, jsonify
+from server.app.entity.homeowner import Homeowner
+from server.app.controller.auth.permission_required import login_required
 
-add_to_shortlist_blueprint = Blueprint('add_to_shortlist', __name__)
+shortlist_add_blueprint = Blueprint('save_to_shortlist', __name__)
 
-class AddToShortlistController:
-    @add_to_shortlist_blueprint.route('/api/homeowner/add_to_shortlist', methods=['POST'])
+class SaveToShortlistController:
+    @login_required
+    @shortlist_add_blueprint.route('/api/homeowner/add_to_shortlist', methods=['POST'])
     def add_to_shortlist():
         data = request.get_json()
+        
+        homeowner_id = data.get('homeowner_id')
         cleaner_id = data.get('cleaner_id')
         
-        if 'homeowner_id' not in session:
-            return jsonify({"error": "Homeowner not logged in"}), 401
+        # Get homeowner by ID
+        homeowner_result, status_code = Homeowner.get_homeowner_by_id(homeowner_id)
         
-        homeowner_id = session['homeowner_id']
-        success, message = HomeOwner.add_cleaner_to_shortlist(homeowner_id, cleaner_id)
+        if status_code != 200:
+            return jsonify({'error': homeowner_result.get('error')}), status_code
         
-        if success:
-            return jsonify({'message': message}), 200
-        else:
-            return jsonify({'error': message}), 400
+        # Create homeowner instance to call the instance method
+        homeowner = Homeowner.query.get(homeowner_id)
+        response, status_code = homeowner.add_cleaner_to_shortlist(cleaner_id)
+        
+        return jsonify({
+            'success': status_code == 200,
+            'message': response.get('message', response.get('error'))
+        }), status_code

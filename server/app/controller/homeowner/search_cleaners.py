@@ -1,14 +1,28 @@
 from flask import Blueprint, request, jsonify
-from server.app.entity.cleaner import Cleaner
+from server.app.entity.homeowner import Homeowner
+from server.app.controller.auth.permission_required import login_required
 
-search_cleaners_blueprint = Blueprint('search_cleaners', __name__)
+search_cleaner_blueprint = Blueprint('search_cleaner', __name__)
 
-class SearchCleanersController:
-    @search_cleaners_blueprint.route('/api/homeowner/search_cleaners', methods=['GET'])
-    def search_cleaners():
+class SearchCleanerController:
+    @login_required
+    @search_cleaner_blueprint.route('/api/homeowner/search_cleaner', methods=['GET'])
+    def search_cleaner():
+        # Get query parameters
+        name = request.args.get('name')
+        service_type = request.args.get('service_type')
         rating = request.args.get('rating')
-        price = request.args.get('price')
-        availability = request.args.get('availability')
+        location = request.args.get('location')
         
-        cleaners = Cleaner.search_cleaners(rating=rating, price=price, availability=availability)  # Search function
-        return jsonify({'cleaners': cleaners, 'message': 'Cleaners search result retrieved successfully'}), 200
+        # Search cleaners based on filters
+        response, status_code = Homeowner.search_cleaners(
+            name=name,
+            service_type=service_type,
+            rating=rating,
+            location=location
+        )
+        
+        return jsonify({
+            'cleaners': response,
+            'message': 'search_cleaner API called'
+        }), status_code

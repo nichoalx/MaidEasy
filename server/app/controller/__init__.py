@@ -21,6 +21,15 @@ from server.app.controller.profile.suspend_profile import suspend_profile_bluepr
 from server.app.controller.auth.login import login_blueprint
 from server.app.controller.auth.logout import logout_blueprint
 
+# HOMEOWNER controllers
+from server.app.controller.homeowner.add_to_shortlist import shortlist_add_blueprint
+from server.app.controller.homeowner.search_cleaners import search_cleaner_blueprint
+from server.app.controller.homeowner.search_past_bookings import search_bookings_blueprint
+from server.app.controller.homeowner.search_shortlist import search_shortlist_blueprint
+from server.app.controller.homeowner.view_cleaning_services import view_services_blueprint
+from server.app.controller.homeowner.view_past_booking import view_bookings_blueprint
+from server.app.controller.homeowner.view_shortlist import view_shortlist_blueprint
+
 # EXPORT all blueprints so they can be imported via: from controller import *
 __all__ = [
     # user
@@ -41,5 +50,14 @@ __all__ = [
 
     # auth
     "login_blueprint",
-    "logout_blueprint"
+    "logout_blueprint",
+
+    # homeowner
+    "shortlist_add_blueprint",
+    "search_cleaner_blueprint",
+    "search_bookings_blueprint",
+    "search_shortlist_blueprint",
+    "view_services_blueprint",
+    "view_bookings_blueprint",
+    "view_shortlist_blueprint"
 ]

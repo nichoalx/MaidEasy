@@ -1,15 +1,29 @@
-from flask import Blueprint, jsonify, session
-from server.app.entity.homeowner import HomeOwner
+from flask import Blueprint, request, jsonify
+from server.app.entity.homeowner import Homeowner
+from server.app.controller.auth.permission_required import login_required
 
-view_past_booking_blueprint = Blueprint('view_past_booking', __name__)
+view_bookings_blueprint = Blueprint('view_past_bookings', __name__)
 
-class ViewPastBookingController:
-    @view_past_booking_blueprint.route('/api/homeowner/view_past_booking/<int:booking_id>', methods=['GET'])
-    def view_past_booking(booking_id):
-        if 'homeowner_id' not in session:
-            return jsonify({"error": "Homeowner not logged in"}), 401
+class ViewPastBookingsController:
+    @login_required
+    @view_bookings_blueprint.route('/api/homeowner/view_past_bookings', methods=['GET'])
+    def view_past_bookings():
+        # Get query parameters
+        homeowner_id = request.args.get('homeowner_id')
         
-        homeowner_id = session['homeowner_id']
-        booking_details = HomeOwner.view_past_booking_details(homeowner_id, booking_id)
+        # Validate homeowner_id
+        if not homeowner_id:
+            return jsonify({'error': 'Homeowner ID is required'}), 400
+            
+        # Get homeowner by ID
+        homeowner = Homeowner.query.get(homeowner_id)
+        if not homeowner:
+            return jsonify({'error': 'Homeowner not found'}), 404
+            
+        # Get all past bookings
+        response, status_code = homeowner.view_past_bookings()
         
-        return jsonify({'booking_details': booking_details, 'message': 'Past booking details retrieved successfully'}), 200
+        return jsonify({
+            'past_bookings': response,
+            'message': 'view_past_bookings API called'
+        }), status_code
