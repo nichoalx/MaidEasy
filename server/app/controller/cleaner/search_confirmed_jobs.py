@@ -5,7 +5,6 @@ from server.app.controller.auth.permission_required import login_required
 search_confirmed_jobs_blueprint = Blueprint('search_confirmed_jobs', __name__)
 
 class SearchConfirmedJobsController:
-    @staticmethod
     @login_required
     @search_confirmed_jobs_blueprint.route('/api/cleaner/confirmed_jobs', methods=['GET'])
     def search_confirmed_jobs():

@@ -21,6 +21,17 @@ from server.app.controller.profile.suspend_profile import suspend_profile_bluepr
 from server.app.controller.auth.login import login_blueprint
 from server.app.controller.auth.logout import logout_blueprint
 
+# CLEANER controllers
+from server.app.controller.cleaner.create_service import create_listing_blueprint
+from server.app.controller.cleaner.delete_listing import delete_listing_blueprint
+from server.app.controller.cleaner.search_confirmed_jobs import search_confirmed_jobs_blueprint
+from server.app.controller.cleaner.search_my_listings import search_my_listings_blueprint
+from server.app.controller.cleaner.update_listing import update_listing_blueprint
+from server.app.controller.cleaner.view_confirmed_job_detail import view_confirmed_job_detail_blueprint
+from server.app.controller.cleaner.view_listing_shortlists import view_listing_shortlists_blueprint
+from server.app.controller.cleaner.view_listing_views import view_listing_views_blueprint
+from server.app.controller.cleaner.view_my_listings import view_my_listings_blueprint
+
 # HOMEOWNER controllers
 from server.app.controller.homeowner.add_to_shortlist import shortlist_add_blueprint
 from server.app.controller.homeowner.search_cleaners import search_cleaner_blueprint

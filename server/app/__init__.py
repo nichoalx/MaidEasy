@@ -24,7 +24,16 @@ from .controller import (
     search_shortlist_blueprint,
     view_services_blueprint,
     view_bookings_blueprint,
-    view_shortlist_blueprint
+    view_shortlist_blueprint,
+    create_listing_blueprint,
+    delete_listing_blueprint,
+    search_confirmed_jobs_blueprint,
+    search_my_listings_blueprint,
+    update_listing_blueprint,
+    view_confirmed_job_detail_blueprint,
+    view_listing_shortlists_blueprint,
+    view_listing_views_blueprint,
+    view_my_listings_blueprint,
 )
 
 def create_app(config_name="development"):
@@ -55,6 +64,18 @@ def create_app(config_name="development"):
     # Register auth-related blueprints
     app.register_blueprint(login_blueprint)
     app.register_blueprint(logout_blueprint)
+
+    # Register cleaner-related blueprints
+    app.register_blueprint(create_listing_blueprint)
+    app.register_blueprint(delete_listing_blueprint)
+    app.register_blueprint(search_confirmed_jobs_blueprint)
+    app.register_blueprint(search_my_listings_blueprint)
+    app.register_blueprint(update_listing_blueprint)
+    app.register_blueprint(view_confirmed_job_detail_blueprint)   
+    app.register_blueprint(view_listing_shortlists_blueprint)     
+    app.register_blueprint(view_listing_views_blueprint)
+    app.register_blueprint(view_my_listings_blueprint)
+
 
     # Register homeowner-related blueprints
     app.register_blueprint(shortlist_add_blueprint)

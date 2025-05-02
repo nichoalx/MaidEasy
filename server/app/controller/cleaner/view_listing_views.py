@@ -5,7 +5,6 @@ from server.app.controller.auth.permission_required import login_required
 view_listing_views_blueprint = Blueprint('view_listing_views', __name__)
 
 class ViewListingViewsController:
-    @staticmethod
     @login_required
     @view_listing_views_blueprint.route('/api/cleaner/listing_views/<int:listing_id>', methods=['GET'])
     def view_listing_views(listing_id):
