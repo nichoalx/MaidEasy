@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { Home, ArrowLeft } from "lucide-react"
-
+import "../service-page.css"
 
 export default function HouseCleaningPage() {
   return (
@@ -15,7 +15,12 @@ export default function HouseCleaningPage() {
               Indonesia
             </h1>
           </Link>
-          <button className="login-button">Login</button>
+          <button
+            className="login-button"
+            onClick={() => window.open("/login", "_blank")}
+          >
+            Login
+          </button>
         </div>
       </header>
 

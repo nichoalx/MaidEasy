@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import "./LoginSignup.css";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./LoginSignup.css"
 
 import mail_icon from "../Assets/mail_icon.png";
 import lock_icon from "../Assets/lock_icon.png";
@@ -7,10 +8,12 @@ import visibility_on from "../Assets/visibility_on.png";
 import visibility_off from "../Assets/visibility_off.png";
 
 export default function Login() {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: false, password: false });
+  
 
   const handleLogin = () => {
     const emailEmpty = email.trim() === "";
@@ -19,9 +22,12 @@ export default function Login() {
 
     if (!emailEmpty && !passwordEmpty) {
       // Proceed with login logic
-      alert("Logging in...");
+      console.log("Login successful, redirecting to dashboard...")
+      navigate("/dashboard")
     }
   };
+
+
 
   return (
     <div className="login-wrapper">

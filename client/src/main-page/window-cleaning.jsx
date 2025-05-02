@@ -15,7 +15,12 @@ export default function WindowCleaningPage() {
               Indonesia
             </h1>
           </Link>
-          <button className="login-button">Login</button>
+          <button
+            className="login-button"
+            onClick={() => window.open("/login", "_blank")}
+          >
+            Login
+          </button>
         </div>
       </header>
 
