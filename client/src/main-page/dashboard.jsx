@@ -1,18 +1,26 @@
-
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import Profile from "./profile"
 import AccountManagement from "./accountManagement"
 import ProfileManagement from "./profileManagement"
 import "../dashstyle.css"
 
 function App() {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState("dashboard")
+
+  useEffect(() => {
+    if (location.state && location.state.page) {
+      setCurrentPage(location.state.page)
+    }
+  }, [location])
 
   const handleLogout = (e) => {
     e.preventDefault()
     navigate("/")
   }
+
   return (
     <div className="dashboard-layout">
       <div className="app-container">
@@ -28,7 +36,7 @@ function App() {
 
           <nav className="nav-menu">
             <a
-              href="#"
+              href="/dashboard"
               className={`nav-item ${currentPage === "dashboard" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault()
