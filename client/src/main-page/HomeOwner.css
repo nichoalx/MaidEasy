@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+.HomeOwner{
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+}
+.headerTitle {
+    background-color: #3E4772;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+  
+  .headerLogo {
+    color: white;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-left: 6rem;
+  }
+  
+  .leftHODashboard {
+    flex: 0 0 auto;
+  }
+
+  .titleButton {
+    display: flex;
+  }
+  
+  .titleButton button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    width: 10rem;
+    height: 5rem;
+  }
+
+  .titleButton button:hover {
+    background-color: #8D96A9;
+  }
+
+  .titleButton button.activeTab {
+    background-color: #8D96A9;
+  }
+
+.middleHODashboard {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start; /* 👈 moves buttons to the left */
+    margin-left: 12rem; /* optional */
+}
+  .userButton {
+    display: flex;
+    align-items: center;
+    margin-right: 6rem;
+  }
+  
+  .logoutButton {
+    background: none;
+    border: none;
+    color: white;
+    display: flex;    
+    align-items: center;        
+    justify-content: center; 
+    gap: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 10rem;
+    height: 5rem;
+  }
+
+  .profileButton {
+    background: none;
+    border: none;
+    color: white;
+    display: flex;    
+    align-items: center;        
+    justify-content: center; 
+    gap: 1rem;
+    cursor: pointer;
+    width: 14rem;
+    height: 5rem;
+  }
+  
+  .logoutButton img{
+    width: 30px;
+    height: 30px;
+  }
+
+  .profileButton img {
+    width: 30px;
+    height: 30px;
+  
+  }
+  
+  .userButton  button:hover {
+    background-color: #8D96A9;
+  }
+  
+  .rightHODashboard {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .profileButton .homeownerInfo .name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .profileButton .homeownerInfo .email {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .HomeOwnerPage {
+    background-color: #f4f6fb;
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+  }
+  
+  .HomeOwnerDesc{
+    margin-top: 4rem;
+    font-weight: 800;
+    margin-left: -1rem;
+    margin-bottom: -1rem;
+  }
+  .HomeOwnerWelcome{
+    font-size: 36px;
+    color: #3E4772;
+  }
+
+  .HomeOwnerDescription{
+    margin-top: 1rem;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .HomeOwnerSearchContainer {
+    width: 1188px;
+    margin: 3rem auto;
+  }
+  
+  .labelRow label {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+  
+  .labelRow label:nth-child(1) {
+    margin-left: 1rem;
+  }
+  
+  .labelRow label:nth-child(2) {
+    margin-left: 31rem;
+  }
+  
+  .labelRow label:nth-child(3) {
+    margin-left: 9rem;
+  }
+  
+  .HomeOwnerSearchBar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    overflow: hidden;
+    height: 48px;
+    margin-top: 0.5rem;
+  }
+  
+  .searchGroup {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+    border-right: 1px solid #ccc;
+  }
+  
+  .searchGroup input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .searchIcon img {
+    width: 18px;
+    margin-right: 0.5rem;
+  }
+  
+  .HomeOwnerBy,
+  .HomeOwnerPrice {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ccc;
+  }
+  
+  .HomeOwnerBy select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0 1.5rem;
+    height: 48px;
+    background: white url("../assets/arrow.png") no-repeat right 0rem center;
+    appearance: none;
+    cursor: pointer;
+    width: 11.5rem;
+  }
+
+  .HomeOwnerPrice select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0 1.5rem;
+    height: 48px;
+    background: white url("../assets/arrow.png") no-repeat right 0rem center;
+    appearance: none;
+    cursor: pointer;
+    width: 15rem;
+  }
+
+  .filterButton {
+    background-color: #3E4772;
+    color: white;
+    border: none;
+    padding: 0 3rem;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    border-radius: 0 999px 999px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 11.5rem;
+  }
+  
+  .filterButton:hover {
+    background-color: #2e355c;
+  }
+
+  .HomeOwnerShortListName{
+    font-size: 36px;
+    color: #3E4772;
+    margin-top: 4rem;
+    font-weight: 800;
+    margin-left: -1rem;
+    margin-bottom: -1rem;
+  }
+
+  .HomeOwnerHistoryName{
+    font-size: 36px;
+    color: #3E4772;
+    margin-top: 4rem;
+    font-weight: 800;
+    margin-left: -1rem;
+    margin-bottom: -1rem;
+  }
+
+  .HomeOwnerHistoryBar {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .HomeOwnerSearchGroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .HomeOwnerSearchGroup .labelRow label:nth-child(1) {
+    margin-left: 1rem;
+  }
+
+  .HomeOwnerSearchGroup .labelRow label:nth-child(2) {
+    margin-left: 31rem;
+  }
