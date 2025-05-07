@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import AddProfileModal from "./admin_dashboard/components/AddProfileModal"
-import ViewProfileModal from "./admin_dashboard/components/ViewProfileModal"
-import Pagination from "./admin_dashboard/components/Pagination"
-import ShowingDropdown from "./admin_dashboard/components/ShowingDropdown"
-import Toast from "./admin_dashboard/components/Toast"
+import AddProfileModal from "./admin_dashboard/AddProfileModal"
+import ViewProfileModal from "./admin_dashboard/ViewProfileModal"
+import Pagination from "./admin_dashboard/Pagination"
+import ShowingDropdown from "./admin_dashboard/ShowingDropdown"
+import Toast from "./admin_dashboard/Toast"
 
 function ProfileManagement() {
   const [roles, setRoles] = useState([
