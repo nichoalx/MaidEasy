@@ -168,14 +168,13 @@ export default function HomeOwner() {
                     <div className="HomeOwnerHistoryName">History</div>
 
                     <div className="HomeOwnerHistoryBar">
-                    {/* Keywords + Type */}
                     <div className="HomeOwnerSearchGroup">
-                        <div className="labelRow">
+                        <div className="labelRow1">
                         <label>Keywords</label>
                         <label>Type</label>
                         </div>
                         <div className="HomeOwnerSearchBar">
-                        <div className="searchGroup">
+                        <div className="searchGroup1">
                             <span className="searchIcon">
                             <img src={searchIcon} alt="search icon" />
                             </span>
@@ -212,8 +211,8 @@ export default function HomeOwner() {
                     </div>
 
                     {/* Showing */}
-                    <div className="HomeOwnerSearchGroup">
-                        <div className="labelRow">
+                    <div className="HomeOwnerSearchGroupShow">
+                        <div className="labelRow3">
                         <label>Showing</label>
                         </div>
                         <div className="HomeOwnerSearchBar">
