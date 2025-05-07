@@ -2,6 +2,9 @@ import { useState } from "react";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
 import "./HomeOwner.css";
 // import photoIcon from "../assets/photo.png";
 import logoutIcon from "../assets/logout.png";
@@ -63,8 +66,8 @@ export default function HomeOwner() {
                 </div>
                 <div className="rightHODashboard">
                     <div className="userButton">
-                        <button className="logoutButton">
-                        <img src={logoutIcon} alt="logout icon" />
+                        <button className="logoutButton" onClick={() => window.open("/Logout", "_blank")}>
+                            <img src={logoutIcon} alt="logout icon" />
                         Log Out
                         </button>
                         <button className="profileButton">
@@ -207,10 +210,21 @@ export default function HomeOwner() {
                             <span>{formatRange()}</span>
                         </div>
                         </div>
-
+                        {showPicker && (
+                            <div className="datePickerWrapper">
+                                <DateRange
+                                    editableDateInputs={true}
+                                    onChange={(item) => {
+                                        setRange([item.selection]);
+                                        setShowPicker(false); // hide after selection
+                                    }}
+                                    moveRangeOnFirstSelection={false}
+                                    ranges={range}
+                                />
+                            </div>
+                        )}
                     </div>
 
-                    {/* Showing */}
                     <div className="HomeOwnerSearchGroupShow">
                         <div className="labelRow3">
                         <label>Showing</label>
@@ -226,7 +240,6 @@ export default function HomeOwner() {
                         </div>
                     </div>
 
-                    {/* Filter Button */}
                     <div className="HomeOwnerSearchGroup">
                         <div className="labelRow" style={{ visibility: "hidden" }}>
                         <label>Filter</label>
