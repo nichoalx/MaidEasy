@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import "../dashstyle.css"
+import "./dashstyle.css"
 
-import visibility_on from "../assets/visibility_on.png"
-import visibility_off from "../assets/visibility_off.png"
-import person_icon from "../assets/person_icon.png"
-import calendar_icon from "../assets/calender_icon.png"
-import mail_icon from "../assets/mail_icon.png"
-import lock_icon from "../assets/lock_icon.png"
+import visibility_on from "../../assets/visibility_on.png"
+import visibility_off from "../../assets/visibility_off.png"
+import person_icon from "../../assets/person_icon.png"
+import calendar_icon from "../../assets/calender_icon.png"
+import mail_icon from "../../assets/mail_icon.png"
+import lock_icon from "../../assets/lock_icon.png"
 
 function EditUser() {
   const navigate = useNavigate()

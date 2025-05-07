@@ -5,8 +5,8 @@ import OfficeCleaningPage from "./main-page/office-cleaning"
 import ToiletCleaningPage from "./main-page/toilet-cleaning"
 import WindowCleaningPage from "./main-page/window-cleaning"
 import LoginPage from "./main-page/Login"
-import Dashboard from "./main-page/dashboard"
-import EditUser from "./main-page/edit-user"
+import Dashboard from "./main-page/admin_dashboard/dashboard"
+import EditUser from "./main-page/admin_dashboard/edit-user"
 
 
 export default function App() {

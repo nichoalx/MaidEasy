@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import visibility_on from "../Assets/visibility_on.png";
-import visibility_off from "../Assets/visibility_off.png";
+import visibility_on from "../../assets/visibility_on.png";
+import visibility_off from "../../assets/visibility_off.png";
 
 function Profile() {
   const [showPassword, setShowPassword] = useState(false)

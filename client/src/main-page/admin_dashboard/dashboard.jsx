@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Profile from "./profile"
 import AccountManagement from "./accountManagement"
-import ProfileManagement from "./profileManagement"
-import "../dashstyle.css"
+import ProfileManagement from "../profileManagement"
+import "./dashstyle.css"
 
 function App() {
   const location = useLocation()
