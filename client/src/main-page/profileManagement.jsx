@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-import AddProfileModal from "./admin_dashboard/AddProfileModal"
-import ViewProfileModal from "./admin_dashboard/ViewProfileModal"
-import Pagination from "./admin_dashboard/Pagination"
-import ShowingDropdown from "./admin_dashboard/ShowingDropdown"
-import Toast from "./admin_dashboard/Toast"
+import { useNavigate } from "react-router-dom"
+import Pagination from "./admin_dashboard/components/Pagination"
+import ShowingDropdown from "./admin_dashboard/components/ShowingDropdown"
+import Toast from "./admin_dashboard/components/Toast"
 
 function ProfileManagement() {
+  const navigate = useNavigate()
   const [roles, setRoles] = useState([
     {
       id: 1,
@@ -70,9 +70,6 @@ function ProfileManagement() {
   const [filteredRoles, setFilteredRoles] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [showViewModal, setShowViewModal] = useState(false)
-  const [selectedRole, setSelectedRole] = useState(null)
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
   // Filter roles based on search term
@@ -89,23 +86,18 @@ function ProfileManagement() {
   const totalPages = Math.ceil(filteredRoles.length / itemsPerPage)
 
   // Handle view role
-  const handleView = (role) => {
-    setSelectedRole(role)
-    setShowViewModal(true)
+  const handleView = (profileId) => {
+    navigate(`/view-profile/${profileId}`)
   }
 
   // Handle edit role
-  const handleEdit = (roleId) => {
-    // For now, just show a toast notification
-    setToast({
-      show: true,
-      message: "Edit functionality will be implemented with backend integration",
-      type: "info",
-    })
+  const handleEdit = (profileId) => {
+    navigate(`/edit-profile/${profileId}`)
+  }
 
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" })
-    }, 3000)
+  // Handle add new profile
+  const handleAddProfile = () => {
+    navigate("/add-profile")
   }
 
   // Handle suspend role
@@ -120,31 +112,6 @@ function ProfileManagement() {
     setToast({
       show: true,
       message: `Role has been ${roles.find((r) => r.id === roleId).status === "Active" ? "deactivated" : "activated"}`,
-      type: "success",
-    })
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" })
-    }, 3000)
-  }
-
-  // Handle add new role
-  const handleAddRole = (newRole) => {
-    const newId = roles.length > 0 ? Math.max(...roles.map((role) => role.id)) + 1 : 1
-    const roleToAdd = {
-      id: newId,
-      ...newRole,
-      status: "Active",
-    }
-
-    setRoles([...roles, roleToAdd])
-    setShowAddModal(false)
-
-    // Show toast notification
-    setToast({
-      show: true,
-      message: "New profile role has been added successfully",
       type: "success",
     })
 
@@ -195,7 +162,7 @@ function ProfileManagement() {
         <div className="profile-management-actions">
           <ShowingDropdown value={itemsPerPage} onChange={setItemsPerPage} options={[5, 10, 15, 20]} />
 
-          <button className="add-profile-button" onClick={() => setShowAddModal(true)}>
+          <button className="add-profile-button" onClick={handleAddProfile}>
             <span>+</span> Add New Profile
           </button>
         </div>
@@ -224,7 +191,7 @@ function ProfileManagement() {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button className="view-button" onClick={() => handleView(role)}>
+                      <button className="view-button" onClick={() => handleView(role.id)}>
                         View
                       </button>
                       <button className="edit-button" onClick={() => handleEdit(role.id)}>
@@ -257,14 +224,6 @@ function ProfileManagement() {
           onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
         />
       </div>
-
-      {/* Add Profile Modal */}
-      {showAddModal && <AddProfileModal onClose={() => setShowAddModal(false)} onSave={handleAddRole} />}
-
-      {/* View Profile Modal */}
-      {showViewModal && selectedRole && (
-        <ViewProfileModal role={selectedRole} onClose={() => setShowViewModal(false)} />
-      )}
 
       {/* Toast Notification */}
       {toast.show && <Toast message={toast.message} type={toast.type} />}

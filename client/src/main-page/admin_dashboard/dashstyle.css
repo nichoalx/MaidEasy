@@ -622,3 +622,73 @@
     gap: 4px;
   }
 }
+
+.error-input {
+  border-color: #ca3032 !important;
+  background-color: rgba(202, 48, 50, 0.05);
+}
+
+.error-message {
+  color: #ca3032;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: #666;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.detail-label {
+  font-weight: 500;
+  width: 150px;
+  color: #666;
+}
+
+.detail-value {
+  flex: 1;
+}
+
+.detail-value.description {
+  white-space: pre-wrap;
+}
+
+.status-active {
+  color: #76c069;
+}
+
+.status-inactive,
+.status-suspended {
+  color: #ca3032;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.permissions-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.permission-item {
+  margin-bottom: 4px;
+}

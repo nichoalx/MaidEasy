@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import AddAccountModal from "./components/AddAccountModal"
-import ViewAccountModal from "./components/ViewAccountModal"
 import Pagination from "./components/Pagination"
 import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
@@ -100,9 +98,6 @@ function AccountManagement() {
   const [filteredUsers, setFilteredUsers] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [showViewModal, setShowViewModal] = useState(false)
-  const [selectedUser, setSelectedUser] = useState(null)
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
   // Filter users based on search term
@@ -128,9 +123,13 @@ function AccountManagement() {
   }
 
   // Handle view user
-  const handleView = (user) => {
-    setSelectedUser(user)
-    setShowViewModal(true)
+  const handleView = (userId) => {
+    navigate(`/view-user/${userId}`)
+  }
+
+  // Handle add new user
+  const handleAddUser = () => {
+    navigate("/add-user")
   }
 
   // Handle suspend user
@@ -145,31 +144,6 @@ function AccountManagement() {
     setToast({
       show: true,
       message: `User has been ${users.find((u) => u.id === userId).status === "Active" ? "suspended" : "activated"}`,
-      type: "success",
-    })
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" })
-    }, 3000)
-  }
-
-  // Handle add new user
-  const handleAddUser = (newUser) => {
-    const newId = users.length > 0 ? Math.max(...users.map((user) => user.id)) + 1 : 1
-    const userToAdd = {
-      id: newId,
-      ...newUser,
-      status: "Active",
-    }
-
-    setUsers([...users, userToAdd])
-    setShowAddModal(false)
-
-    // Show toast notification
-    setToast({
-      show: true,
-      message: "New user has been added successfully",
       type: "success",
     })
 
@@ -220,7 +194,7 @@ function AccountManagement() {
         <div className="account-actions">
           <ShowingDropdown value={itemsPerPage} onChange={setItemsPerPage} options={[5, 10, 15, 20]} />
 
-          <button className="add-account-button" onClick={() => setShowAddModal(true)}>
+          <button className="add-account-button" onClick={handleAddUser}>
             <span>+</span> Add New Account
           </button>
         </div>
@@ -251,7 +225,7 @@ function AccountManagement() {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button className="view-button" onClick={() => handleView(user)}>
+                      <button className="view-button" onClick={() => handleView(user.id)}>
                         View
                       </button>
                       <button className="edit-button" onClick={() => handleEdit(user.id)}>
@@ -284,14 +258,6 @@ function AccountManagement() {
           onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
         />
       </div>
-
-      {/* Add Account Modal */}
-      {showAddModal && <AddAccountModal onClose={() => setShowAddModal(false)} onSave={handleAddUser} />}
-
-      {/* View Account Modal */}
-      {showViewModal && selectedUser && (
-        <ViewAccountModal user={selectedUser} onClose={() => setShowViewModal(false)} />
-      )}
 
       {/* Toast Notification */}
       {toast.show && <Toast message={toast.message} type={toast.type} />}
