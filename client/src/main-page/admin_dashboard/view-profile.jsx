@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import "./dashstyle.css"
+import "./editProfile.css"
 
 function ViewProfile() {
   const navigate = useNavigate()
@@ -84,80 +84,7 @@ function ViewProfile() {
 
   if (loading) {
     return (
-      <div className="dashboard-layout">
-        <div className="app-container">
-          <div className="sidebar">
-            <div className="logo-container">
-              <h1 className="logo">
-                Garuda
-                <br />
-                Indonesia
-              </h1>
-            </div>
-
-            <nav className="nav-menu">
-              <a href="/dashboard" className="nav-item">
-                <i className="icon dashboard-icon"></i>
-                <span>Dashboard</span>
-              </a>
-              <a href="#" className="nav-item">
-                <i className="icon profile-icon"></i>
-                <span>My Profile</span>
-              </a>
-              <a href="#" className="nav-item">
-                <i className="icon users-icon"></i>
-                <span>Account Management</span>
-              </a>
-              <a href="#" className="nav-item active">
-                <i className="icon profile-management-icon"></i>
-                <span>Profile Management</span>
-              </a>
-            </nav>
-
-            <div className="logout-container">
-              <a href="/" className="logout-link">
-                <i className="icon logout-icon"></i>
-                <span>Log Out</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="main-content">
-            <header className="header">
-              <div className="greeting">
-                <h2>
-                  Hi, Admin Ganteng{" "}
-                  <span role="img" aria-label="wave">
-                    👋
-                  </span>
-                </h2>
-              </div>
-
-              <div className="user-profile">
-                <div className="user-info">
-                  <div className="user-name">Admin Ganteng</div>
-                  <div className="user-email">admin@example.com</div>
-                </div>
-                <div className="user-avatar">
-                  <i className="icon user-icon"></i>
-                </div>
-              </div>
-            </header>
-
-            <div className="dashboard-content">
-              <h1 className="dashboard-title">Profile Management &gt; View Profile</h1>
-              <div className="loading-indicator">Loading profile data...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="dashboard-layout">
-      <div className="app-container">
-        {/* Sidebar */}
+      <div className="modern-layout">
         <div className="sidebar">
           <div className="logo-container">
             <h1 className="logo">
@@ -168,46 +95,22 @@ function ViewProfile() {
           </div>
 
           <nav className="nav-menu">
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
               <i className="icon dashboard-icon"></i>
               <span>Dashboard</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profile" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
               <i className="icon profile-icon"></i>
               <span>My Profile</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "account" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
               <i className="icon users-icon"></i>
               <span>Account Management</span>
             </a>
             <a
               href="#"
               className="nav-item active"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profileManagement" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
               <i className="icon profile-management-icon"></i>
               <span>Profile Management</span>
@@ -215,23 +118,15 @@ function ViewProfile() {
           </nav>
 
           <div className="logout-container">
-            <a
-              href="#"
-              className="logout-link"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/")
-              }}
-            >
+            <a href="#" className="logout-link" onClick={() => navigate("/")}>
               <i className="icon logout-icon"></i>
               <span>Log Out</span>
             </a>
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="main-content">
-          <header className="header">
+          <header className="modern-header">
             <div className="greeting">
               <h2>
                 Hi, Admin Ganteng{" "}
@@ -244,7 +139,7 @@ function ViewProfile() {
             <div className="user-profile">
               <div className="user-info">
                 <div className="user-name">Admin Ganteng</div>
-                <div className="user-email">admin@example.com</div>
+                <div className="user-email">admin@gmail.com</div>
               </div>
               <div className="user-avatar">
                 <i className="icon user-icon"></i>
@@ -252,83 +147,131 @@ function ViewProfile() {
             </div>
           </header>
 
-          <div className="dashboard-content">
-            <h1 className="dashboard-title">Profile Management &gt; View Profile</h1>
+          <div className="content-container">
+            <h1 className="page-title">Profile Management &gt; View Profile</h1>
+            <div className="loading-indicator">Loading profile data...</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-            <div className="large-card">
-              <div
-                className="card-header"
-                style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px" }}
-              >
-                <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  <button
-                    onClick={handleBack}
-                    style={{
-                      backgroundColor: "#e5edff",
-                      color: "#3e4772",
-                      border: "none",
-                      borderRadius: "8px",
-                      padding: "8px 24px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Back
-                  </button>
-                  <button
-                    onClick={handleEdit}
-                    style={{
-                      backgroundColor: "#3e4772",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "8px",
-                      padding: "8px 24px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Edit
-                  </button>
-                </div>
+  return (
+    <div className="modern-layout">
+      <div className="sidebar">
+        <div className="logo-container">
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
+        </div>
+
+        <nav className="nav-menu">
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
+            <i className="icon dashboard-icon"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
+            <i className="icon profile-icon"></i>
+            <span>My Profile</span>
+          </a>
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
+            <i className="icon users-icon"></i>
+            <span>Account Management</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
+          >
+            <i className="icon profile-management-icon"></i>
+            <span>Profile Management</span>
+          </a>
+        </nav>
+
+        <div className="logout-container">
+          <a href="#" className="logout-link" onClick={() => navigate("/")}>
+            <i className="icon logout-icon"></i>
+            <span>Log Out</span>
+          </a>
+        </div>
+      </div>
+
+      <div className="main-content">
+        <header className="modern-header">
+          <div className="greeting">
+            <h2>
+              Hi, Admin Ganteng{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
+          <div className="user-profile">
+            <div className="user-info">
+              <div className="user-name">Admin Ganteng</div>
+              <div className="user-email">admin@gmail.com</div>
+            </div>
+            <div className="user-avatar">
+              <i className="icon user-icon"></i>
+            </div>
+          </div>
+        </header>
+
+        <div className="content-container">
+          <h1 className="page-title">Profile Management &gt; View Profile</h1>
+
+          <div className="profile-card">
+            <div className="card-header">
+              <h2>Profile Information</h2>
+              <div className="button-group">
+                <button className="btn btn-secondary" onClick={handleBack}>
+                  Back
+                </button>
+                <button className="btn btn-primary" onClick={handleEdit}>
+                  Edit
+                </button>
               </div>
+            </div>
 
+            <div className="card-content">
               <div className="profile-details">
-                <div className="detail-row">
-                  <span className="detail-label">Role Name:</span>
-                  <span className="detail-value">{profileData.name}</span>
+                <div className="profile-main">
+                  <div className="form-group">
+                    <label>Role Name</label>
+                    <div className="input-display">
+                      <i className="icon role-icon"></i>
+                      <span>{profileData.name}</span>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Description</label>
+                    <div className="textarea-display">
+                      <p>{profileData.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="permissions-section">
+                    {profileData.permissions.map((permission, index) => (
+                      <div key={index} className="permission-item">
+                        <div className="permission-checkbox checked">
+                          <span className="checkmark"></span>
+                        </div>
+                        <span className="permission-label">{permission}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="detail-row">
-                  <span className="detail-label">Status:</span>
-                  <span className={`detail-value status-${profileData.status.toLowerCase()}`}>
-                    {profileData.status}
-                  </span>
-                </div>
-
-                <div className="detail-row">
-                  <span className="detail-label">Number of Users:</span>
-                  <span className="detail-value">{profileData.users}</span>
-                </div>
-
-                <div className="detail-row">
-                  <span className="detail-label">Description:</span>
-                  <span className="detail-value description">{profileData.description}</span>
-                </div>
-
-                <div className="detail-section">
-                  <span className="detail-label">Permissions:</span>
-                  {profileData.permissions.length > 0 ? (
-                    <ul className="permissions-list">
-                      {profileData.permissions.map((permission, index) => (
-                        <li key={index} className="permission-item">
-                          {permission}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className="detail-value">No permissions assigned</span>
-                  )}
+                <div className="profile-stats">
+                  <div className="stats-card">
+                    <div className="stats-title">{profileData.name}</div>
+                    <div className="stats-number">{profileData.users}</div>
+                    <div className="stats-label">Users</div>
+                  </div>
                 </div>
               </div>
             </div>

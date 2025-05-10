@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import "./dashstyle.css"
+import "./editProfile.css"
 import Toast from "./components/Toast"
 
 function EditProfile() {
@@ -149,7 +149,7 @@ function EditProfile() {
 
   const handleSave = () => {
     if (validateForm()) {
-      // In a real app, this would send data to an API
+      // In a real app, this would send data to an API to update the database
       setToast({
         show: true,
         message: "Profile updated successfully!",
@@ -166,80 +166,7 @@ function EditProfile() {
 
   if (loading) {
     return (
-      <div className="dashboard-layout">
-        <div className="app-container">
-          <div className="sidebar">
-            <div className="logo-container">
-              <h1 className="logo">
-                Garuda
-                <br />
-                Indonesia
-              </h1>
-            </div>
-
-            <nav className="nav-menu">
-              <a href="/dashboard" className="nav-item">
-                <i className="icon dashboard-icon"></i>
-                <span>Dashboard</span>
-              </a>
-              <a href="#" className="nav-item">
-                <i className="icon profile-icon"></i>
-                <span>My Profile</span>
-              </a>
-              <a href="#" className="nav-item">
-                <i className="icon users-icon"></i>
-                <span>Account Management</span>
-              </a>
-              <a href="#" className="nav-item active">
-                <i className="icon profile-management-icon"></i>
-                <span>Profile Management</span>
-              </a>
-            </nav>
-
-            <div className="logout-container">
-              <a href="/" className="logout-link">
-                <i className="icon logout-icon"></i>
-                <span>Log Out</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="main-content">
-            <header className="header">
-              <div className="greeting">
-                <h2>
-                  Hi, Admin Ganteng{" "}
-                  <span role="img" aria-label="wave">
-                    👋
-                  </span>
-                </h2>
-              </div>
-
-              <div className="user-profile">
-                <div className="user-info">
-                  <div className="user-name">Admin Ganteng</div>
-                  <div className="user-email">admin@example.com</div>
-                </div>
-                <div className="user-avatar">
-                  <i className="icon user-icon"></i>
-                </div>
-              </div>
-            </header>
-
-            <div className="dashboard-content">
-              <h1 className="dashboard-title">Profile Management &gt; Edit Profile</h1>
-              <div className="loading-indicator">Loading profile data...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="dashboard-layout">
-      <div className="app-container">
-        {/* Sidebar */}
+      <div className="modern-layout">
         <div className="sidebar">
           <div className="logo-container">
             <h1 className="logo">
@@ -250,46 +177,22 @@ function EditProfile() {
           </div>
 
           <nav className="nav-menu">
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
               <i className="icon dashboard-icon"></i>
               <span>Dashboard</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profile" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
               <i className="icon profile-icon"></i>
               <span>My Profile</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "account" } })
-              }}
-            >
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
               <i className="icon users-icon"></i>
               <span>Account Management</span>
             </a>
             <a
               href="#"
               className="nav-item active"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profileManagement" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
               <i className="icon profile-management-icon"></i>
               <span>Profile Management</span>
@@ -297,23 +200,15 @@ function EditProfile() {
           </nav>
 
           <div className="logout-container">
-            <a
-              href="#"
-              className="logout-link"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/")
-              }}
-            >
+            <a href="#" className="logout-link" onClick={() => navigate("/")}>
               <i className="icon logout-icon"></i>
               <span>Log Out</span>
             </a>
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="main-content">
-          <header className="header">
+          <header className="modern-header">
             <div className="greeting">
               <h2>
                 Hi, Admin Ganteng{" "}
@@ -326,7 +221,7 @@ function EditProfile() {
             <div className="user-profile">
               <div className="user-info">
                 <div className="user-name">Admin Ganteng</div>
-                <div className="user-email">admin@example.com</div>
+                <div className="user-email">admin@gmail.com</div>
               </div>
               <div className="user-avatar">
                 <i className="icon user-icon"></i>
@@ -334,52 +229,101 @@ function EditProfile() {
             </div>
           </header>
 
-          <div className="dashboard-content">
-            <h1 className="dashboard-title">Profile Management &gt; Edit Profile</h1>
+          <div className="content-container">
+            <h1 className="page-title">Profile Management &gt; Update Profile</h1>
+            <div className="loading-indicator">Loading profile data...</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-            <div className="large-card">
-              <div
-                className="card-header"
-                style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px" }}
-              >
-                <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  <button
-                    onClick={handleBack}
-                    style={{
-                      backgroundColor: "#e5edff",
-                      color: "#3e4772",
-                      border: "none",
-                      borderRadius: "8px",
-                      padding: "8px 24px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleSave}
-                    style={{
-                      backgroundColor: "#3e4772",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "8px",
-                      padding: "8px 24px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Save
-                  </button>
-                </div>
+  return (
+    <div className="modern-layout">
+      <div className="sidebar">
+        <div className="logo-container">
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
+        </div>
+
+        <nav className="nav-menu">
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
+            <i className="icon dashboard-icon"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
+            <i className="icon profile-icon"></i>
+            <span>My Profile</span>
+          </a>
+          <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
+            <i className="icon users-icon"></i>
+            <span>Account Management</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
+          >
+            <i className="icon profile-management-icon"></i>
+            <span>Profile Management</span>
+          </a>
+        </nav>
+
+        <div className="logout-container">
+          <a href="#" className="logout-link" onClick={() => navigate("/")}>
+            <i className="icon logout-icon"></i>
+            <span>Log Out</span>
+          </a>
+        </div>
+      </div>
+
+      <div className="main-content">
+        <header className="modern-header">
+          <div className="greeting">
+            <h2>
+              Hi, Admin Ganteng{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
+          <div className="user-profile">
+            <div className="user-info">
+              <div className="user-name">Admin Ganteng</div>
+              <div className="user-email">admin@gmail.com</div>
+            </div>
+            <div className="user-avatar">
+              <i className="icon user-icon"></i>
+            </div>
+          </div>
+        </header>
+
+        <div className="content-container">
+          <h1 className="page-title">Profile Management &gt; Update Profile</h1>
+
+          <div className="profile-card">
+            <div className="card-header">
+              <h2>Profile Information</h2>
+              <div className="button-group">
+                <button className="btn btn-secondary" onClick={handleBack}>
+                  Back
+                </button>
+                <button className="btn btn-primary" onClick={handleSave}>
+                  Save
+                </button>
               </div>
+            </div>
 
-              <div className="profile-form">
-                <div className="form-row full-width">
+            <div className="card-content">
+              <div className="profile-details">
+                <div className="profile-main">
                   <div className="form-group">
                     <label htmlFor="name">Role Name</label>
-                    <div className={`input-container ${errors.name ? "error-input" : ""}`}>
+                    <div className={`modern-input ${errors.name ? "error" : ""}`}>
                       <i className="icon role-icon"></i>
                       <input
                         type="text"
@@ -391,86 +335,48 @@ function EditProfile() {
                     </div>
                     {errors.name && <div className="error-message">{errors.name}</div>}
                   </div>
-                </div>
 
-                <div className="form-row full-width">
                   <div className="form-group">
                     <label htmlFor="description">Description</label>
-                    <div
-                      className={`input-container ${errors.description ? "error-input" : ""}`}
-                      style={{ height: "auto" }}
-                    >
+                    <div className={`modern-textarea ${errors.description ? "error" : ""}`}>
                       <textarea
                         id="description"
                         value={formData.description}
                         onChange={handleChange}
                         placeholder="Enter role description"
-                        rows="3"
-                        style={{
-                          width: "100%",
-                          border: "none",
-                          outline: "none",
-                          resize: "vertical",
-                          padding: "12px 0",
-                        }}
+                        rows="4"
                       ></textarea>
                     </div>
                     {errors.description && <div className="error-message">{errors.description}</div>}
                   </div>
-                </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="status">Status</label>
-                    <div className="input-container">
-                      <span className={`status-indicator ${formData.status.toLowerCase()}`}></span>
-                      <select id="status" value={formData.status} onChange={handleChange}>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="users">Number of Users</label>
-                    <div className="input-container">
-                      <i className="icon users-icon"></i>
-                      <input type="number" id="users" value={formData.users} onChange={handleChange} min="0" readOnly />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="form-row full-width">
-                  <div className="form-group">
+                  <div className="permissions-section">
                     <label>Permissions</label>
                     {errors.permissions && <div className="error-message">{errors.permissions}</div>}
 
-                    <div
-                      className="permissions-container"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                        gap: "10px",
-                        marginTop: "15px",
-                      }}
-                    >
-                      {availablePermissions.map((permission) => (
-                        <div
-                          key={permission}
-                          className="permission-checkbox"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <input
-                            type="checkbox"
-                            id={`permission-${permission}`}
-                            checked={formData.permissions.includes(permission)}
-                            onChange={() => handlePermissionChange(permission)}
-                            style={{ marginRight: "8px" }}
-                          />
-                          <label htmlFor={`permission-${permission}`}>{permission}</label>
+                    <div className="permissions-grid">
+                      {availablePermissions.slice(0, 6).map((permission) => (
+                        <div key={permission} className="permission-item">
+                          <div
+                            className={`permission-checkbox ${
+                              formData.permissions.includes(permission) ? "checked" : ""
+                            }`}
+                            onClick={() => handlePermissionChange(permission)}
+                          >
+                            {formData.permissions.includes(permission) && <span className="checkmark"></span>}
+                          </div>
+                          <span className="permission-label">{permission}</span>
                         </div>
                       ))}
                     </div>
+                  </div>
+                </div>
+
+                <div className="profile-stats">
+                  <div className="stats-card">
+                    <div className="stats-title">{formData.name}</div>
+                    <div className="stats-number">{formData.users}</div>
+                    <div className="stats-label">Users</div>
                   </div>
                 </div>
               </div>
