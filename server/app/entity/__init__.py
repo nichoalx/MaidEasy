@@ -8,6 +8,8 @@ from .cleaner import Cleaner
 from .homeowner import Homeowner
 from .homeowner import HomeownerShortlist
 from .profile import Profile
+from .service import Service
+from .bookings import Booking
 # from .report import Report
 # from .review import Review
 # from .service import Service
