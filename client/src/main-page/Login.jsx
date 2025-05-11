@@ -21,11 +21,18 @@ export default function Login() {
     setErrors({ email: emailEmpty, password: passwordEmpty });
 
     if (!emailEmpty && !passwordEmpty) {
-      // Proceed with login logic
-      console.log("Login successful, redirecting to dashboard...")
-      navigate("/dashboard")
+    // Check email and redirect accordingly
+    if (email === "admin@gmail.com") {
+      console.log("Admin login successful, redirecting to dashboard...");
+      navigate("/dashboard");
+    } else if (email === "plat@gmail.com") {
+      console.log("Platform manager login successful, redirecting to platform management...");
+      navigate("/platformManagement");
+    } else {
+      console.log("Login successful, but no specific route assigned. Staying on login.");
     }
-  };
+  }
+};
 
 
 

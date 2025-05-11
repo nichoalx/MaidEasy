@@ -12,6 +12,11 @@ import AddUser from "./main-page/admin_dashboard/add-user"
 import EditProfile from "./main-page/admin_dashboard/edit-profile"
 import ViewProfile from "./main-page/admin_dashboard/view-profile"
 import AddProfile from "./main-page/admin_dashboard/add-profile"
+import PlatformManagement from "./main-page/plat-management/platformManagement"
+import EditCategory from "./main-page/plat-management/edit-category"
+import Report from "./main-page/plat-management/report"
+import PlatformProfile from "./main-page/plat-management/platform-profile"
+import ViewCategory from "./main-page/plat-management/view-category"
 
 export default function App() {
   return (
@@ -29,6 +34,11 @@ export default function App() {
       <Route path="/edit-profile/:profileId" element={<EditProfile />} />
       <Route path="/view-profile/:profileId" element={<ViewProfile />} />
       <Route path="/add-profile" element={<AddProfile />} />
+      <Route path="/platform-management" element={<PlatformManagement />} />
+      <Route path="/edit-category/:categoryId" element={<EditCategory />} />
+      <Route path="/view-category/:categoryId" element={<ViewCategory />} />
+      <Route path="/report" element={<Report />} />
+      <Route path="/platform-profile" element={<PlatformProfile />} />
     </Routes>
   )
 }

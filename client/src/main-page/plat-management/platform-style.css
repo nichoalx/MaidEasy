@@ -1,0 +1,631 @@
+/* Platform Management Styles */
+/* Make all selectors more specific to avoid affecting admin dashboard */
+.platform-layout * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.platform-layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+/* Sidebar */
+.platform-layout .sidebar {
+  width: 220px;
+  background-color: #3e4772;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100vh;
+}
+
+.platform-layout .logo-container {
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.platform-layout .logo {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.platform-layout .nav-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.platform-layout .nav-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.platform-layout .nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.platform-layout .nav-item.active {
+  background-color: rgba(200, 200, 220, 0.2);
+  border-left: 4px solid white;
+}
+
+.platform-layout .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  display: inline-block;
+}
+
+.platform-layout .grid-icon::before {
+  content: "⊞";
+}
+
+.platform-layout .profile-icon::before {
+  content: "👤";
+}
+
+.platform-layout .report-icon::before {
+  content: "📊";
+}
+
+.platform-layout .logout-icon::before {
+  content: "↩";
+}
+
+.platform-layout .user-icon::before {
+  content: "👤";
+}
+
+.platform-layout .search-icon::before {
+  content: "🔍";
+}
+
+.platform-layout .logout-container {
+  padding: 24px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.platform-layout .logout-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+/* Main Content */
+.platform-layout .main-content {
+  flex: 1;
+  background-color: #f5f5f5;
+  overflow: auto;
+}
+
+.platform-layout .platform-header {
+  background-color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.platform-layout .greeting h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.platform-layout .user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.platform-layout .user-info {
+  margin-right: 12px;
+  text-align: right;
+}
+
+.platform-layout .user-name {
+  font-weight: 500;
+}
+
+.platform-layout .user-email {
+  font-size: 14px;
+  color: #666666;
+}
+
+.platform-layout .user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platform-layout .platform-content {
+  padding: 24px;
+}
+
+.platform-layout .platform-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #3e4772;
+  margin-bottom: 24px;
+}
+
+/* Platform Controls */
+.platform-layout .platform-controls {
+  margin-bottom: 20px;
+}
+
+.platform-layout .search-section {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.platform-layout .keyword-section {
+  flex: 1;
+}
+
+.platform-layout .keyword-section label,
+.platform-layout .showing-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.platform-layout .search-input-wrapper {
+  position: relative;
+}
+
+.platform-layout .search-input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  font-size: 14px;
+}
+
+.platform-layout .search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.platform-layout .showing-select {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  min-width: 80px;
+  font-size: 14px;
+}
+
+.platform-layout .add-button {
+  background-color: #3e4772;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.platform-layout .results-info {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Categories Table */
+.platform-layout .categories-table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.platform-layout .categories-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.platform-layout .categories-table th,
+.platform-layout .categories-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.platform-layout .categories-table th {
+  font-weight: 500;
+  color: #666;
+}
+
+.platform-layout .sort-icon {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.platform-layout .action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.platform-layout .view-btn,
+.platform-layout .edit-btn,
+.platform-layout .delete-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.platform-layout .view-btn {
+  background-color: #e5edff;
+  color: #3e4772;
+}
+
+.platform-layout .edit-btn {
+  background-color: #3e7244;
+  color: white;
+}
+
+.platform-layout .delete-btn {
+  background-color: #ca3032;
+  color: white;
+}
+
+/* Pagination */
+.platform-layout .pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.platform-layout .next-btn {
+  background-color: transparent;
+  border: none;
+  color: #3e4772;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Modal Styles */
+.platform-layout .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.platform-layout .modal-container {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.platform-layout .modal-container h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #3e4772;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.platform-layout .modal-header {
+  margin-bottom: 24px;
+}
+
+.platform-layout .modal-content {
+  padding: 0;
+}
+
+/* Category Detail Card */
+.platform-layout .category-detail-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.platform-layout .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.platform-layout .card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.platform-layout .button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.platform-layout .back-btn,
+.platform-layout .save-btn {
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+
+.platform-layout .back-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.platform-layout .save-btn,
+.platform-layout .edit-btn {
+  background-color: #3e7244;
+  color: white;
+}
+
+.platform-layout .card-body {
+  padding: 24px;
+}
+
+.platform-layout .detail-row {
+  margin-bottom: 20px;
+}
+
+.platform-layout .detail-row label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.platform-layout .detail-input,
+.platform-layout .detail-textarea {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 100%;
+}
+
+.platform-layout .detail-textarea {
+  min-height: 100px;
+}
+
+.platform-layout .detail-value {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Form Styles */
+.platform-layout .form-group {
+  margin-bottom: 20px;
+}
+
+.platform-layout .form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.platform-layout .form-group input,
+.platform-layout .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.platform-layout .form-group textarea {
+  resize: vertical;
+}
+
+/* Add Modal */
+.platform-layout .add-modal {
+  width: 90%;
+  max-width: 500px;
+}
+
+.platform-layout .modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.platform-layout .create-btn {
+  background-color: #3e4772;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.platform-layout .cancel-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Delete Modal */
+.platform-layout .delete-modal {
+  width: 90%;
+  max-width: 400px;
+}
+
+.platform-layout .delete-message {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.platform-layout .category-info {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.platform-layout .info-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.platform-layout .info-label {
+  width: 100px;
+  font-weight: 500;
+  color: #666;
+}
+
+.platform-layout .delete-confirm-btn {
+  background-color: #ca3032;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Report Page */
+.platform-layout .report-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.platform-layout .empty-state {
+  color: #666;
+  text-align: center;
+}
+
+/* Loading Indicator */
+.platform-layout .loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Error Message */
+.platform-layout .error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: #ca3032;
+}
+
+/* Add styles for the platform profile page */
+.platform-layout .profile-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.platform-layout .profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.platform-layout .avatar-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #3e4772;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.platform-layout .avatar-initials {
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.platform-layout .profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+}
+
+.platform-layout .profile-role {
+  color: #666;
+  margin: 0;
+}
+
+.platform-layout .profile-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .platform-layout .profile-details {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.platform-layout .status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.platform-layout .status-badge.active {
+  background-color: rgba(118, 192, 105, 0.1);
+  color: #76c069;
+}
