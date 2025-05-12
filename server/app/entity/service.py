@@ -1,19 +1,28 @@
 # service.py
-from server.app.extensions import db
-from datetime import datetime
+from ..extensions import db
+from datetime import datetime, timezone
+from .user import User
+from .category import Category
+
 
 class Service(db.Model):
     __tablename__ = 'services'
 
     service_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    cleaner_id = db.Column(db.Integer, db.ForeignKey('cleaners.cleaner_id'), nullable=False)
+    cleaner_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
+    category= db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     price = db.Column(db.Float, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    contact_number = db.Column(db.String(15), nullable=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    duration = db.Column(db.String(50), nullable=True)  # Duration of the service
+    availability = db.Column(db.String(50), nullable=True)  # Availability of the service
     view_count = db.Column(db.Integer, default=0)
     shortlist_count = db.Column(db.Integer, default=0)
+
+    # Relationship with Cleaner
+    cleaner = db.relationship('User', backref='services')
 
     def to_dict(self) -> dict:
         return {
@@ -23,19 +32,30 @@ class Service(db.Model):
             "category": self.category,
             "description": self.description,
             "price": self.price,
+            "contact_number": self.contact_number,
             "created_at": self.created_at.isoformat(),
+            "duration": self.duration,
+            "availability": self.availability,
             "view_count": self.view_count,
             "shortlist_count": self.shortlist_count
         }
 
     @classmethod
-    def create_service(cls, cleaner_id, name, category, description, price):
+    def create_service(cls, cleaner_id, name, category, description, price, duration, availability):
+        cleaner = User.query.get(cleaner_id)
+        category = Category.query.filter_by(category_name=category).one_or_none()
+        if not cleaner:
+            return {"error": "Cleaner (User) not found"}, 404
+
         new_service = cls(
             cleaner_id=cleaner_id,
             name=name,
-            category=category,
+            category=category.category_name,  # snapshot
             description=description,
-            price=price
+            price=price,
+            duration=duration,
+            availability=availability,
+            contact_number=cleaner.contact_number  # snapshot
         )
         db.session.add(new_service)
         db.session.commit()
@@ -68,21 +88,35 @@ class Service(db.Model):
         db.session.delete(service)
         db.session.commit()
         return {"message": "Service deleted successfully"}, 200
-
+    
     @classmethod
-    def get_services_by_cleaner(cls, cleaner_id):
-        services = cls.query.filter_by(cleaner_id=cleaner_id).all()
-        return [s.to_dict() for s in services], 200
+    def search_services(cls, name=None, category=None):
+        query = cls.query
 
-    @classmethod
-    def search_services(cls, cleaner_id, name=None, category=None):
-        query = cls.query.filter_by(cleaner_id=cleaner_id)
         if name:
             query = query.filter(cls.name.ilike(f"%{name}%"))
         if category:
             query = query.filter(cls.category.ilike(f"%{category}%"))
 
-        return [s.to_dict() for s in query.all()], 200
+        services = query.all()
+        return [service.to_dict() for service in services], 200
+    
+    @classmethod
+    def get_services_by_cleaner(cls, cleaner_id):
+        services = cls.query.filter_by(cleaner_id=cleaner_id).all()
+        return [service.to_dict() for service in services], 200
+
+    @classmethod
+    def get_all_services(cls):
+        services = cls.query.all()
+        return [service.to_dict() for service in services], 200
+    
+    @classmethod
+    def get_service_by_id(cls, service_id):
+        service = cls.query.get(service_id)
+        if not service:
+            return {"error": "Service not found"}, 404
+        return service.to_dict(), 200
 
     @classmethod
     def increment_view(cls, service_id):

@@ -1,5 +1,9 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
+
 from server.app.entity.user import User
+from server.app.entity.profile import Profile
 
 login_blueprint = Blueprint('login', __name__)
 
@@ -14,10 +18,18 @@ class LoginController:
         if not success:
             return jsonify({"error": message}), 401
 
-        session['email'] = email
-        session['logged_in'] = True
-        # Optionally, save type_of_user if you want
         user = User.query.filter_by(email=email).first()
-        session['type_of_user'] = user.type_of_user
+        profile = Profile.query.get(user.profile_id)
 
-        return jsonify({"message": "Login successful", "type_of_user": user.type_of_user}), 200
+        access_token = create_access_token(
+            identity=user.user_id,
+            expires_delta=timedelta(days=1),  # 24-hour session
+            additional_claims={"role": profile.role_name}
+        )
+
+        return jsonify({
+            "message": "Login successful",
+            "access_token": access_token,
+            "user_id": user.user_id,
+            "role": profile.role_name
+        }), 200

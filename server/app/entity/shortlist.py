@@ -1,44 +1,58 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import or_
 from ..extensions import db
-from ..entity import Service
+from .service import Service  # <- to use increment_shortlist
 
 class HomeownerShortlist(db.Model):
     __tablename__ = 'homeowner_shortlists'
 
     id = db.Column(db.Integer, primary_key=True)
-    homeowner_id = db.Column(db.Integer, db.ForeignKey('homeowners.homeowner_id'), nullable=False)
-    cleaner_service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'), nullable=False)
-    added_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'), nullable=False)
+    added_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     __table_args__ = (
-        db.UniqueConstraint('homeowner_id', 'cleaner_service_id', name='uq_homeowner_cleaner'),
+        db.UniqueConstraint('user_id', 'service_id', name='uq_user_service'),
     )
 
     @classmethod
-    def add_cleaner_to_shortlist(cls, homeowner_id: int, cleaner_service_id: int) -> tuple[dict, int]:
-        existing = cls.query.filter_by(homeowner_id=homeowner_id, cleaner_service_id=cleaner_service_id).first()
+    def add_service_to_shortlist(cls, user_id: int, service_id: int) -> tuple[dict, int]:
+        existing = cls.query.filter_by(user_id=user_id, service_id=service_id).first()
         if existing:
-            return {"error": "Cleaner already in shortlist"}, 400
+            return {"error": "Service already in shortlist"}, 400
 
+        # Create entry
         shortlist_entry = cls(
-            homeowner_id=homeowner_id,
-            cleaner_service_id=cleaner_service_id,
-            added_at=datetime.utcnow()
+            user_id=user_id,
+            service_id=service_id
         )
         db.session.add(shortlist_entry)
+
+        # Increment shortlist count on the service
+        Service.increment_shortlist(service_id)
+
         db.session.commit()
-        return {"message": "Cleaner added to shortlist successfully"}, 200
+        return {"message": "Service added to shortlist successfully"}, 200
 
     @classmethod
-    def view_shortlisted_cleaners(cls, homeowner_id: int) -> tuple[list, int]:
-        entries = cls.query.filter_by(homeowner_id=homeowner_id).all()
-        result = [Service.query.get(e.cleaner_service_id).to_dict() for e in entries if Service.query.get(e.cleaner_service_id)]
+    def remove_service_from_shortlist(cls, user_id: int, service_id: int) -> tuple[dict, int]:
+        entry = cls.query.filter_by(user_id=user_id, service_id=service_id).first()
+        if not entry:
+            return {"error": "Service not found in shortlist"}, 404
+
+        db.session.delete(entry)
+        db.session.commit()
+        return {"message": "Service removed from shortlist successfully"}, 200
+
+    @classmethod
+    def view_shortlisted_services(cls, user_id: int) -> tuple[list, int]:
+        entries = cls.query.filter_by(user_id=user_id).all()
+        result = [Service.query.get(e.service_id).to_dict() for e in entries if Service.query.get(e.service_id)]
         return result, 200
 
     @classmethod
-    def search_shortlisted_cleaners(cls, homeowner_id: int, name=None, category=None) -> tuple[list, int]:
-        query = Service.query.join(cls, Service.service_id == cls.cleaner_service_id).filter(cls.homeowner_id == homeowner_id)
+    def search_shortlisted_services(cls, user_id: int, name: str = None, category: str = None) -> tuple[list, int]:
+        query = Service.query.join(cls, Service.service_id == cls.service_id).filter(cls.user_id == user_id)
 
         if name:
             query = query.filter(Service.name.ilike(f"%{name}%"))
