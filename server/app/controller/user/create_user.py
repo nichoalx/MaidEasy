@@ -6,7 +6,7 @@ create_user_blueprint = Blueprint('create_user', __name__)
 
 class CreateUserController:
     @admin_required
-    
+    @login_required
     @create_user_blueprint.route('/api/users/create_user', methods=['POST'])
     def create_user():
         data = request.get_json()
@@ -17,7 +17,6 @@ class CreateUserController:
         password = data.get('password')
         dob = data.get('dob')
         contact_number = data.get('contact_number')
-        type_of_user = data.get('type_of_user')
 
         response, status_code = User.create_user(
             first_name=first_name,
@@ -25,8 +24,7 @@ class CreateUserController:
             email=email,
             password=password,
             dob=dob,
-            contact_number=contact_number,
-            type_of_user=type_of_user
+            contact_number=contact_number
         )
 
         return jsonify({'success': response, 'message': 'create_user API called'}), status_code

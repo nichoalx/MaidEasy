@@ -1,4 +1,4 @@
-wfrom flask import Blueprint, jsonify
+from flask import Blueprint, jsonify
 from server.app.entity.profile import Profile
 from server.app.controller.auth.permission_required import admin_required, login_required
 

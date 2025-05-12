@@ -1,4 +1,4 @@
-# controller/__init__.py
+# CENTRALIZED IMPORTS, WHY? WHY NOT.
 
 # USER controllers
 from .user.create_user import create_user_blueprint
@@ -21,25 +21,11 @@ from .profile.suspend_profile import suspend_profile_blueprint
 from .auth.login import login_blueprint
 from .auth.logout import logout_blueprint
 
-# CLEANER controllers
-from .cleaner.create_service import create_listing_blueprint
-from .cleaner.delete_listing import delete_listing_blueprint
-from .cleaner.search_confirmed_jobs import search_confirmed_jobs_blueprint
-from .cleaner.search_my_listings import search_my_listings_blueprint
-from .cleaner.update_listing import update_listing_blueprint
-from .cleaner.view_confirmed_job_detail import view_confirmed_job_detail_blueprint
-from .cleaner.view_listing_shortlists import view_listing_shortlists_blueprint
-from .cleaner.view_listing_views import view_listing_views_blueprint
-from .cleaner.view_my_listings import view_my_listings_blueprint
-
 # HOMEOWNER controllers
-from .homeowner.add_to_shortlist import shortlist_add_blueprint
-from .homeowner.search_cleaners import search_cleaner_blueprint
-from .homeowner.search_past_bookings import search_bookings_blueprint
-from .homeowner.search_shortlist import search_shortlist_blueprint
-from .homeowner.view_cleaning_services import view_services_blueprint
-from .homeowner.view_past_booking import view_bookings_blueprint
-from .homeowner.view_shortlist import view_shortlist_blueprint
+
+# CLEANER controllers
+
+# PLATFORM MANAGER controllers
 
 # EXPORT all blueprints so they can be imported via: from controller import *
 __all__ = [

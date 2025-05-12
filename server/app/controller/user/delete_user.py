@@ -7,7 +7,6 @@ delete_user_blueprint = Blueprint('delete_user', __name__)
 class DeleteUserController:
     @admin_required
     @login_required
-    
     @delete_user_blueprint.route('/api/users/<int:user_id>', methods=['DELETE'])
     def delete_user(user_id):
         response, status_code = User.delete_user(user_id)

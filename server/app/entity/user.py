@@ -10,13 +10,13 @@ class User(db.Model):
     __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    profile_picture = db.Column(db.String(255), nullable=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     dob = db.Column(db.Date, nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
-    type_of_user = db.Column(db.String(20), nullable=False) 
 
     profile_id = db.Column(db.Integer, db.ForeignKey('profiles.profile_id'), nullable=False)
     profile = db.relationship('Profile', backref='users')  # optional reverse access
@@ -34,7 +34,6 @@ class User(db.Model):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'dob': self.dob.isoformat() if self.dob else None,
-            'type_of_user': self.type_of_user,
             'profile_id': self.profile_id,
             'profile_name': self.profile.name if self.profile else None
         }
@@ -46,10 +45,7 @@ class User(db.Model):
                     dob: str, contact_number: str, type_of_user: str) -> tuple[dict, int]:
 
         if cls.query.filter_by(email=email).one_or_none():
-            return {"error": "Email already exists"}, 409
-        
-        if type_of_user == "admin":
-            return {"error": "Admin user creation is not allowed"}, 403
+            return {"error": "Email already exists"}, 409 
         
         try:
             dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
@@ -62,8 +58,7 @@ class User(db.Model):
             email=email,
             password=generate_password_hash(password),
             dob=dob_date,
-            contact_number=contact_number,
-            type_of_user=type_of_user
+            contact_number=contact_number
         )
         
         with current_app.app_context():
@@ -97,8 +92,6 @@ class User(db.Model):
                 if not update_data['contact_number'].isdigit() or len(update_data['contact_number']) < 8:
                     return {"error": "Invalid contact number"}, 400
                 user.contact_number = update_data['contact_number']
-            if update_data.get('type_of_user'):
-                user.type_of_user = update_data['type_of_user']
 
             db.session.commit()
             return user.to_dict(), 200

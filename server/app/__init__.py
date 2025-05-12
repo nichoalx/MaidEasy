@@ -1,4 +1,5 @@
 from flask import Flask
+from .admin import seed_admin
 from .config import config_by_name
 from .extensions import db, jwt, cors
 
@@ -89,5 +90,6 @@ def create_app(config_name="development"):
     # Create database tables
     with app.app_context():
         db.create_all()
+        seed_admin()()
 
     return app
