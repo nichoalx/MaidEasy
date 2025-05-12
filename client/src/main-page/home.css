@@ -73,7 +73,6 @@ body {
   z-index: 0;
 }
 
-/* Add this */
 .hero-background::before {
   content: "";
   position: absolute;
@@ -128,6 +127,8 @@ body {
 
 .search-container {
   position: relative;
+  background-color: white;
+  border-radius: 50px;
 }
 
 .search-input {
