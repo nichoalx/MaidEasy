@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.logoutContainer {
+    max-height: 420px;
+    max-width: 370px;
+    margin: 100px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 7px #3e4772e6;
+}
+
+.header .text {
+    color: #3e4772;
+    font-size: 34px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.body .text {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 550;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.logoutButton {
+    width:60%;
+    padding: 10px;
+    background-color: #3e4772;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 40px auto 0; 
+    display: block;
+    box-shadow: 0 2px 7px #3e4772;
+}
+
+.cancelButton {
+    width: 60%;
+    padding: 10px;
+    background-color: #e5edff;
+    color: #000000;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 40px auto 0; 
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 3px #8d96a9;
+}

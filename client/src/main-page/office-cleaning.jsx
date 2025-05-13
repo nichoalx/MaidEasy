@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { Trash2, ArrowLeft } from "lucide-react"
+import "./home.css"
 
 
 export default function ToiletCleaningPage() {

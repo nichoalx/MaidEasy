@@ -1,0 +1,164 @@
+"use client"
+
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./platform-style.css"
+import categoryIcon from "../assets/category.png";
+import personIcon from "../assets/circle_person.png";
+import reportIcon from "../assets/report.png";
+import logoutIcon from "../assets/logout.png";
+
+
+function PlatformProfile() {
+  const navigate = useNavigate()
+  const [profileData, setProfileData] = useState({
+    firstName: "Platform",
+    lastName: "123",
+    email: "plat123@gmail.com",
+    role: "Platform Admin",
+    joinDate: "01/01/2023",
+    lastLogin: "05/11/2025",
+    status: "Active",
+  })
+
+  return (
+    <div className="platform-layout">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
+        </div>
+
+        <nav className="nav-menu">
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-management")
+            }}
+          >
+            <i className="icon grid-icon"></i>
+            <span><img src={categoryIcon} alt="category icon" />Categories</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-profile")
+            }}
+          >
+            <i className="icon profile-icon"></i>
+            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+          </a>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/report")
+            }}
+          >
+            <i className="icon report-icon"></i>
+            <span><img src={reportIcon} alt="report icon" />Report</span>
+          </a>
+        </nav>
+
+        <div className="logout-container">
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/Logout")
+            }}
+          >
+            <i className="icon logout-icon"></i>
+            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          </a>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        <header className="platform-header">
+          <div className="greeting">
+            <h2>
+              Hi, Platform123{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
+          <div className="user-profile">
+            <div className="user-info">
+              <div className="user-name">Platform123</div>
+              <div className="user-email">plat123@gmail.com</div>
+            </div>
+            <div className="user-avatar">
+              <i className="icon user-icon"></i>
+            </div>
+          </div>
+        </header>
+
+        <div className="platform-content">
+          <h1 className="platform-title">My Profile</h1>
+
+          <div className="category-detail-card">
+            <div className="card-header">
+              <h3>Profile Information</h3>
+              <div className="button-group">
+                <button className="edit-btn">Edit Profile</button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="profile-info-container">
+                <div className="profile-avatar">
+                  <div className="avatar-circle">
+                    <span className="avatar-initials">P1</span>
+                  </div>
+                  <h3 className="profile-name">
+                    {profileData.firstName} {profileData.lastName}
+                  </h3>
+                  <p className="profile-role">{profileData.role}</p>
+                </div>
+
+                <div className="profile-details">
+                  <div className="detail-row">
+                    <label>Email:</label>
+                    <div className="detail-input">{profileData.email}</div>
+                  </div>
+
+                  <div className="detail-row">
+                    <label>Join Date:</label>
+                    <div className="detail-input">{profileData.joinDate}</div>
+                  </div>
+
+                  <div className="detail-row">
+                    <label>Last Login:</label>
+                    <div className="detail-input">{profileData.lastLogin}</div>
+                  </div>
+
+                  <div className="detail-row">
+                    <label>Status:</label>
+                    <div className="detail-input">
+                      <span className="status-badge active">{profileData.status}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default PlatformProfile

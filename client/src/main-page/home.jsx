@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { Home, Star, Trash2, Send, Search, ArrowRight } from "lucide-react"
 import logoImg from "../Assets/nick.png"
 import livingRoomBg from "../Assets/livingroom.png";
+import "./home.css";
 
 export default function HomePage() {
   return (

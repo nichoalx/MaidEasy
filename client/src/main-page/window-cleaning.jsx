@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { Send, ArrowLeft } from "lucide-react"
-
+import "./home.css"
 
 export default function WindowCleaningPage() {
   return (

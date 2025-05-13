@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { Home, ArrowLeft } from "lucide-react"
+import "./home.css"
 
 
 export default function HouseCleaningPage() {
