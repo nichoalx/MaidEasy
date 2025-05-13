@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import Pagination from "./admin_dashboard/components/Pagination"
-import ShowingDropdown from "./admin_dashboard/components/ShowingDropdown"
-import Toast from "./admin_dashboard/components/Toast"
+import Pagination from "./components/Pagination"
+import ShowingDropdown from "./components/ShowingDropdown"
+import Toast from "./components/Toast"
 
 function ProfileManagement() {
   const navigate = useNavigate()
@@ -66,6 +66,7 @@ function ProfileManagement() {
   ])
 
   // State for search, pagination, and modals
+  const [searchByOpen, setSearchByOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredRoles, setFilteredRoles] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -146,16 +147,29 @@ function ProfileManagement() {
 
       <div className="profile-management-controls">
         <div className="search-container">
-          <label className="search-label">Input Role</label>
-          <div className="search-input-container">
-            <i className="icon search-icon"></i>
+          <div className="search-header">
+            <label>Keyword</label>
+            <div className="search-by-container">
+              <label className="search-by-label">Search By</label>
+              <div className="search-by-dropdown">
+                <div className="search-by-selected" onClick={() => setSearchByOpen(!searchByOpen)}>
+                  Role <span className="dropdown-arrow">▼</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="search-input-wrapper">
             <input
               type="text"
-              placeholder="Search by role"
+              placeholder="Search by role name"
               className="search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+          </div>
+          <div className="results-info">
+            Showing {indexOfFirstRole + 1} to {Math.min(indexOfLastRole, filteredRoles.length)} of{" "}
+            {filteredRoles.length} results
           </div>
         </div>
 

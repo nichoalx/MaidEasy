@@ -7,6 +7,8 @@ import "./platform-style.css"
 function PlatformManagement() {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState("")
+  const [searchBy, setSearchBy] = useState("Categories")
+  const [searchByOpen, setSearchByOpen] = useState(false)
   const [showingCount, setShowingCount] = useState(10)
   const [showAddModal, setShowAddModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -37,9 +39,33 @@ function PlatformManagement() {
   const [filteredCategories, setFilteredCategories] = useState([])
 
   useEffect(() => {
-    const results = categories.filter((category) => category.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    let results = [...categories]
+
+    if (searchTerm) {
+      switch (searchBy) {
+        case "Categories":
+          results = categories.filter((category) => category.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          break
+        case "ID":
+          results = categories.filter((category) => category.id.toString().includes(searchTerm))
+          break
+        case "Description":
+          results = categories.filter((category) =>
+            category.description.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
+          break
+        default:
+          results = categories.filter((category) => category.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      }
+    }
+
     setFilteredCategories(results)
-  }, [searchTerm, categories])
+  }, [searchTerm, searchBy, categories])
+
+  // Initialize filteredCategories with all categories on component mount
+  useEffect(() => {
+    setFilteredCategories(categories)
+  }, [])
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
@@ -176,16 +202,56 @@ function PlatformManagement() {
           <div className="platform-controls">
             <div className="search-section">
               <div className="keyword-section">
-                <label>Keyword</label>
+                <div className="search-header">
+                  <label>Keyword</label>
+                  <div className="search-by-container">
+                    <label className="search-by-label">Search By</label>
+                    <div className="search-by-dropdown">
+                      <div className="search-by-selected" onClick={() => setSearchByOpen(!searchByOpen)}>
+                        <span className="dropdown-arrow">▼</span>
+                      </div>
+                      {searchByOpen && (
+                        <div className="search-by-options">
+                          <div
+                            className={`search-by-option ${searchBy === "Categories" ? "active" : ""}`}
+                            onClick={() => {
+                              setSearchBy("Categories")
+                              setSearchByOpen(false)
+                            }}
+                          >
+                            Categories
+                          </div>
+                          <div
+                            className={`search-by-option ${searchBy === "ID" ? "active" : ""}`}
+                            onClick={() => {
+                              setSearchBy("ID")
+                              setSearchByOpen(false)
+                            }}
+                          >
+                            ID
+                          </div>
+                          <div
+                            className={`search-by-option ${searchBy === "Description" ? "active" : ""}`}
+                            onClick={() => {
+                              setSearchBy("Description")
+                              setSearchByOpen(false)
+                            }}
+                          >
+                            Description
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 <div className="search-input-wrapper">
                   <input
                     type="text"
-                    placeholder="Search by Categories"
+                    placeholder={`Search by ${searchBy}`}
                     value={searchTerm}
                     onChange={handleSearch}
                     className="search-input"
                   />
-                  <i className="search-icon">🔍</i>
                 </div>
               </div>
 
@@ -256,7 +322,6 @@ function PlatformManagement() {
         </div>
       </div>
 
-      {/* View Category Modal */}
       {/* Add Category Modal */}
       {showAddModal && <AddCategoryModal onClose={() => setShowAddModal(false)} onAdd={handleAddCategory} />}
 

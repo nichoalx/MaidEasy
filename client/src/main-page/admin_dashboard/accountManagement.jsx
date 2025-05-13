@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import Pagination from "./components/Pagination"
@@ -95,21 +97,40 @@ function AccountManagement() {
 
   // State for search, pagination, and modals
   const [searchTerm, setSearchTerm] = useState("")
+  const [searchBy, setSearchBy] = useState("Name")
+  const [searchByOpen, setSearchByOpen] = useState(false)
   const [filteredUsers, setFilteredUsers] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
-  // Filter users based on search term
+  // Filter users based on search term and search criteria
   useEffect(() => {
-    const results = users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+    let results = [...users]
+
+    if (searchTerm) {
+      switch (searchBy) {
+        case "Name":
+          results = users.filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          break
+        case "Email":
+          results = users.filter((user) => user.email.toLowerCase().includes(searchTerm.toLowerCase()))
+          break
+        case "User ID":
+          results = users.filter((user) => user.id.toString().includes(searchTerm))
+          break
+        default:
+          results = users.filter(
+            (user) =>
+              user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
+      }
+    }
+
     setFilteredUsers(results)
     setCurrentPage(1) // Reset to first page when search changes
-  }, [searchTerm, users])
+  }, [searchTerm, searchBy, users])
 
   // Get current users for pagination
   const indexOfLastUser = currentPage * itemsPerPage
@@ -178,16 +199,60 @@ function AccountManagement() {
 
       <div className="account-controls">
         <div className="search-container">
-          <label className="search-label">Input Name or Email</label>
-          <div className="search-input-container">
-            <i className="icon search-icon"></i>
+          <div className="search-header">
+            <label>Keyword</label>
+            <div className="search-by-container">
+              <label className="search-by-label">Search By</label>
+              <div className="search-by-dropdown">
+                <div className="search-by-selected" onClick={() => setSearchByOpen(!searchByOpen)}>
+                  {searchBy} <span className="dropdown-arrow">▼</span>
+                </div>
+                {searchByOpen && (
+                  <div className="search-by-options">
+                    <div
+                      className={`search-by-option ${searchBy === "Name" ? "active" : ""}`}
+                      onClick={() => {
+                        setSearchBy("Name")
+                        setSearchByOpen(false)
+                      }}
+                    >
+                      Name
+                    </div>
+                    <div
+                      className={`search-by-option ${searchBy === "Email" ? "active" : ""}`}
+                      onClick={() => {
+                        setSearchBy("Email")
+                        setSearchByOpen(false)
+                      }}
+                    >
+                      Email
+                    </div>
+                    <div
+                      className={`search-by-option ${searchBy === "User ID" ? "active" : ""}`}
+                      onClick={() => {
+                        setSearchBy("User ID")
+                        setSearchByOpen(false)
+                      }}
+                    >
+                      User ID
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="search-input-wrapper">
             <input
               type="text"
-              placeholder="Search By Name or Email"
+              placeholder={`Search by ${searchBy.toLowerCase()}`}
               className="search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+          </div>
+          <div className="results-info">
+            Showing {indexOfFirstUser + 1} to {Math.min(indexOfLastUser, filteredUsers.length)} of{" "}
+            {filteredUsers.length} results
           </div>
         </div>
 
@@ -204,7 +269,7 @@ function AccountManagement() {
         <table className="account-table">
           <thead>
             <tr>
-              <th>No</th>
+              <th>ID</th>
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
@@ -216,7 +281,7 @@ function AccountManagement() {
             {currentUsers.length > 0 ? (
               currentUsers.map((user, index) => (
                 <tr key={user.id}>
-                  <td>{indexOfFirstUser + index + 1}</td>
+                  <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>

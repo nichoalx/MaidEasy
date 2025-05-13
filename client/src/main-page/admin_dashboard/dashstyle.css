@@ -414,31 +414,125 @@
 .profile-management-controls {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   margin-bottom: 24px;
   flex-wrap: wrap;
   gap: 16px;
 }
 
-.search-container {
-  flex: 1;
-  min-width: 300px;
+/* New Search Header Styles */
+.dashboard-layout .search-header-container {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.search-label {
+.dashboard-layout .search-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-layout .search-label {
   display: block;
-  margin-bottom: 8px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.dashboard-layout .search-by-container {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-layout .search-by-label {
+  margin-right: 8px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.dashboard-layout .search-by-selected {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: transparent; /* Change from #f9f9f9 to transparent */
+}
+
+.dashboard-layout .search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: transparent; /* Changed from white to transparent */
+  border-radius: 8px;
+  padding: 0 16px;
+  height: 48px;
+  box-shadow: none; /* Removed box-shadow */
+  margin-bottom: 10px;
+}
+
+/* Add this new rule to ensure the search container has no background */
+.dashboard-layout .search-container {
+  background-color: transparent;
+}
+
+.dashboard-layout .search-dropdown-trigger {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-layout .dropdown-arrow {
+  font-size: 10px;
+  color: #666;
+}
+
+.dashboard-layout .search-by-options {
+  position: absolute;
+  top: 110%;
+  right: 16px;
+  width: 120px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-layout .search-by-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dashboard-layout .search-by-option:hover {
+  background-color: #f5f5f5;
+}
+
+.dashboard-layout .search-by-option.active {
+  background-color: #e5edff;
+  color: #3e4772;
   font-weight: 500;
 }
 
-.search-input-container {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  border-radius: 24px;
-  padding: 0 16px;
-  height: 48px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.dashboard-layout .showing-info {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.search-container {
+  flex: 1;
+  min-width: 300px;
 }
 
 .search-input {
@@ -449,6 +543,97 @@
   font-size: 16px;
   color: #000000;
   outline: none;
+}
+
+/* Enhanced Search Styles for Admin Dashboard */
+.dashboard-layout .search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  background-color: transparent;
+}
+
+.dashboard-layout .search-by-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-layout .search-by-dropdown {
+  position: relative;
+}
+
+.dashboard-layout .search-by-selected {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.dashboard-layout .search-by-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 150px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.dashboard-layout .search-by-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dashboard-layout .search-by-option:hover {
+  background-color: #f5f5f5;
+}
+
+.dashboard-layout .search-by-option.active {
+  background-color: #e6f7ff;
+  font-weight: 500;
+}
+
+.dashboard-layout .search-input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.dashboard-layout .search-input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  font-size: 14px;
+  background-color: transparent; /* Remove the default white background */
+}
+
+.dashboard-layout .search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.dashboard-layout .search-icon::before {
+  content: "🔍";
+}
+
+.dashboard-layout .results-info {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
 }
 
 .account-actions,
