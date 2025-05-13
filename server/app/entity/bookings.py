@@ -83,7 +83,7 @@ class Booking(db.Model):
 
             if role_name == "cleaner":
                 query = cls.query.filter(cls.cleaner_user_id == user_id)
-            elif role_name == "home owner":
+            elif role_name == "homeowner":
                 query = cls.query.filter(cls.homeowner_user_id == user_id)
             else:
                 return {"error": "Invalid role in profile"}, 400
