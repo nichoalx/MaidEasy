@@ -19,12 +19,13 @@ from .controller import (
     suspend_profile_blueprint,
     login_blueprint,
     logout_blueprint,
-    shortlist_add_blueprint,
-    search_cleaner_blueprint,
-    search_bookings_blueprint,
+    add_to_shortlist_blueprint,
+    delete_from_shortlist_blueprint,
+    create_booking_blueprint,
+    search_service_blueprint,
     search_shortlist_blueprint,
     view_services_blueprint,
-    view_bookings_blueprint,
+    view_past_bookings_blueprint,
     view_shortlist_blueprint,
     create_listing_blueprint,
     delete_listing_blueprint,
@@ -79,12 +80,13 @@ def create_app(config_name="development"):
 
 
     # Register homeowner-related blueprints
-    app.register_blueprint(shortlist_add_blueprint)
-    app.register_blueprint(search_cleaner_blueprint)
-    app.register_blueprint(search_bookings_blueprint)
+    app.register_blueprint(add_to_shortlist_blueprint)
+    app.register_blueprint(delete_from_shortlist_blueprint)
+    app.register_blueprint(create_booking_blueprint)
+    app.register_blueprint(search_service_blueprint)
     app.register_blueprint(search_shortlist_blueprint)
     app.register_blueprint(view_services_blueprint)
-    app.register_blueprint(view_bookings_blueprint)
+    app.register_blueprint(view_past_bookings_blueprint)
     app.register_blueprint(view_shortlist_blueprint)
 
     # Create database tables
