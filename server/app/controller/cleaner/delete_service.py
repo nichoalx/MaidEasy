@@ -5,12 +5,12 @@ from server.app.entity.profile import Profile
 from flask_jwt_extended import get_jwt_identity
 from server.app.controller.auth.permission_required import login_required
 
-delete_service_blueprint = Blueprint('create_service', __name__)
+delete_service_blueprint = Blueprint('delete_service', __name__)
 
 class DeleteServiceController:
     @login_required
-    @delete_service_blueprint.route('/api/cleaner/create_service', methods=['POST'])
-    def create_service():
+    @delete_service_blueprint.route('/api/cleaner/delete_service', methods=['POST'])
+    def delete_service():
         current_user_id = get_jwt_identity()
         user = User.query.get(current_user_id)
         profile = Profile.query.get(user.profile_id)

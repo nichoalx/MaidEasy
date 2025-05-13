@@ -1,4 +1,3 @@
-# controllers/homeowner/search_shortlist.py
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
 from server.app.entity.shortlist import HomeownerShortlist
