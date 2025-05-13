@@ -22,6 +22,14 @@ from .auth.login import login_blueprint
 from .auth.logout import logout_blueprint
 
 # HOMEOWNER controllers
+from .homeowner.shortlist.add_to_shortlist import add_to_shortlist_blueprint
+from .homeowner.shortlist.delete_from_shortlist import delete_from_shortlist_blueprint
+from .homeowner.shortlist.search_shortlist import search_shortlist_blueprint
+from .homeowner.shortlist.view_shortlist import view_shortlist_blueprint
+from .homeowner.create_booking import create_booking_blueprint
+from .homeowner.search_services import search_service_blueprint
+from .homeowner.view_past_bookings import view_past_bookings_blueprint
+from .homeowner.view_services import view_services_blueprint
 
 # CLEANER controllers
 
@@ -50,11 +58,12 @@ __all__ = [
     "logout_blueprint",
 
     # homeowner
-    "shortlist_add_blueprint",
-    "search_cleaner_blueprint",
-    "search_bookings_blueprint",
+    "add_to_shortlist_blueprint",
+    "delete_from_shortlist_blueprint",
+    "create_booking_blueprint",
+    "search_service_blueprint",
     "search_shortlist_blueprint",
     "view_services_blueprint",
-    "view_bookings_blueprint",
+    "view_past_bookings_blueprint",
     "view_shortlist_blueprint"
 ]
