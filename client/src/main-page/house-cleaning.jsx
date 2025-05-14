@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { Home, ArrowLeft } from "lucide-react"
 import "../service-page.css"
+import houseClean from "../Assets/house_cleaning.jpeg"
 
 export default function HouseCleaningPage() {
   return (
@@ -24,14 +25,6 @@ export default function HouseCleaningPage() {
         </div>
       </header>
 
-      {/* Back Button */}
-      <div className="back-button-container">
-        <Link to="/" className="back-button">
-          <ArrowLeft size={16} className="back-icon" />
-          Back to Home
-        </Link>
-      </div>
-
       {/* Service Details */}
       <section className="service-details">
         <div className="service-container">
@@ -51,7 +44,7 @@ export default function HouseCleaningPage() {
 
             <div className="service-features">
               <img
-                src="/placeholder.svg"
+                src={houseClean || "/placeholder.svg"}
                 alt="House Cleaning"
                 width={400}
                 height={300}
@@ -136,12 +129,20 @@ export default function HouseCleaningPage() {
               <p className="cta-description">
                 Contact us today to schedule your house cleaning service or request a free quote.
               </p>
-              <button className="cta-button">Book Now</button>
+              <button className="cta-button"
+              onClick={() => window.open("/login", "_blank")}>
+                Book Now</button>
             </div>
           </div>
         </div>
       </section>
-
+{/* Back Button */}
+      <div className="back-button-container">
+        <Link to="/" className="back-button">
+          <ArrowLeft size={16} className="back-icon" />
+          Back to Home
+        </Link>
+      </div>
       {/* Footer */}
       <footer className="footer">
         <div className="footer-container">

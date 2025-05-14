@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { Trash2, ArrowLeft } from "lucide-react"
+import toiletClean from "../Assets/toiletClean.jpg"
 
 
 export default function ToiletCleaningPage() {
@@ -24,14 +25,6 @@ export default function ToiletCleaningPage() {
         </div>
       </header>
 
-      {/* Back Button */}
-      <div className="back-button-container">
-        <Link to="/" className="back-button">
-          <ArrowLeft size={16} className="back-icon" />
-          Back to Home
-        </Link>
-      </div>
-
       {/* Service Details */}
       <section className="service-details">
         <div className="service-container">
@@ -52,10 +45,10 @@ export default function ToiletCleaningPage() {
 
             <div className="service-features">
               <img
-                src="/placeholder.svg"
+                src={toiletClean||"/placeholder.svg"}
                 alt="Toilet Cleaning"
                 width={400}
-                height={300}
+                height={200}
                 className="service-image"
                 onError={(e) => {
                   e.target.onerror = null
@@ -137,11 +130,20 @@ export default function ToiletCleaningPage() {
               <p className="cta-description">
                 Contact us today to schedule your toilet cleaning service or request a free quote.
               </p>
-              <button className="cta-button">Schedule Service</button>
+              <button className="cta-button"
+              onClick={() => window.open("/login", "_blank")}>Schedule Service</button>
             </div>
           </div>
         </div>
       </section>
+
+{/* Back Button */}
+      <div className="back-button-container">
+        <Link to="/" className="back-button">
+          <ArrowLeft size={16} className="back-icon" />
+          Back to Home
+        </Link>
+      </div>
 
       {/* Footer */}
       <footer className="footer">
