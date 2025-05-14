@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./platform-style.css"
+import logout from "../../assets/logout.png"
 
 function PlatformProfile() {
   const navigate = useNavigate()
@@ -73,7 +74,7 @@ function PlatformProfile() {
               navigate("/")
             }}
           >
-            <i className="icon logout-icon"></i>
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
             <span>Log Out</span>
           </a>
         </div>
@@ -108,8 +109,7 @@ function PlatformProfile() {
           <div className="category-detail-card">
             <div className="card-header">
               <h3>Profile Information</h3>
-              <div className="button-group">
-              </div>
+              <div className="button-group"></div>
             </div>
             <div className="card-body">
               <div className="profile-info-container">

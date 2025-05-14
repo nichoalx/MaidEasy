@@ -1,6 +1,9 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./editProfile.css"
+import logout from "../../assets/logout.png"
 
 function ViewProfile() {
   const navigate = useNavigate()
@@ -119,7 +122,7 @@ function ViewProfile() {
 
           <div className="logout-container">
             <a href="#" className="logout-link" onClick={() => navigate("/")}>
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>
@@ -192,7 +195,7 @@ function ViewProfile() {
 
         <div className="logout-container">
           <a href="#" className="logout-link" onClick={() => navigate("/")}>
-            <i className="icon logout-icon"></i>
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
             <span>Log Out</span>
           </a>
         </div>

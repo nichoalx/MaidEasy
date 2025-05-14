@@ -1,9 +1,12 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Profile from "./profile"
 import AccountManagement from "./accountManagement"
 import ProfileManagement from "./profileManagement"
 import "./dashstyle.css"
+import logout from "../../assets/logout.png"
 
 function AdminPanel() {
   const location = useLocation()
@@ -72,7 +75,7 @@ function AdminPanel() {
 
           <div className="logout-container">
             <a href="#" className="logout-link" onClick={handleLogout}>
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>

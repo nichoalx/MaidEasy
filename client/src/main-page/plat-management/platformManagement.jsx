@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./platform-style.css"
+import logout from "../../assets/logout.png"
 
 function PlatformManagement() {
   const navigate = useNavigate()
@@ -167,7 +168,7 @@ function PlatformManagement() {
               navigate("/")
             }}
           >
-            <i className="icon logout-icon"></i>
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
             <span>Log Out</span>
           </a>
         </div>

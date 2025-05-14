@@ -12,6 +12,7 @@ import calendar_icon from "../../assets/calender_icon.png"
 import mail_icon from "../../assets/mail_icon.png"
 import lock_icon from "../../assets/lock_icon.png"
 import circle_person from "../../assets/circle_person.png"
+import logout from "../../assets/logout.png"
 
 function EditUser() {
   const navigate = useNavigate()
@@ -285,7 +286,7 @@ function EditUser() {
                   navigate("/")
                 }}
               >
-                <i className="icon logout-icon"></i>
+                <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
                 <span>Log Out</span>
               </a>
             </div>
@@ -392,7 +393,7 @@ function EditUser() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>

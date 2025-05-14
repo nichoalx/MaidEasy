@@ -102,8 +102,10 @@
   content: "👤";
 }
 
-.logout-icon::before {
-  content: "↩";
+.logout-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
 }
 
 .user-icon::before {

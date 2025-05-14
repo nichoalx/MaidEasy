@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./platform-style.css"
+import logout from "../../assets/logout.png"
 
 function EditCategory() {
   const navigate = useNavigate()
@@ -198,7 +199,7 @@ function EditCategory() {
               navigate("/")
             }}
           >
-            <i className="icon logout-icon"></i>
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
             <span>Log Out</span>
           </a>
         </div>

@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./dashstyle.css"
@@ -6,6 +8,7 @@ import person_icon from "../../assets/person_icon.png"
 import calendar_icon from "../../assets/calender_icon.png"
 import mail_icon from "../../assets/mail_icon.png"
 import lock_icon from "../../assets/lock_icon.png"
+import logout from "../../assets/logout.png"
 
 function ViewUser() {
   const navigate = useNavigate()
@@ -294,7 +297,7 @@ function ViewUser() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>

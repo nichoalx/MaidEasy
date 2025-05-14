@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
+import logout from "../../assets/logout.png"
 
 function AddProfile() {
   const navigate = useNavigate()
@@ -167,7 +168,7 @@ function AddProfile() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>
