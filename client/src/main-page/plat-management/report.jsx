@@ -95,9 +95,7 @@ function Report() {
         <div className="platform-content">
           <h1 className="platform-title">Report</h1>
 
-          {/* Report content will go here */}
           <div className="report-container">
-            {/* This is a placeholder for the report content */}
             <div className="empty-state">
               <p>Report functionality coming soon</p>
             </div>

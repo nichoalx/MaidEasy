@@ -109,7 +109,6 @@ function PlatformProfile() {
             <div className="card-header">
               <h3>Profile Information</h3>
               <div className="button-group">
-                <button className="edit-btn">Edit Profile</button>
               </div>
             </div>
             <div className="card-body">

@@ -228,7 +228,7 @@ function PlatformManagement() {
                               setSearchByOpen(false)
                             }}
                           >
-                            ID
+                            Service ID
                           </div>
                           <div
                             className={`search-by-option ${searchBy === "Description" ? "active" : ""}`}
