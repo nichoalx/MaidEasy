@@ -1089,83 +1089,147 @@
   background-color: #333b5e;
 }
 
-.platform-layout .empty-state {
-  color: #666;
-  text-align: center;
-}
-
-.platform-layout .loading-indicator {
+.whiteSpace {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 16px;
-  color: #666;
+  padding: 1rem;
 }
 
-.platform-layout .error-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 16px;
-  color: #ca3032;
-}
-
-.platform-layout .profile-info-container {
+.platform-layout .platform-content {
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-}
-
-.platform-layout .avatar-circle {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #3e4772;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-.platform-layout .avatar-initials {
-  color: white;
+.platform-layout .platform-content .search-header {
+  margin-left: -40rem;
   font-size: 36px;
-  font-weight: bold;
+  margin-bottom: 3rem;
 }
 
-.platform-layout .profile-name {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 5px 0;
+.platform-layout .platform-content .search-header h1 {
+  color: #3e4772 !important;
 }
 
-.platform-layout .profile-role {
-  color: #666;
-  margin: 0;
-}
 
-.platform-layout .profile-details {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+.profile-container {
+  background-color: transparent;
+  border-radius: 0.5rem;
+  max-width: 64rem;
+  width: 100%;
 }
-
-@media (min-width: 768px) {
-  .platform-layout .profile-details {
-    grid-template-columns: 1fr 1fr;
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-}
 
-.platform-layout .status-badge {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 14px;
-}
+  @media (min-width: 768px) {
+    .form-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    grid-column: span 2;
+  }
 
-.platform-layout .status-badge.active {
-  background-color: rgba(118, 192, 105, 0.1);
-  color: #76c069;
-}
+  .form-group label {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(212, 211, 211, 0.25); /* 25% opacity */
+    border: 2px solid #C5C5C5; /* solid border */
+    border-radius: 999px;
+    padding: 0.25rem 1rem;
+    height: 45px;
+    width: 415px;
+    }
+  
+  .input-icon, .role-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    object-fit: contain;
+    color: #6b7280;
+  }
+
+  .role-icon {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(0.9);
+  }
+
+
+  .status-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 0.5rem;
+    margin-top: 4px;
+  }
+  
+  /* Text appearance */
+  .profile-container .input-container input {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    font-size: 1rem;
+    color: #374151;
+  }
+  
+  /* Select-style icon alignment */
+  .select-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  /* Password visibility toggle */
+  .password-toggle {
+    background: transparent;
+    border: none;
+    margin-left: auto;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .password-toggle .toggle {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .select-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 0.5rem;
+    object-fit: contain;
+    color: #6b7280;
+  }

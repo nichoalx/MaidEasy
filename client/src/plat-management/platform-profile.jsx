@@ -8,29 +8,25 @@ import personIcon from "../assets/circle_person.png";
 import reportIcon from "../assets/report.png";
 import logoutIcon from "../assets/logout.png";
 
+import userIcon from "../assets/person_icon.png"
+import calendarIcon from "../assets/calender_icon.png"
+import phoneIcon from "../assets/phone.png"
+import mailIcon from "../assets/mail_icon.png"
+import lockIcon from "../assets/lock_icon.png"
+import roleIcon from "../assets/circle_person.png"
+import statusIcon from "../assets/green.png"
+import eyeIcon from "../assets/visibility_on.png"
+import eyeOffIcon from "../assets/visibility_off.png"
 
 function PlatformProfile() {
   const navigate = useNavigate()
-  const [profileData, setProfileData] = useState({
-    firstName: "Platform",
-    lastName: "123",
-    email: "plat123@gmail.com",
-    role: "Platform Admin",
-    joinDate: "01/01/2023",
-    lastLogin: "05/11/2025",
-    status: "Active",
-  })
+  const [showPassword, setShowPassword] = useState(false) 
 
   return (
     <div className="platform-layout">
-      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
-          <h1 className="logo">
-            Garuda
-            <br />
-            Indonesia
-          </h1>
+          <h1 className="logo">Garuda<br />Indonesia</h1>
         </div>
 
         <nav className="nav-menu">
@@ -68,23 +64,14 @@ function PlatformProfile() {
             <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
-
         <div className="logout-container">
-          <a
-            href="#"
-            className="logout-link"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/Logout")
-            }}
-          >
-            <i className="icon logout-icon"></i>
+          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
             <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
           </a>
         </div>
       </div>
 
-      {/* Main Content */}
+
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
@@ -98,65 +85,127 @@ function PlatformProfile() {
 
           <div className="user-profile">
             <div className="user-info">
-              <div className="user-name">Platform123</div>
-              <div className="user-email">plat123@gmail.com</div>
-            </div>
-            <div className="user-avatar">
-              <i className="icon user-icon"></i>
+              <img src={personIcon} alt="person icon" />
+              <div className="user-details">
+                <div className="user-name">Platform123</div>
+                <div className="user-email">plat123@gmail.com</div>
+              </div>
             </div>
           </div>
         </header>
 
-        <div className="platform-content">
-          <h1 className="platform-title">My Profile</h1>
+        <div className="whiteSpace">
+          <div className="platform-content">
+            <div className="search-header">
+                <h1 className="services-title">My Profile</h1>
+            </div>
+            <div className="profile-container">
+              <div className="form-grid">
+              {/* First Name */}
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <div className="input-container">
+                  <img src={userIcon} alt="first" className="input-icon" />
+                  <input type="text" id="firstName" value="Kieron" readOnly />
+                </div>
+              </div>
 
-          <div className="category-detail-card">
-            <div className="card-header">
-              <h3>Profile Information</h3>
-              <div className="button-group">
-                <button className="edit-btn">Edit Profile</button>
+              {/* Last Name */}
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <div className="input-container">
+                  <img src={userIcon} alt="last" className="input-icon" />
+                  <input type="text" id="lastName" value="Yolin" readOnly />
+                </div>
+              </div>
+
+              {/* Date of Birth */}
+              <div className="form-group">
+                <label htmlFor="dob">Date of Birth</label>
+                <div className="input-container">
+                  <img src={calendarIcon} alt="dob" className="input-icon" />
+                  <input type="text" id="dob" value="12/10/2004" readOnly />
+                </div>
+              </div>
+
+              {/* Contact Number */}
+              <div className="form-group">
+                <label htmlFor="contactNumber">Contact Number</label>
+                <div className="input-container">
+                  <img src={phoneIcon} alt="phone" className="input-icon" />
+                  <input type="text" id="contactNumber" value="82622526" readOnly />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="form-group full-width">
+                <label htmlFor="email">Email</label>
+                <div className="input-container">
+                  <img src={mailIcon} alt="email" className="input-icon" />
+                  <input type="email" id="email" value="Kieronyolin12@gmail.com" readOnly />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <div className="input-container">
+                  <img src={lockIcon} alt="password" className="input-icon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    value="password123"
+                    readOnly
+                  />
+                  <button
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    type="button"
+                  >
+                    <img
+                      src={showPassword ? eyeIcon : eyeOffIcon}
+                      alt="Toggle"
+                      className="toggle"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              {/* Role */}
+              <div className="form-group">
+                <label htmlFor="role">Role</label>
+                <div className="input-container">
+                  <img src={roleIcon} alt="role" className="role-icon" />
+                  <div className="select-container">
+                    <input type="text" id="role" value="Cleaner" readOnly />
+                  </div>
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="form-group">
+                <label htmlFor="status">Status</label>
+                <div className="input-container">
+                <img src={statusIcon} alt="status" className="status-icon" />
+                  <div className="status-indicator">
+                    <input type="text" id="status" value="Active" readOnly />
+                  </div>
+                </div>
+              </div>
+
+              {/* Created Date */}
+              <div className="form-group">
+                <label htmlFor="createdDate">Created Date</label>
+                <div className="input-container">
+                  <img src={calendarIcon} alt="created" className="input-icon" />
+                  <input type="text" id="createdDate" value="09/04/2025" readOnly />
+                </div>
+              </div>
               </div>
             </div>
-            <div className="card-body">
-              <div className="profile-info-container">
-                <div className="profile-avatar">
-                  <div className="avatar-circle">
-                    <span className="avatar-initials">P1</span>
-                  </div>
-                  <h3 className="profile-name">
-                    {profileData.firstName} {profileData.lastName}
-                  </h3>
-                  <p className="profile-role">{profileData.role}</p>
-                </div>
-
-                <div className="profile-details">
-                  <div className="detail-row">
-                    <label>Email:</label>
-                    <div className="detail-input">{profileData.email}</div>
-                  </div>
-
-                  <div className="detail-row">
-                    <label>Join Date:</label>
-                    <div className="detail-input">{profileData.joinDate}</div>
-                  </div>
-
-                  <div className="detail-row">
-                    <label>Last Login:</label>
-                    <div className="detail-input">{profileData.lastLogin}</div>
-                  </div>
-
-                  <div className="detail-row">
-                    <label>Status:</label>
-                    <div className="detail-input">
-                      <span className="status-badge active">{profileData.status}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
   )
 }
