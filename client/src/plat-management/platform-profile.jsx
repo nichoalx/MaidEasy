@@ -101,7 +101,6 @@ function PlatformProfile() {
             </div>
             <div className="profile-container">
               <div className="form-grid">
-              {/* First Name */}
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
                 <div className="input-container">
@@ -110,7 +109,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Last Name */}
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
                 <div className="input-container">
@@ -119,7 +117,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Date of Birth */}
               <div className="form-group">
                 <label htmlFor="dob">Date of Birth</label>
                 <div className="input-container">
@@ -128,7 +125,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Contact Number */}
               <div className="form-group">
                 <label htmlFor="contactNumber">Contact Number</label>
                 <div className="input-container">
@@ -137,7 +133,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="form-group full-width">
                 <label htmlFor="email">Email</label>
                 <div className="input-container">
@@ -146,7 +141,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Password */}
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <div className="input-container">
@@ -171,7 +165,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Role */}
               <div className="form-group">
                 <label htmlFor="role">Role</label>
                 <div className="input-container">
@@ -182,7 +175,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Status */}
               <div className="form-group">
                 <label htmlFor="status">Status</label>
                 <div className="input-container">
@@ -193,7 +185,6 @@ function PlatformProfile() {
                 </div>
               </div>
 
-              {/* Created Date */}
               <div className="form-group">
                 <label htmlFor="createdDate">Created Date</label>
                 <div className="input-container">

@@ -1152,8 +1152,8 @@
   .input-container {
     display: flex;
     align-items: center;
-    background-color: rgba(212, 211, 211, 0.25); /* 25% opacity */
-    border: 2px solid #C5C5C5; /* solid border */
+    background-color: rgba(212, 211, 211, 0.25); 
+    border: 2px solid #C5C5C5; 
     border-radius: 999px;
     padding: 0.25rem 1rem;
     height: 45px;
@@ -1179,8 +1179,7 @@
     margin-right: 0.5rem;
     margin-top: 4px;
   }
-  
-  /* Text appearance */
+
   .profile-container .input-container input {
     background: transparent;
     border: none;
@@ -1193,16 +1192,14 @@
     font-size: 1rem;
     color: #374151;
   }
-  
-  /* Select-style icon alignment */
+
   .select-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
-  
-  /* Password visibility toggle */
+
   .password-toggle {
     background: transparent;
     border: none;
@@ -1219,7 +1216,6 @@
     margin-right: 0.5rem;
   }
 
-  /* Responsive */
   @media (max-width: 640px) {
     .form-grid {
       grid-template-columns: 1fr;
