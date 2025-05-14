@@ -275,7 +275,7 @@ function Report() {
                 <div className="report-item-label2">New Services:</div>
                 <div className="report-item-value">120</div>
               </div>
-              <div className="report-item">
+              <div className="report-item2">
                 <div className="report-item-label2">New Category:</div>
                 <div className="report-item-value">7</div>
               </div>
