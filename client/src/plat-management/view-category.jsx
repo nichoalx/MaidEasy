@@ -4,6 +4,10 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./platform-style.css"
+import categoryIcon from "../assets/category.png";
+import personIcon from "../assets/circle_person.png";
+import reportIcon from "../assets/report.png";
+import logoutIcon from "../assets/logout.png";
 
 function ViewCategory() {
   const navigate = useNavigate()
@@ -16,7 +20,6 @@ function ViewCategory() {
     services: 0,
   })
 
-  // Mock categories data
   const categoriesData = [
     {
       id: 1,
@@ -42,7 +45,6 @@ function ViewCategory() {
   ]
 
   useEffect(() => {
-    // Simulate API call to fetch category data
     setLoading(true)
     setTimeout(() => {
       const category = categoriesData.find((c) => c.id === Number(categoryId))
@@ -87,7 +89,7 @@ function ViewCategory() {
             }}
           >
             <i className="icon grid-icon"></i>
-            <span>Categories</span>
+            <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
           <a
             href="#"
@@ -98,7 +100,7 @@ function ViewCategory() {
             }}
           >
             <i className="icon profile-icon"></i>
-            <span>My Profile</span>
+            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
           </a>
           <a
             href="#"
@@ -109,21 +111,13 @@ function ViewCategory() {
             }}
           >
             <i className="icon report-icon"></i>
-            <span>Report</span>
+            <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
 
         <div className="logout-container">
-          <a
-            href="#"
-            className="logout-link"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/")
-            }}
-          >
-            <i className="icon logout-icon"></i>
-            <span>Log Out</span>
+          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
+            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
           </a>
         </div>
       </div>
@@ -141,44 +135,47 @@ function ViewCategory() {
 
           <div className="user-profile">
             <div className="user-info">
-              <div className="user-name">Platform123</div>
-              <div className="user-email">plat123@gmail.com</div>
-            </div>
-            <div className="user-avatar">
-              <i className="icon user-icon"></i>
+              <img src={personIcon} alt="person icon" />
+              <div className="user-details">
+                <div className="user-name">Platform123</div>
+                <div className="user-email">plat123@gmail.com</div>
+              </div>
             </div>
           </div>
         </header>
 
         <div className="platform-content">
-          <h1 className="platform-title">Categories &gt; View Category</h1>
+          <h1 className="platform-title2">Categories &gt; View Category</h1>
 
           <div className="category-detail-card">
             <div className="card-header">
               <h3>Categories Detail</h3>
               <div className="button-group">
-                <button className="back-btn" onClick={handleBack}>
+                <button className="back-btn2" onClick={handleBack}>
                   Back
                 </button>
-                <button className="edit-btn" onClick={handleEdit}>
+                <button className="edit-btn2" onClick={handleEdit}>
                   Edit
                 </button>
               </div>
             </div>
             <div className="card-body">
-              <div className="form-group">
+              <div className="form-line">
                 <label>Category Name:</label>
                 <div className="detail-input">{categoryData.name}</div>
               </div>
-              <div className="form-group">
+
+              <div className="form-line">
                 <label>Created On:</label>
                 <div className="detail-input">{categoryData.createdOn}</div>
               </div>
-              <div className="form-group">
+
+              <div className="form-line">
                 <label>Description:</label>
                 <div className="detail-textarea">{categoryData.description}</div>
               </div>
-              <div className="form-group">
+
+              <div className="form-line">
                 <label>Total Services:</label>
                 <div className="detail-value">{categoryData.services}</div>
               </div>

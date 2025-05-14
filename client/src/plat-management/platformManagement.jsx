@@ -27,7 +27,9 @@ function PlatformManagement() {
     { id: 7, name: "Ceiling Care", createdOn: "07/03/2018", services: 50, description: "Remove cobwebs and dust" },
     { id: 8, name: "Garage Sweep", createdOn: "09/01/2016", services: 45, description: "Keep your garage spotless" },
     { id: 9, name: "Pool Clean", createdOn: "12/12/2020", services: 33, description: "Sparkling clean pool service" },
-    { id: 10, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" }
+    { id: 10, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
+    { id: 11, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
+    { id: 12, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" }
   ])
   const [filteredCategories, setFilteredCategories] = useState([])
 
@@ -38,17 +40,40 @@ function PlatformManagement() {
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     setFilteredCategories(results)
-    setCurrentPage(1) // reset page on search
+    setCurrentPage(1) 
   }, [searchTerm, categories])
 
   useEffect(() => {
-    setCurrentPage(1) // reset page on dropdown change
+    setCurrentPage(1)
   }, [showingCount])
+
+  const [isAscending, setIsAscending] = useState(true)
+
+  useEffect(() => {
+    const sorted = [...categories].sort((a, b) => {
+      const [dayA, monthA, yearA] = a.createdOn.split("/").map(Number)
+      const [dayB, monthB, yearB] = b.createdOn.split("/").map(Number)
+
+      const dateA = new Date(yearA, monthA - 1, dayA)
+      const dateB = new Date(yearB, monthB - 1, dayB)
+
+      return isAscending ? dateA - dateB : dateB - dateA
+    })
+
+    const filtered = sorted.filter((category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+    setFilteredCategories(filtered)
+    setCurrentPage(1)
+  }, [categories, isAscending, searchTerm])
+
 
   const indexOfLastItem = currentPage * showingCount
   const indexOfFirstItem = indexOfLastItem - showingCount
   const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(filteredCategories.length / showingCount)
+  const totalPages = Math.max(1, Math.ceil(filteredCategories.length / showingCount));
+
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1)
@@ -91,28 +116,52 @@ function PlatformManagement() {
     setShowAddModal(false)
   }
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const toggleSortOrder = () => {
+    setIsAscending((prev) => !prev)
+  }
 
   return (
     <div className="platform-layout">
-      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
           <h1 className="logo">Garuda<br />Indonesia</h1>
         </div>
 
         <nav className="nav-menu">
-          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-management")
+            }}
+          >
+            <i className="icon grid-icon"></i>
             <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
-            <span><img src={personIcon} alt="person icon" />My Profile</span>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-profile")
+            }}
+          >
+            <i className="icon profile-icon"></i>
+            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
           </a>
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/report")
+            }}
+          >
+            <i className="icon report-icon"></i>
             <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
-
         <div className="logout-container">
           <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
             <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
@@ -125,17 +174,22 @@ function PlatformManagement() {
           <div className="greeting"><h2>Hi, Platform123 👋</h2></div>
           <div className="user-profile">
             <div className="user-info">
-              <div className="user-name">Platform123</div>
-              <div className="user-email">plat123@gmail.com</div>
+              <img src={personIcon} alt="person icon" />
+              <div className="user-details">
+                <div className="user-name">Platform123</div>
+                <div className="user-email">plat123@gmail.com</div>
+              </div>
             </div>
-            <div className="user-avatar"></div>
           </div>
         </header>
 
         <div className="whiteSpace">
           <div className="platform-content">
-            <h1 className="platform-title">Categories</h1>
-
+            <div className="platform-title-bar">
+              <h1 className="platform-title">Categories</h1>
+              <button className="add-button" onClick={handleAddNew}>+ Add New Categories</button>
+            </div>
+            
             <div className="platform-controls">
               <div className="search-section">
                 <div className="keyword-section">
@@ -151,30 +205,7 @@ function PlatformManagement() {
                     <i className="search-icon"><img src={searchIcon} alt="search icon" /></i>
                   </div>
                 </div>
-
-                <div className="showing-section">
-                  <label htmlFor="showing-select">Showing:</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="showing-select"
-                      value={showingCount}
-                      onClick={() => setIsDropdownOpen((prev) => !prev)}
-                      onBlur={() => setIsDropdownOpen(false)}
-                      onChange={(e) => setShowingCount(Number(e.target.value))}
-                    >
-                      <option value={10}>10</option>
-                      <option value={20}>20</option>
-                      <option value={50}>50</option>
-                    </select>
-                    <img
-                      src={arrowIcon}
-                      alt="arrow"
-                      className={`arrow-icon ${isDropdownOpen ? "rotated" : ""}`}
-                    />
-                  </div>
-                </div>
-
-                <button className="add-button" onClick={handleAddNew}>+ Add New Categories</button>
+                <button className="searchButton">Search</button>
               </div>
 
               <div className="results-info">Showing {filteredCategories.length} Results</div>
@@ -186,33 +217,63 @@ function PlatformManagement() {
                   <tr>
                     <th>ID</th>
                     <th>Categories</th>
-                    <th>Created On</th>
+                    <th onClick={toggleSortOrder} style={{ cursor: "pointer" }}>
+                      <span className="header-with-icon">
+                        Created On{" "}
+                        <img
+                          src={arrowIcon}
+                          alt="arrow icon"
+                          className={isAscending ? "arrow-up" : "arrow-down"}
+                        />
+                      </span>
+                    </th>
                     <th>No. Services</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((category) => (
-                    <tr key={category.id}>
-                      <td>{category.id}</td>
-                      <td>{category.name}</td>
-                      <td>{category.createdOn}</td>
-                      <td>{category.services}</td>
+                  {currentItems.length > 0 ? (
+                    currentItems.map((category) => (
+                      <tr key={category.id}>
+                        <td>{category.id}</td>
+                        <td>{category.name}</td>
+                        <td>{category.createdOn}</td>
+                        <td>{category.services}</td>
+                        <td>
+                          <div className="action-buttons">
+                            <button className="view-btn" onClick={() => handleView(category)}>View</button>
+                            <button className="edit-btn" onClick={() => handleEdit(category)}>Edit</button>
+                            <button className="delete-btn" onClick={() => handleDelete(category)}>Delete</button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="empty-placeholder-row">
+                      <td>10</td>
+                      <td>Garden Maintenance</td>
+                      <td>03/02/2021</td>
+                      <td>28</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="view-btn" onClick={() => handleView(category)}>View</button>
-                          <button className="edit-btn" onClick={() => handleEdit(category)}>Edit</button>
-                          <button className="delete-btn" onClick={() => handleDelete(category)}>Delete</button>
+                          <button className="view-btn" onClick={() => alert("Viewing Garden Maintenance")}>View</button>
+                          <button className="edit-btn" onClick={() => alert("Editing Garden Maintenance")}>Edit</button>
+                          <button className="delete-btn" onClick={() => alert("Deleting Garden Maintenance")}>Delete</button>
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
+
+
               </table>
+
               <div className="paginationBar">
                 <div className="paginationSection left">
                   {currentPage > 1 && (
-                    <button className="prev-btn" onClick={handlePreviousPage}>&lt; Previous</button>
+                    <button className="prev-btn" onClick={handlePreviousPage}>
+                      &lt; Previous
+                    </button>
                   )}
                 </div>
                 <div className="paginationSection center">
@@ -220,10 +281,13 @@ function PlatformManagement() {
                 </div>
                 <div className="paginationSection right">
                   {currentPage < totalPages && (
-                    <button className="next-btn" onClick={handleNextPage}>Next &gt;</button>
+                    <button className="next-btn" onClick={handleNextPage}>
+                      Next &gt;
+                    </button>
                   )}
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -255,25 +319,41 @@ function AddCategoryModal({ onClose, onAdd }) {
   }
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container add-modal">
-        <h2>Create New Categories</h2>
+    <div className="platform-layout modal-overlay">
+      <div className="modal-container add-category-modal">
+        <h2 className="addCategoryTitle">Create New Categories</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Categories Name</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+          <div className="addCategoryGroup">
+            <label className="addCategoryLabel">Categories Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter Categories Name"
+              className="addCategoryInput"
+              required
+            />
           </div>
-          <div className="form-group">
-            <label>Description</label>
-            <textarea name="description" value={formData.description} onChange={handleChange} rows={4} />
+          <div className="addCategoryGroup">
+            <label className="addCategoryLabel">Description</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter Categories Descriptions"
+              rows={4}
+              className="addCategoryTextArea"
+            />
           </div>
-          <div className="modal-actions">
-            <button type="submit" className="create-btn">Create Categories</button>
-            <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
+          <div className="addAction">
+            <button type="submit" className="categoryButton">Create Categories</button>
+            <button type="button" className="categoryCancelButton" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
     </div>
+
   )
 }
 
@@ -284,10 +364,22 @@ function DeleteConfirmModal({ category, onCancel, onConfirm }) {
         <h2>Confirm Delete</h2>
         <p className="delete-message">Are you sure you want delete?</p>
         <div className="category-info">
-          <div className="info-row"><span className="info-label">Categories: </span><span className="info-value">{category.name}</span></div>
-          <div className="info-row"><span className="info-label">Created On: </span><span className="info-value">{category.createdOn}</span></div>
-          <div className="info-row"><span className="info-label">No. Services: </span><span className="info-value">{category.services}</span></div>
-          <div className="info-row"><span className="info-label">Description: </span><span className="info-value">{category.description}</span></div>
+          <div className="info-row">
+            <span className="info-label">Categories:</span>
+            <span className="info-value">{category.name}</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Created On:</span>
+            <span className="info-value">{category.createdOn}</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">No. Services:</span>
+            <span className="info-value">{category.services}</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Description:</span>
+            <span className="info-value">{category.description}</span>
+          </div>
         </div>
         <div className="modal-actions">
           <button className="delete-confirm-btn" onClick={onConfirm}>Delete</button>
@@ -297,5 +389,6 @@ function DeleteConfirmModal({ category, onCancel, onConfirm }) {
     </div>
   )
 }
+
 
 export default PlatformManagement
