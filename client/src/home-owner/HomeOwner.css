@@ -274,40 +274,18 @@ html, body, #root {
     width: 10rem;
   }
   
-  .filterButton:hover, .filterButtonHistory{
+  .filterButton:hover {
     background-color: #2e355c;
   }
 
-  .filterButtonHistory {
-    background-color: #3E4772;
-    color: white;
-    border: none;
-    padding: 0 3rem;
-    font-size: 14px;
-    font-weight: 500;
-    height: 48px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    width: 11.5rem;
-  }
 
-  .HomeOwnerShortListName{
+  .HomeOwnerShortListName, .HomeOwnerHistoryName{
     font-size: 36px;
     color: #3E4772;
     margin-top: 4rem;
     font-weight: 800;
     margin-left: -1rem;
     margin-bottom: -2rem;
-  }
-
-  .HomeOwnerHistoryName{
-    font-size: 36px;
-    color: #3E4772;
-    margin-top: 4rem;
-    font-weight: 800;
-    margin-left: 0rem;
-    margin-bottom: 1rem;
   }
 
   .HomeOwnerHistoryBar {
@@ -328,4 +306,13 @@ html, body, #root {
 
   .HomeOwnerSearchGroup .labelRow label:nth-child(2) {
     margin-left: 31rem;
+  }
+
+  .HomeOwnerDateFilter {
+    max-width: 200px;
+    font-size: 14px;
+  }
+
+  .dateOutput {
+    margin-left: 1rem;
   }
