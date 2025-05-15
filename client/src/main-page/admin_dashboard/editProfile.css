@@ -355,7 +355,7 @@
   margin-bottom: 12px;
 }
 
-.permission-checkbox {
+.permissions-checkbox {
   width: 20px;
   height: 20px;
   border: 2px solid #ccc;
@@ -367,8 +367,8 @@
   cursor: pointer;
 }
 
-.permission-checkbox.checked {
-  border-color: #3e4772;
+.permissions-checkbox.checked {
+  border-color: #0930f5;
   background-color: #3e4772;
 }
 

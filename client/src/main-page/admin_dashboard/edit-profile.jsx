@@ -356,7 +356,7 @@ function EditProfile() {
                       {availablePermissions.slice(0, 6).map((permission) => (
                         <div key={permission} className="permission-item">
                           <div
-                            className={`permission-checkbox ${
+                            className={`permissions-checkbox ${
                               formData.permissions.includes(permission) ? "checked" : ""
                             }`}
                             onClick={() => handlePermissionChange(permission)}

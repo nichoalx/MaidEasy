@@ -310,7 +310,7 @@ function AddUser() {
                   <div className="form-group">
                     <label htmlFor="status">Status</label>
                     <div className="input-container">
-                      <span className="status-indicator active"></span>
+                      <span className={`status-indicator ${formData.status.toLowerCase()}`}></span>
                       <select id="status" value={formData.status} onChange={handleChange}>
                         <option value="Active">Active</option>
                         <option value="Suspended">Suspended</option>

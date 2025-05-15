@@ -14,26 +14,13 @@ function AddProfile() {
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
   // Available permissions for checkboxes
-  const availablePermissions = [
-    "User Management",
-    "Profile Management",
-    "System Settings",
-    "Reports",
-    "Service Management",
-    "Schedule Management",
-    "Client Communication",
-    "Service Booking",
-    "Payment Management",
-    "Reviews",
-    "Team Management",
-    "Project Planning",
-    "Ticket Management",
-    "Knowledge Base",
-    "Financial Reports",
-    "Invoice Management",
-    "Payment Processing",
-  ]
-
+   const permissionGroups = {
+  "User": [" User Management", " Schedule Management", " Team Management", " Invoice Management"],
+  "Profile": [" Profile Management", " Client Communication", " Project Planning", " Payment Processing"],
+  "System": [" System Settings", " Service Booking", " Ticket Management"],
+  "Reports": [" Reports", "  Payment Management", " Knowledge Base"],
+  "Service": [" Service Management", " Reviews", " Financial Reports"],
+}
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -284,32 +271,25 @@ function AddProfile() {
                     <label>Permissions</label>
                     {errors.permissions && <div className="error-message">{errors.permissions}</div>}
 
-                    <div
-                      className="permissions-container"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                        gap: "10px",
-                        marginTop: "15px",
-                      }}
-                    >
-                      {availablePermissions.map((permission) => (
-                        <div
-                          key={permission}
-                          className="permission-checkbox"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <input
-                            type="checkbox"
-                            id={`permission-${permission}`}
-                            checked={formData.permissions.includes(permission)}
-                            onChange={() => handlePermissionChange(permission)}
-                            style={{ marginRight: "10px" }}
-                          />
-                          <label htmlFor={`permission-${permission}`}>{permission}</label>
-                        </div>
-                      ))}
-                    </div>
+                    <div className="permissions-container">
+  {Object.entries(permissionGroups).map(([group, permissions]) => (
+    <div key={group} className="permission-group">
+      <h4 className="group-title">{group}</h4>
+      {permissions.map((permission) => (
+        <label key={permission} className="permission-checkbox">
+          <input
+            type="checkbox"
+            checked={formData.permissions.includes(permission)}
+            onChange={() => handlePermissionChange(permission)}
+          />
+          {permission}
+        </label>
+      ))}
+    </div>
+  ))}
+</div>
+
+                   
                   </div>
                 </div>
               </div>
