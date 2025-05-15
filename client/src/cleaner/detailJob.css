@@ -1,0 +1,97 @@
+.detailCard {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    margin: 20px;
+    width: calc(100% - 40px);
+    height: auto;
+    max-width: 1200px;
+    max-height: 95vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+  
+  /* Header */
+  .detailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .detailTitle {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .backButton {
+    background-color: #e5edff;
+    color: #030303;
+    padding: 6px 16px;
+    width: 130px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .backButton:hover {
+    background-color: #e5e7eb;
+  }
+  
+  /* Section Titles */
+  .section {
+    margin-bottom: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  /* Service Details */
+  .serviceDetails {
+    display: flex;
+    gap: 24px;
+  }
+  
+  .serviceImageBox {
+    background-color: #e5e7eb;
+    border-radius: 12px;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .serviceImage {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+  
+  .serviceInfo {
+    flex: 1;
+  }
+  
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 20px 80px;
+  }
+  
+  .infoLabel {
+    color: #6b7280;
+    font-size: 18px;
+  }
+  
+  .infoValue {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  

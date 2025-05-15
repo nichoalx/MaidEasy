@@ -1,27 +1,42 @@
-import React, { useState } from "react";
-import "./LoginSignup.css";
+"use client"
 
-import mail_icon from "../Assets/mail_icon.png";
-import lock_icon from "../Assets/lock_icon.png";
-import visibility_on from "../Assets/visibility_on.png";
-import visibility_off from "../Assets/visibility_off.png";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./LoginSignup.css"
+
+import mail_icon from "../assets/mail_icon.png"
+import lock_icon from "../assets/lock_icon.png"
+import visibility_on from "../assets/visibility_on.png"
+import visibility_off from "../assets/visibility_off.png"
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ email: false, password: false });
+  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState({ email: false, password: false })
 
   const handleLogin = () => {
-    const emailEmpty = email.trim() === "";
-    const passwordEmpty = password.trim() === "";
-    setErrors({ email: emailEmpty, password: passwordEmpty });
+    const emailEmpty = email.trim() === ""
+    const passwordEmpty = password.trim() === ""
+    setErrors({ email: emailEmpty, password: passwordEmpty })
 
     if (!emailEmpty && !passwordEmpty) {
-      // Proceed with login logic
-      alert("Logging in...");
+      // if (email === "admin@gmail.com") {
+      //   console.log("Admin login successful, redirecting to dashboard...");
+      //   navigate("/dashboard");
+      // } 
+      if (email === "clean@gmail.com") {
+        console.log("Cleaner login successful, redirecting to cleaner profile...");
+        navigate("/cleaner-profile");
+      } else if (email === "platform@gmail.com") {
+        console.log("Platform Manager login successful, redirecting to platform management...");
+        navigate("/platform-management");
+      } else {
+        console.log("Login successful, but no specific route assigned. Staying on login.");
+      }
     }
-  };
+  }
 
   return (
     <div className="login-wrapper">
@@ -35,7 +50,7 @@ export default function Login() {
           <div className="groups">
             <label>Email</label>
             <div className={`inputs ${errors.email ? "error" : ""}`}>
-              <img src={mail_icon} alt="email icon" />
+              <img src={mail_icon || "/placeholder.svg"} alt="email icon" />
               <input
                 type="email"
                 value={email}
@@ -48,7 +63,7 @@ export default function Login() {
           <div className="groups">
             <label>Password</label>
             <div className={`inputs ${errors.password ? "error" : ""}`}>
-              <img src={lock_icon} alt="lock icon" />
+              <img src={lock_icon || "/placeholder.svg"} alt="lock icon" />
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -64,9 +79,11 @@ export default function Login() {
             </div>
           </div>
 
-          <button className="new-login-button" onClick={handleLogin}>Login</button>
+          <button className="new-login-button" onClick={handleLogin}>
+            Login
+          </button>
         </div>
       </div>
     </div>
-  );
+  )
 }
