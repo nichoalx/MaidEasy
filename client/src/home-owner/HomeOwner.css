@@ -162,7 +162,7 @@ html, body, #root {
 
   .HomeOwnerSearchContainer {
     width: 1188px;
-    margin: 3rem auto;
+    margin: 3rem auto 2rem auto;
   }
   
   .labelRow label {
