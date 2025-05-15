@@ -8,7 +8,8 @@ import Report from "./plat-management/report"
 import PlatformProfile from "./plat-management/platform-profile"
 import Logout from "./plat-management/Logout"
 import NewService from "./cleaner/NewService";
-import EditService from "./cleaner/editservice"; // adjust path accordingly
+
+import EditService from "./cleaner/editservice";
 
 // import AdminDashboard from "./main-page/dash/dashboard"
 
@@ -36,7 +37,7 @@ export default function App() {
       <Route path="/cleaning-services" element={<CleaningServices />} />
       <Route path="/confirmed-jobs" element={<ConfirmedJobs />} />
       <Route path="/new-service" element={<NewService />} />
-      <Route path="/edit-service/:serviceId" element={<EditService />} />
+      <Route path="/edit-service/:id" element={<EditService />} />
 
 
     </Routes>

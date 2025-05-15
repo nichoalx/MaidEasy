@@ -6,10 +6,12 @@ import categoryIcon from "../assets/category.png";
 import personIcon from "../assets/circle_person.png";
 import reportIcon from "../assets/report.png";
 import logoutIcon from "../assets/logout.png";
+import cleaningserviceIcon from "../assets/cleaningservice.png"
+import confirmIcon from "../assets/confirmed.png"
 
 export default function EditService() {
   const navigate = useNavigate();
-  const { categoryId } = useParams();
+  const { id } = useParams();
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -18,29 +20,29 @@ export default function EditService() {
   const [createdOn, setCreatedOn] = useState("");
   const [services, setServices] = useState(0);
 
-  const categoriesData = [
+  const serviceData = [
     { id: 1, name: "Floor Cleaning", createdOn: "01/12/2001", services: 120, description: "Professional floor cleaning services for all types of flooring" },
     { id: 2, name: "Chair", createdOn: "02/10/2002", services: 100, description: "Chair cleaning and maintenance services" },
     { id: 3, name: "Rooftop", createdOn: "03/12/2010", services: 10, description: "Rooftop cleaning and maintenance services" },
   ];
 
   useEffect(() => {
-    const category = categoriesData.find((c) => c.id === Number(categoryId));
-    if (category) {
-      setCategoryName(category.name);
-      setDescription(category.description);
-      setCreatedOn(category.createdOn);
-      setServices(category.services);
+    const service = serviceData.find((s) => s.id === Number(id));
+    if (service) {
+      setCategoryName(service.name);
+      setDescription(service.description);
+      setCreatedOn("01/01/2024"); // placeholder
+      setServices(service.views);
     }
     setLoading(false);
-  }, [categoryId]);
+  }, [id])
 
-  const handleBack = () => navigate("/platform-management");
+  const handleBack = () => navigate("/cleaning-services");
 
   const handleSave = () => {
-    alert("Category updated successfully!");
-    setEditMode(false);
-  };
+    alert("Service updated successfully!");
+    navigate("/cleaning-services");
+  }
 
   return (
     <div className="platform-layout">
@@ -133,7 +135,7 @@ function Sidebar({ navigate }) {
             }}
           >
             <i className="icon grid-icon"></i>
-            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+            <span><img src={personIcon} alt="person icon" />My Profile</span>
           </a>
           <a
             href="#"
