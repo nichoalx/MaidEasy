@@ -75,6 +75,7 @@ html, body, #root {
   .logoutButton {
     background: none;
     border: none;
+    border-radius: 0;
     color: white;
     display: flex;    
     align-items: center;        
@@ -83,6 +84,7 @@ html, body, #root {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    margin-top: 0;
     width: 10rem;
     height: 5rem;
   }
@@ -258,8 +260,22 @@ html, body, #root {
     width: 11.5rem;
   }
   
-  .filterButton:hover {
+  .filterButton:hover, .filterButtonHistory{
     background-color: #2e355c;
+  }
+
+  .filterButtonHistory {
+    background-color: #3E4772;
+    color: white;
+    border: none;
+    padding: 0 3rem;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 11.5rem;
   }
 
   .HomeOwnerShortListName{
@@ -268,7 +284,7 @@ html, body, #root {
     margin-top: 4rem;
     font-weight: 800;
     margin-left: -1rem;
-    margin-bottom: -1rem;
+    margin-bottom: -2rem;
   }
 
   .HomeOwnerHistoryName{
@@ -276,8 +292,8 @@ html, body, #root {
     color: #3E4772;
     margin-top: 4rem;
     font-weight: 800;
-    margin-left: -1rem;
-    margin-bottom: -1rem;
+    margin-left: 0rem;
+    margin-bottom: 1rem;
   }
 
   .HomeOwnerHistoryBar {

@@ -8,13 +8,26 @@ import Report from "./plat-management/report"
 import PlatformProfile from "./plat-management/platform-profile"
 import Logout from "./plat-management/Logout"
 
+// 🧼 Layout for homeowner
+import HomeOwner from "./home-owner/HomeOwner" // <- this is actually the layout
+import HomeOwnerDashboard from "./home-owner/HomeOwnerDashboard"
+import HomeOwnerShortlist from "./home-owner/HomeOwnerShortlist"
+import HomeOwnerHistory from "./home-owner/HomeOwnerHistory"
+
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/demoPage" />} />
+      <Route path="/" element={<Navigate to="/homeowner/dashboard" />} />
       <Route path="/demoPage" element={<Demo />} />
 
+      {/* 🏠 HomeOwner layout with subpages */}
+      <Route path="/homeowner" element={<HomeOwner />}>
+        <Route path="dashboard" element={<HomeOwnerDashboard />} />
+        <Route path="shortlist" element={<HomeOwnerShortlist />} />
+        <Route path="history" element={<HomeOwnerHistory />} />
+      </Route>
 
+      {/* 🛠 Platform manager section */}
       <Route path="/platform-management" element={<PlatformManagement />} />
       <Route path="/edit-category/:categoryId" element={<EditCategory />} />
       <Route path="/view-category/:categoryId" element={<ViewCategory />} />

@@ -11,7 +11,7 @@ export default function DemoPage() {
   }
 
   const navItems = [
-    { path: "/", label: "demoPage", icon: personIcon },
+    { path: "/demoPage", label: "demoPage", icon: personIcon },
     { path: "/platform-management", label: "Categories", icon: categoryIcon },
     { path: "/report", label: "Report", icon: reportIcon }
   ]
