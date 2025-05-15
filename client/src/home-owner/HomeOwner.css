@@ -176,11 +176,15 @@ html, body, #root {
   }
   
   .labelRow label:nth-child(2) {
-    margin-left: 31rem;
+    margin-left: 22rem;
   }
   
   .labelRow label:nth-child(3) {
     margin-left: 9rem;
+  }
+
+  .labelRow label:nth-child(4) {
+    margin-left: 8rem;
   }
   
   .HomeOwnerSearchBar {
@@ -189,9 +193,11 @@ html, body, #root {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 999px;
-    overflow: hidden;
-    height: 48px;
+    overflow: visible;
+    height: 40px;
     margin-top: 0.5rem;
+    z-index: 1;
+    position: relative;
   }
   
   .searchGroup {
@@ -208,6 +214,7 @@ html, body, #root {
     font-size: 16px;
     padding: 0.5rem;
     width: 100%;
+    background-color: transparent;
   }
   
   .searchIcon img {
@@ -227,23 +234,30 @@ html, body, #root {
     outline: none;
     font-size: 16px;
     padding: 0 1.5rem;
-    height: 48px;
+    height: 39px;
     background: white url("../assets/arrow.png") no-repeat right 0rem center;
     appearance: none;
     cursor: pointer;
-    width: 11.5rem;
+    width: 200px;
   }
+
+  .HomeOwnerCategoryDropdown {
+    width: 200px; /* adjust based on your design */
+    border-right: 1px solid #ccc;
+    background-color: transparent;
+  }
+  
 
   .HomeOwnerPrice select {
     border: none;
     outline: none;
     font-size: 16px;
-    padding: 0 1.5rem;
-    height: 48px;
+    padding: 0 0 0 0.7rem;
+    height: 39px;
     background: white url("../assets/arrow.png") no-repeat right 0rem center;
     appearance: none;
     cursor: pointer;
-    width: 15rem;
+    width: 200px;
   }
 
   .filterButton {
@@ -257,7 +271,7 @@ html, body, #root {
     border-radius: 0 999px 999px 0;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    width: 11.5rem;
+    width: 10rem;
   }
   
   .filterButton:hover, .filterButtonHistory{

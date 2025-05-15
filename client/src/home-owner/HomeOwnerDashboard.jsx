@@ -1,7 +1,10 @@
-// HomeOwner/HomeOwnerDashboard.jsx
+import { useState } from "react"
 import searchIcon from "../assets/Search.png"
+import CategoryDropdown from "../components/categoryDropdown"
 
 export default function HomeOwnerDashboard() {
+  const [selectedCategories, setSelectedCategories] = useState([])
+
   return (
     <div className="HomeOwnerDashboard">
       <div className="HomeOwnerDesc">
@@ -17,6 +20,7 @@ export default function HomeOwnerDashboard() {
         <div className="labelRow">
           <label>Keywords</label>
           <label>Type</label>
+          <label>Category</label>
           <label>Price</label>
         </div>
 
@@ -26,16 +30,30 @@ export default function HomeOwnerDashboard() {
             <span className="searchIcon">
               <img src={searchIcon} alt="search icon" />
             </span>
-            <input type="text" placeholder="Search By Services/Categories/Cleaners" />
+            <input type="text" placeholder="Search By Services or Cleaners" />
           </div>
 
           {/* Type */}
           <div className="HomeOwnerBy">
             <select>
               <option>By Service</option>
-              <option>By Category</option>
               <option>By Cleaners</option>
             </select>
+          </div>
+
+          {/* Category */}
+          <div className="HomeOwnerCategoryDropdown">
+            <CategoryDropdown
+              selectedCategories={selectedCategories}
+              onChange={setSelectedCategories}
+              availableCategories={[
+                { id: "window", name: "Window Cleaning" },
+                { id: "floor", name: "Floor Cleaning" },
+                { id: "sofa", name: "Sofa Cleaning" },
+                { id: "carpet", name: "Carpet Cleaning" },
+                { id: "bathroom", name: "Bathroom Cleaning" },
+              ]}
+            />
           </div>
 
           {/* Price */}
