@@ -7,11 +7,14 @@ import AccountManagement from "./accountManagement"
 import ProfileManagement from "./profileManagement"
 import "./dashstyle.css"
 import logout from "../../assets/logout.png"
+import circlePersonIcon from "../../assets/circle_person.png"
+import vectorIcon from "../../assets/Vector.png"
+import humanIcon from "../../assets/Human.png"
 
 function AdminPanel() {
   const location = useLocation()
   const navigate = useNavigate()
-  const [currentPage, setCurrentPage] = useState("account")
+  const [currentPage, setCurrentPage] = useState("profile")
 
   useEffect(() => {
     if (location.state && location.state.page) {
@@ -46,7 +49,7 @@ function AdminPanel() {
                 setCurrentPage("profile")
               }}
             >
-              <i className="icon profile-icon"></i>
+              <img src={circlePersonIcon || "/placeholder.svg"} alt="Profile" className="icon profile-icon" />
               <span>My Profile</span>
             </a>
             <a
@@ -57,7 +60,7 @@ function AdminPanel() {
                 setCurrentPage("account")
               }}
             >
-              <i className="icon users-icon"></i>
+              <img src={vectorIcon || "/placeholder.svg"} alt="Account Management" className="icon users-icon" />
               <span>Account Management</span>
             </a>
             <a
@@ -68,7 +71,11 @@ function AdminPanel() {
                 setCurrentPage("profileManagement")
               }}
             >
-              <i className="icon profile-management-icon"></i>
+              <img
+                src={humanIcon || "/placeholder.svg"}
+                alt="Profile Management"
+                className="icon profile-management-icon"
+              />
               <span>Profile Management</span>
             </a>
           </nav>

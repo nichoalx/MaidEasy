@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./platform-style.css"
 import logout from "../../assets/logout.png"
+import reportS from "../../assets/report.png"
+import category from "../../assets/category.png"
+import circle_person from "../../assets/circle_person.png"
 
 function PlatformManagement() {
   const navigate = useNavigate()
@@ -132,7 +135,7 @@ function PlatformManagement() {
               navigate("/platform-management")
             }}
           >
-            <i className="icon grid-icon"></i>
+            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
             <span>Categories</span>
           </a>
           <a
@@ -143,7 +146,7 @@ function PlatformManagement() {
               navigate("/platform-profile")
             }}
           >
-            <i className="icon profile-icon"></i>
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
             <span>My Profile</span>
           </a>
           <a
@@ -154,8 +157,8 @@ function PlatformManagement() {
               navigate("/report")
             }}
           >
-            <i className="icon report-icon"></i>
-            <span>Report</span>
+            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+            <span>Reports</span>
           </a>
         </nav>
 

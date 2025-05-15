@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./editProfile.css"
 import logout from "../../assets/logout.png"
+import Vector from "../../assets/Vector.png"
+import Human from "../../assets/Human.png"
+import circle_person from "../../assets/circle_person.png"
 
 function ViewProfile() {
   const navigate = useNavigate()
@@ -98,16 +101,13 @@ function ViewProfile() {
           </div>
 
           <nav className="nav-menu">
-            <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
-              <i className="icon dashboard-icon"></i>
-              <span>Dashboard</span>
-            </a>
+
             <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
-              <i className="icon profile-icon"></i>
+              <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
               <span>My Profile</span>
             </a>
             <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
-              <i className="icon users-icon"></i>
+              <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
               <span>Account Management</span>
             </a>
             <a
@@ -115,7 +115,7 @@ function ViewProfile() {
               className="nav-item active"
               onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
-              <i className="icon profile-management-icon"></i>
+              <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
               <span>Profile Management</span>
             </a>
           </nav>
@@ -171,16 +171,13 @@ function ViewProfile() {
         </div>
 
         <nav className="nav-menu">
-          <a href="#" className="nav-item" onClick={() => navigate("/dashboard")}>
-            <i className="icon dashboard-icon"></i>
-            <span>Dashboard</span>
-          </a>
+
           <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
-            <i className="icon profile-icon"></i>
+            <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
             <span>My Profile</span>
           </a>
           <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
-            <i className="icon users-icon"></i>
+            <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
             <span>Account Management</span>
           </a>
           <a
@@ -188,7 +185,7 @@ function ViewProfile() {
             className="nav-item active"
             onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
           >
-            <i className="icon profile-management-icon"></i>
+            <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
             <span>Profile Management</span>
           </a>
         </nav>
@@ -230,7 +227,7 @@ function ViewProfile() {
             <div className="card-header">
               <h2>Profile Information</h2>
               <div className="button-group">
-                <button className="btn btn-secondary" onClick={handleBack}>
+                <button className="btn btn-secondary" onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}>
                   Back
                 </button>
                 <button className="btn btn-primary" onClick={handleEdit}>

@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./platform-style.css"
 import logout from "../../assets/logout.png"
+import reportS from "../../assets/report.png"
+import category from "../../assets/category.png"
+import circle_person from "../../assets/circle_person.png"
 
 function ViewCategory() {
   const navigate = useNavigate()
@@ -88,8 +91,7 @@ function ViewCategory() {
               <span>My Profile</span>
             </a>
             <a href="#" className="nav-item">
-              <i className="icon report-icon"></i>
-              <span>Report</span>
+              <img src={reportS || "/placeholder.svg"} className="icon report-icon"></img>
             </a>
           </nav>
 
@@ -152,7 +154,7 @@ function ViewCategory() {
               navigate("/platform-management")
             }}
           >
-            <i className="icon grid-icon"></i>
+            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
             <span>Categories</span>
           </a>
           <a
@@ -163,7 +165,7 @@ function ViewCategory() {
               navigate("/platform-profile")
             }}
           >
-            <i className="icon profile-icon"></i>
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
             <span>My Profile</span>
           </a>
           <a
@@ -174,8 +176,8 @@ function ViewCategory() {
               navigate("/report")
             }}
           >
-            <i className="icon report-icon"></i>
-            <span>Report</span>
+            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+            <span>Reports</span>
           </a>
         </nav>
 

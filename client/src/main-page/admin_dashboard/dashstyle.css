@@ -738,16 +738,19 @@
 
 .view-button {
   background-color: #e5edff;
+  border-radius: 24px;
   color: #3e4772;
 }
 
 .edit-button {
   background-color: #3e7244;
+  border-radius: 24px;
   color: white;
 }
 
 .suspend-button {
   background-color: #ca3032;
+  border-radius: 24px;
   color: white;
 }
 

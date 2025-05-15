@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
 import logout from "../../assets/logout.png"
+import Vector from "../../assets/Vector.png"
+import Human from "../../assets/Human.png"
+import circle_person from "../../assets/circle_person.png"
 
 function AddProfile() {
   const navigate = useNavigate()
@@ -113,48 +116,20 @@ function AddProfile() {
           </div>
 
           <nav className="nav-menu">
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
-              <i className="icon dashboard-icon"></i>
-              <span>Dashboard</span>
-            </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profile" } })
-              }}
-            >
-              <i className="icon profile-icon"></i>
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
+              <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
               <span>My Profile</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "account" } })
-              }}
-            >
-              <i className="icon users-icon"></i>
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
+              <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
               <span>Account Management</span>
             </a>
             <a
               href="#"
               className="nav-item active"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profileManagement" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
-              <i className="icon profile-management-icon"></i>
+              <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
               <span>Profile Management</span>
             </a>
           </nav>
