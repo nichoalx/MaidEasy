@@ -7,8 +7,7 @@ suspend_user_blueprint = Blueprint('suspend_user', __name__)
 class SuspendUserController:
     @admin_required
     @login_required
-    @suspend_user_blueprint.route('/api/users/<int:user_id>/suspend', methods=['PUT'])
+    @suspend_user_blueprint.route('/api/users/suspend/<int:user_id>', methods=['PUT'])
     def suspend_user(user_id):
-        data = request.get_json()
-        response, status_code = User.suspend_user(user_id, data)
+        response, status_code = User.suspend_user(user_id)
         return jsonify({'success': response, 'message': 'suspend_user API called'}), status_code

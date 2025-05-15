@@ -18,6 +18,7 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     dob = db.Column(db.Date, nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
 
     profile_id = db.Column(db.Integer, db.ForeignKey('profiles.profile_id'), nullable=False)
     profile = db.relationship('Profile', backref='users')  # optional reverse access
@@ -31,10 +32,13 @@ class User(db.Model):
     def to_dict(self) -> dict:
         return {
             'user_id': self.user_id,
+            'profile_picture': self.profile_picture,
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'dob': self.dob.isoformat() if self.dob else None,
+            'contact_number': self.contact_number,
+            'is_active': self.is_active,
             'profile_id': self.profile_id,
             'profile_name': self.profile.role_name if self.profile else None
         }
@@ -69,10 +73,12 @@ class User(db.Model):
 
         with current_app.app_context():
             db.session.add(new_user)
+            db.session.flush() 
+            user_dict = new_user.to_dict()
             db.session.commit()
             db.session.refresh(new_user)  # so to_dict() can access .profile
 
-        return new_user.to_dict(), 201
+        return user_dict, 201
 
     @classmethod
     def update_user(cls, user_id: int, update_data: dict) -> tuple[dict, int]:
@@ -87,7 +93,11 @@ class User(db.Model):
             if update_data.get('last_name'):
                 user.last_name = update_data['last_name']
             if update_data.get('email'):
-                user.email = update_data['email']
+                 existing_user = cls.query.filter_by(email=update_data['email']).first()
+                 if existing_user and existing_user.user_id != user_id:
+                        return {'error': 'Email already in use by another user'}, 409
+                 else:
+                     user.email = update_data['email']
             if update_data.get('password'):
                 user.set_password(update_data['password'])
             if update_data.get('dob'):
@@ -156,10 +166,10 @@ class User(db.Model):
             return {"error": "User not found"}, 404
 
         try:
-            if user.type_of_user == "suspended":
+            if not user.is_active:
                 return {"error": "User is already suspended"}, 400
 
-            user.type_of_user = "suspended"
+            user.is_active = False
             db.session.commit()
             return {"message": f"User {user.email} suspended successfully."}, 200
 

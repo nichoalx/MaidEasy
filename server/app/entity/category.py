@@ -5,24 +5,24 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    category_name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
         return {
             "category_id": self.category_id,
-            "name": self.name,
+            "category_name": self.category_name,
             "description": self.description,
             "created_at": self.created_at.isoformat()
         }
 
     @classmethod
-    def create_category(cls, name, description=None):
-        if cls.query.filter_by(name=name).first():
+    def create_category(cls, category_name, description=None):
+        if cls.query.filter_by(category_name=category_name).one_or_none():
             return {"error": "Category already exists"}, 400
 
-        category = cls(name=name, description=description)
+        category = cls(category_name=category_name, description=description)
         db.session.add(category)
         db.session.commit()
         return category.to_dict(), 201
@@ -33,10 +33,10 @@ class Category(db.Model):
         if not category:
             return {"error": "Category not found"}, 404
 
-        if 'name' in data:
-            if cls.query.filter_by(name=data['name']).first():
+        if 'category_name' in data:
+            if cls.query.filter_by(category_name=data['category_name']).one_or_none():
                 return {"error": "Category name already in use"}, 400
-            category.name = data['name']
+            category.category_name = data['category_name']
 
         if 'description' in data:
             category.description = data['description']
@@ -59,8 +59,8 @@ class Category(db.Model):
         return [cat.to_dict() for cat in cls.query.all()], 200
 
     @classmethod
-    def search_categories(cls, name=None):
+    def search_categories(cls, category_name=None):
         query = cls.query
-        if name:
-            query = query.filter(cls.name.ilike(f"%{name}%"))
+        if category_name:
+            query = query.filter(cls.category_name.ilike(f"%{category_name}%"))
         return [cat.to_dict() for cat in query.all()], 200

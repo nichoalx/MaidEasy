@@ -7,7 +7,7 @@ search_user_blueprint = Blueprint('search_user', __name__)
 class SearchUserController:
     @admin_required
     @login_required
-    @search_user_blueprint.route('/api/users/search_user', methods=['GET'])
+    @search_user_blueprint.route('/api/users/search', methods=['GET'])
     def search_user():
         email = request.args.get('email')
         first_name = request.args.get('first_name')

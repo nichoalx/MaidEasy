@@ -105,3 +105,4 @@ class Profile(db.Model):
     @classmethod
     def get_all_profiles(cls) -> tuple[list[dict], int]:
         return [p.to_dict() for p in cls.query.all()], 200
+    

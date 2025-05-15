@@ -15,6 +15,7 @@ from .profile.update_profile import update_profile_blueprint
 from .profile.search_profile import search_profile_blueprint
 from .profile.view_profile import view_profile_blueprint
 from .profile.suspend_profile import suspend_profile_blueprint
+from .profile.get_all_profiles import get_all_profiles_blueprint
 
 # AUTH controllers
 from .auth.login import login_blueprint
@@ -29,13 +30,16 @@ from .homeowner.create_booking import create_booking_blueprint
 from .homeowner.search_services import search_service_blueprint
 from .homeowner.view_past_bookings import view_past_bookings_blueprint
 from .homeowner.view_services import view_services_blueprint
+from .homeowner.view_booking_details import view_booking_details_blueprint
 
 # CLEANER controllers
 from .cleaner.create_service import create_service_blueprint
 from .cleaner.update_service import update_service_blueprint
 from .cleaner.delete_service import delete_service_blueprint
+from .cleaner.search_my_service import search_my_service_blueprint
 from .cleaner.view_service import view_service_blueprint
-from .cleaner.view_booking_history import view_booking_history_blueprint
+from .cleaner.view_job_history import view_job_history_blueprint
+from .cleaner.view_job_details import view_job_details_blueprint
 
 # PLATFORM MANAGER controllers
 from .platformmanager.categories.create_category import create_category_blueprint
@@ -62,6 +66,7 @@ __all__ = [
     "search_profile_blueprint",
     "view_profile_blueprint",
     "suspend_profile_blueprint",
+    "get_all_profiles_blueprint",
 
     # auth
     "login_blueprint",
@@ -76,13 +81,16 @@ __all__ = [
     "search_service_blueprint",
     "view_past_bookings_blueprint",
     "view_services_blueprint",
+    "view_booking_details_blueprint",
 
     # cleaner
     "create_service_blueprint",
     "update_service_blueprint",
     "delete_service_blueprint",
     "view_service_blueprint",
-    "view_booking_history_blueprint",
+    "search_my_service_blueprint",
+    "view_job_history_blueprint",
+    "view_job_details_blueprint",
 
     # platform manager
     "create_category_blueprint",

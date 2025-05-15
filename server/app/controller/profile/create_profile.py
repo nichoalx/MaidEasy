@@ -7,7 +7,7 @@ create_profile_blueprint = Blueprint('create_profile', __name__)
 class CreateProfileController:
     @admin_required
     @login_required
-    @create_profile_blueprint.route('/api/profiles/create_profile', methods=['POST'])
+    @create_profile_blueprint.route('/api/profiles/create', methods=['POST'])
     def create_profile():
         data = request.get_json()
 

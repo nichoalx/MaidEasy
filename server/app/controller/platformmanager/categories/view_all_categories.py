@@ -7,10 +7,11 @@ from server.app.controller.auth.permission_required import login_required
 
 view_all_categories_blueprint = Blueprint('view_all_categories', __name__)
 class ViewAllCategoriesController:
-    @login_required
     @view_all_categories_blueprint.route('/api/category/view_all', methods=['GET'])
+    @jwt_required()
+    @login_required
     def view_all_categories():
-        current_user_id = get_jwt_identity()
+        current_user_id = int(get_jwt_identity())
         user = User.query.get(current_user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404

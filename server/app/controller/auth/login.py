@@ -22,7 +22,7 @@ class LoginController:
         profile = Profile.query.get(user.profile_id)
 
         access_token = create_access_token(
-            identity=user.user_id,
+            identity=str(user.user_id),
             expires_delta=timedelta(days=1),  # 24-hour session
             additional_claims={"role": profile.role_name}
         )

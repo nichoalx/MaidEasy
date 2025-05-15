@@ -8,10 +8,11 @@ from server.app.controller.auth.permission_required import login_required
 delete_category_blueprint = Blueprint('delete_category', __name__)
 
 class DeleteCategoryController:
+    @delete_category_blueprint.route('/api/category/delete/<int:category_id>', methods=['DELETE'])
+    @jwt_required()
     @login_required
-    @delete_category_blueprint.route('/api/category/delete', methods=['DELETE'])
-    def delete_category():
-        current_user_id = get_jwt_identity()
+    def delete_category(category_id):
+        current_user_id = int(get_jwt_identity())
         user = User.query.get(current_user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404

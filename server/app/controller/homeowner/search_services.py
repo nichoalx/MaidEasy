@@ -8,8 +8,5 @@ class SearchServiceController:
     @login_required
     @search_service_blueprint.route('/api/homeowner/search_services', methods=['GET'])
     def search_services():
-        name = request.args.get('name')
-        category = request.args.get('category')
-
-        response, status = Service.search_services(name=name, category=category)
+        response, status = Service.get_all_services()
         return jsonify(response), status

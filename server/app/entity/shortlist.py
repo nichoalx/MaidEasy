@@ -45,18 +45,17 @@ class HomeownerShortlist(db.Model):
         return {"message": "Service removed from shortlist successfully"}, 200
 
     @classmethod
-    def view_shortlisted_services(cls, user_id: int) -> tuple[list, int]:
+    def search_shortlisted_services(cls, user_id: int) -> tuple[list, int]:
         entries = cls.query.filter_by(user_id=user_id).all()
         result = [Service.query.get(e.service_id).to_dict() for e in entries if Service.query.get(e.service_id)]
         return result, 200
 
     @classmethod
-    def search_shortlisted_services(cls, user_id: int, name: str = None, category: str = None) -> tuple[list, int]:
+    def view_shortlisted_services(cls, user_id: int, service_name: str = None, category_name: str = None) -> tuple[list, int]:
         query = Service.query.join(cls, Service.service_id == cls.service_id).filter(cls.user_id == user_id)
-
-        if name:
-            query = query.filter(Service.name.ilike(f"%{name}%"))
-        if category:
-            query = query.filter(Service.category.ilike(f"%{category}%"))
+        if service_name:
+            query = query.filter(Service.name.ilike(f"%{service_name}%"))
+        if category_name:
+            query = query.filter(Service.category_name.ilike(f"%{category_name}%"))
 
         return [service.to_dict() for service in query.all()], 200

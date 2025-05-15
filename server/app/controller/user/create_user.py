@@ -7,7 +7,7 @@ create_user_blueprint = Blueprint('create_user', __name__)
 class CreateUserController:
     @admin_required
     @login_required
-    @create_user_blueprint.route('/api/users/create_user', methods=['POST'])
+    @create_user_blueprint.route('/api/users/create', methods=['POST'])
     def create_user():
         data = request.get_json()
 

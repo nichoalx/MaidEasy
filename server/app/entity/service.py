@@ -11,7 +11,7 @@ class Service(db.Model):
     service_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cleaner_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    category= db.Column(db.String(50), nullable=False)
+    category_name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     price = db.Column(db.Float, nullable=False)
     contact_number = db.Column(db.String(15), nullable=True)
@@ -29,7 +29,7 @@ class Service(db.Model):
             "service_id": self.service_id,
             "cleaner_id": self.cleaner_id,
             "name": self.name,
-            "category": self.category,
+            "category_name": self.category_name,
             "description": self.description,
             "price": self.price,
             "contact_number": self.contact_number,
@@ -41,16 +41,16 @@ class Service(db.Model):
         }
 
     @classmethod
-    def create_service(cls, cleaner_id, name, category, description, price, duration, availability):
+    def create_service(cls, cleaner_id, name, category_name, description, price, duration, availability):
         cleaner = User.query.get(cleaner_id)
-        category = Category.query.filter_by(category_name=category).one_or_none()
+        category = Category.query.filter_by(category_name=category_name).one_or_none()
         if not cleaner:
             return {"error": "Cleaner (User) not found"}, 404
 
         new_service = cls(
             cleaner_id=cleaner_id,
             name=name,
-            category=category.category_name,  # snapshot
+            category_name=category.category_name,  # snapshot
             description=description,
             price=price,
             duration=duration,
@@ -75,6 +75,11 @@ class Service(db.Model):
             service.description = data['description']
         if 'price' in data:
             service.price = data['price']
+        if 'duration' in data:
+            service.duration = data['duration']
+        if 'availability' in data:
+            service.availability = data['availability']
+
 
         db.session.commit()
         return service.to_dict(), 200

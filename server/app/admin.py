@@ -20,7 +20,6 @@ def seed_admin():
     dob = os.getenv("INIT_ADMIN_DOB", "1990-01-01")
     contact_number = os.getenv("INIT_ADMIN_CONTACT", "00000000")
     role_name = os.getenv("INIT_ADMIN_ROLE_NAME", "admin")
-    profile_id = os.getenv("INIT_ADMIN_PROFILE_ID", 1)
 
     existing_user = User.query.filter_by(email=email).one_or_none()
     if existing_user:
@@ -30,8 +29,7 @@ def seed_admin():
     # Ensure the profile exists
     profile = Profile.query.filter_by(role_name=role_name).one_or_none()
     if not profile:
-        profile = Profile(profile_id=profile_id,
-                          role_name=role_name, is_active=True, 
+        profile = Profile(role_name=role_name, is_active=True, 
                           has_booking_permission=True,
                           has_listing_permission=True,
                           has_view_analytics_permission=True)
@@ -45,7 +43,7 @@ def seed_admin():
         password=password,
         dob=dob,
         contact_number=contact_number,
-        profile_id=profile.profile_id
+        role_name=role_name
     )
 
     if status == 201:
