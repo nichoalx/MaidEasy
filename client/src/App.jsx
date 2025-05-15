@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import HomePage from "./main-page/home"
+import Demo from "./demoPage"
 import PlatformManagement from "./plat-management/platformManagement"
 import EditCategory from "./plat-management/edit-category"
 import ViewCategory from "./plat-management/view-category"
@@ -10,7 +11,10 @@ import Logout from "./plat-management/Logout"
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/platform-management" />} />
+      <Route path="/" element={<Navigate to="/demoPage" />} />
+      <Route path="/demoPage" element={<Demo />} />
+
+
       <Route path="/platform-management" element={<PlatformManagement />} />
       <Route path="/edit-category/:categoryId" element={<EditCategory />} />
       <Route path="/view-category/:categoryId" element={<ViewCategory />} />
