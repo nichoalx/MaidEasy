@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import searchIcon from "../assets/Search.png"
 import calendarIcon from "../assets/calender_icon.png"
-import CategoryDropdown from "../components/categoryDropdown"
+import CategoryDropdown from "./categoryDropdown"
 import ServiceCardGrid from "./ServiceCardGrid"
 
 export default function HomeOwnerDashboard() {
@@ -11,43 +11,22 @@ export default function HomeOwnerDashboard() {
   const [priceSort, setPriceSort] = useState("none")
   const [services, setServices] = useState([])
   const [filtered, setFiltered] = useState([])
+  const [visibleCount, setVisibleCount] = useState(18)
 
   useEffect(() => {
-    const dummy = [
-      {
-        serviceName: "Window Cleaning",
-        category: "Glass",
-        price: 85000,
-        providerName: "Dwi Hartanto",
-        joinedDate: "Jan 2023",
-        isFavorite: true
-      },
-      {
-        serviceName: "Floor Cleaning",
-        category: "Floor",
-        price: 65000,
-        providerName: "Siti Rahma",
-        joinedDate: "Mar 2022"
-      },
-      {
-        serviceName: "Carpet Cleaning",
-        category: "Living Room",
-        price: 90000,
-        providerName: "Agus Santoso",
-        joinedDate: "May 2021"
-      },
-      {
-        serviceName: "Sofa Cleaning",
-        category: "Furniture",
-        price: 80000,
-        providerName: "Tini Handayani",
-        joinedDate: "Aug 2022"
-      }
-    ]
-
-    setServices(dummy)
-    setFiltered(dummy)
-  }, [])
+    const dummy = Array.from({ length: 24 }, (_, i) => ({
+      id: i + 1,
+      serviceName: `Service ${i + 1}`,
+      category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
+      price: 60000 + i * 1000,
+      providerName: `Cleaner ${i + 1}`,
+      joinedDate: `Jan ${2022 + (i % 3)}`,
+      isFavorite: i % 2 === 0
+    }));
+  
+    setServices(dummy);
+    setFiltered(dummy);
+  }, []);
 
   // 🔁 Filter & sort logic
   useEffect(() => {
@@ -163,7 +142,16 @@ export default function HomeOwnerDashboard() {
       </div>
 
       {/* 🧱 Service Cards */}
-      <ServiceCardGrid services={filtered} />
+      <ServiceCardGrid services={filtered.slice(0, visibleCount)} />
+
+      {/* 📦 Load More button (conditionally shown) */}
+      {visibleCount < filtered.length && (
+        <div className="load-more-container">
+          <button onClick={() => setVisibleCount((prev) => prev + 18)} className="load-more-button">
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   )
 }

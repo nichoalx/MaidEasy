@@ -205,7 +205,7 @@ html, body, #root {
     align-items: center;
     flex: 1;
     padding: 0 1rem;
-    border-right: 1px solid #ccc;
+    
   }
   
   .searchGroup input {
@@ -215,6 +215,7 @@ html, body, #root {
     padding: 0.5rem;
     width: 100%;
     background-color: transparent;
+    border-right: 1px solid #ccc;
   }
   
   .searchIcon img {
@@ -233,12 +234,12 @@ html, body, #root {
     border: none;
     outline: none;
     font-size: 16px;
-    padding: 0 1.5rem;
+    padding: -1rem 1.5rem;
     height: 39px;
     background: white url("../assets/arrow.png") no-repeat right 0rem center;
     appearance: none;
     cursor: pointer;
-    width: 200px;
+    width: 180px;
   }
 
   .HomeOwnerCategoryDropdown {
@@ -309,10 +310,150 @@ html, body, #root {
   }
 
   .HomeOwnerDateFilter {
-    max-width: 200px;
+    width: 200px;
     font-size: 14px;
   }
 
   .dateOutput {
     margin-left: 1rem;
   }
+
+  .calendarText{
+    margin-left: 5px;
+  }
+
+  .clear-date-btn img {
+    filter: grayscale(100%);   /* optional: make it blend with theme */
+    transition: opacity 0.2s;
+    margin-right: 8px;
+  }
+  
+  .clear-date-btn:hover img {
+    opacity: 0.75;
+  }
+
+  .load-more-container {
+    text-align: center;
+    margin: 20px 0 40px;
+  }
+  
+  .load-more-button {
+    background-color: #3e4772;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .load-more-button:hover {
+    background-color: #5c6494;
+  }
+  
+
+  .categories-table-container {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 1150px;
+    padding: 20px;
+    position: relative;
+    padding-bottom: 70px;
+    height: auto;
+  }
+  
+  .categories-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .categories-table th,
+  .categories-table td {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .categories-table th {
+    font-weight: 500;
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .categories-table td {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .categories-table td b {
+    font-weight: 600;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .view-btn {
+    width: 90px;
+    background-color: #e5edff;
+    color: #3e4772;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 00.3);
+  }
+
+  .view-btn:hover{
+    background-color: #d1d8e9;
+  }
+  
+  
+  /* Pagination */
+  .paginationBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+  }
+  
+  .paginationSection {
+    flex: 1;
+  }
+  
+  .paginationSection.center {
+    text-align: center;
+  }
+  
+  .paginationSection.left {
+    text-align: left;
+  }
+  
+  .paginationSection.right {
+    text-align: right;
+  }
+  
+  .prev-btn,
+  .next-btn {
+    background-color: transparent;
+    border: none;
+    color: #3e4772;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px 12px;
+  }
+  
