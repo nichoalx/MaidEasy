@@ -5,11 +5,11 @@ from server.app.entity.user import User
 from server.app.entity.profile import Profile
 from server.app.controller.auth.permission_required import login_required
 
-view_past_bookings_blueprint = Blueprint('view_past_bookings', __name__)
+view_booking_history_blueprint = Blueprint('view_booking_history', __name__)
 
-class ViewPastBookingsController:
+class ViewBookingHistoryController:
     @login_required
-    @view_past_bookings_blueprint.route('/api/cleaner/view_past', methods=['GET'])
+    @view_booking_history_blueprint.route('/api/cleaner/view_booking_history', methods=['GET'])
     def view_past_bookings():
         current_user_id = get_jwt_identity()
         claims = get_jwt()

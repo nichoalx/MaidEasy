@@ -5,7 +5,7 @@ from server.app.entity.profile import Profile
 from server.app.entity.user import User
 from server.app.controller.auth.permission_required import login_required
 
-view_service_blueprint = Blueprint('view_service', _name_)
+view_service_blueprint = Blueprint('view_service', __name__)
 
 class ViewServiceController:
     @login_required

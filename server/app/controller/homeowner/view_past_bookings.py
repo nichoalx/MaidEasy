@@ -9,7 +9,7 @@ view_past_bookings_blueprint = Blueprint('view_past_bookings', __name__)
 
 class ViewPastBookingsController:
     @login_required
-    @view_past_bookings_blueprint.route('/api/homeowner/view_past', methods=['GET'])
+    @view_past_bookings_blueprint.route('/api/homeowner/view_past_bookings', methods=['GET'])
     def view_past_bookings():
         current_user_id = get_jwt_identity()
         claims = get_jwt()

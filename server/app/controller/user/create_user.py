@@ -17,6 +17,7 @@ class CreateUserController:
         password = data.get('password')
         dob = data.get('dob')
         contact_number = data.get('contact_number')
+        role_name = data.get('role_name')
 
         response, status_code = User.create_user(
             first_name=first_name,
@@ -24,7 +25,8 @@ class CreateUserController:
             email=email,
             password=password,
             dob=dob,
-            contact_number=contact_number
+            contact_number=contact_number,
+            role_name=role_name
         )
 
         return jsonify({'success': response, 'message': 'create_user API called'}), status_code

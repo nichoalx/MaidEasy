@@ -1,6 +1,7 @@
 # Libraries
 from flask import current_app
 from datetime import datetime
+from server.app.entity.profile import Profile
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local dependencies
@@ -35,22 +36,26 @@ class User(db.Model):
             'last_name': self.last_name,
             'dob': self.dob.isoformat() if self.dob else None,
             'profile_id': self.profile_id,
-            'profile_name': self.profile.name if self.profile else None
+            'profile_name': self.profile.role_name if self.profile else None
         }
 
     # ------- CRUD OPERATIONS ---------
 
     @classmethod
     def create_user(cls, first_name: str, last_name: str, email: str, password: str,
-                    dob: str, contact_number: str, type_of_user: str) -> tuple[dict, int]:
-
+                    dob: str, contact_number: str, role_name: str) -> tuple[dict, int]:
+        
         if cls.query.filter_by(email=email).one_or_none():
-            return {"error": "Email already exists"}, 409 
+            return {"error": "Email already exists"}, 409
         
         try:
             dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
         except ValueError:
             return {"error": "Invalid date format. Use YYYY-MM-DD."}, 400
+
+        profile = Profile.query.filter_by(role_name=role_name).first()
+        if not profile:
+            return {"error": f"Profile with role '{role_name}' not found"}, 404
 
         new_user = cls(
             first_name=first_name,
@@ -58,12 +63,14 @@ class User(db.Model):
             email=email,
             password=generate_password_hash(password),
             dob=dob_date,
-            contact_number=contact_number
+            contact_number=contact_number,
+            profile_id=profile.profile_id  
         )
-        
+
         with current_app.app_context():
             db.session.add(new_user)
             db.session.commit()
+            db.session.refresh(new_user)  # so to_dict() can access .profile
 
         return new_user.to_dict(), 201
 

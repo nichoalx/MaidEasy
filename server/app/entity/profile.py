@@ -19,7 +19,6 @@ class Profile(db.Model):
         return {
             'profile_id': self.profile_id,
             'role_name': self.role_name,
-            'description': self.description,
             'is_active': self.is_active,
             'created_at': self.created_at.isoformat(),
             'has_booking_permission': self.has_booking_permission,
@@ -28,7 +27,7 @@ class Profile(db.Model):
         }
 
     @classmethod
-    def create_profile(cls, role_name: str, description: Optional[str],
+    def create_profile(cls, role_name: str, is_active: bool = True,
                        has_booking_permission: bool = False,
                        has_listing_permission: bool = False,
                        has_view_analytics_permission: bool = False) -> tuple[dict, int]:
@@ -38,7 +37,6 @@ class Profile(db.Model):
 
         profile = cls(
             role_name=role_name,
-            description=description,
             is_active=True,
             has_booking_permission=has_booking_permission,
             has_listing_permission=has_listing_permission,
@@ -48,6 +46,7 @@ class Profile(db.Model):
         with current_app.app_context():
             db.session.add(profile)
             db.session.commit()
+            db.session.refresh(profile)
 
         return profile.to_dict(), 201
 
@@ -68,8 +67,6 @@ class Profile(db.Model):
             if cls.query.filter_by(role_name=update_data['role_name']).one_or_none():
                 return {"error": "Profile with this role name already exists"}, 400
             profile.role_name = update_data['role_name']
-        if update_data.get('description'):
-            profile.description = update_data['description']
         if 'has_booking_permission' in update_data:
             profile.has_booking_permission = update_data['has_booking_permission']
         if 'has_listing_permission' in update_data:

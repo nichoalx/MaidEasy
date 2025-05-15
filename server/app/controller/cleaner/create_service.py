@@ -6,6 +6,7 @@ from server.app.entity.service import Service
 from server.app.controller.auth.permission_required import login_required
 
 create_service_blueprint = Blueprint('create_service', __name__)
+
 class CreateServiceController:
     @login_required   
     @create_service_blueprint.route('/api/cleaner/create_service', methods=['POST'])

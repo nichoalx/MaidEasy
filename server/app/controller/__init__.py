@@ -16,7 +16,6 @@ from .profile.search_profile import search_profile_blueprint
 from .profile.view_profile import view_profile_blueprint
 from .profile.suspend_profile import suspend_profile_blueprint
 
-
 # AUTH controllers
 from .auth.login import login_blueprint
 from .auth.logout import logout_blueprint
@@ -32,8 +31,19 @@ from .homeowner.view_past_bookings import view_past_bookings_blueprint
 from .homeowner.view_services import view_services_blueprint
 
 # CLEANER controllers
+from .cleaner.create_service import create_service_blueprint
+from .cleaner.update_service import update_service_blueprint
+from .cleaner.delete_service import delete_service_blueprint
+from .cleaner.view_service import view_service_blueprint
+from .cleaner.view_booking_history import view_booking_history_blueprint
 
 # PLATFORM MANAGER controllers
+from .platformmanager.categories.create_category import create_category_blueprint
+from .platformmanager.categories.update_category import update_category_blueprint
+from .platformmanager.categories.delete_category import delete_category_blueprint
+from .platformmanager.categories.search_categories import search_categories_blueprint
+from .platformmanager.categories.view_all_categories import view_all_categories_blueprint
+from .platformmanager.reports.report_controller import report_blueprint
 
 # EXPORT all blueprints so they can be imported via: from controller import *
 __all__ = [
@@ -45,10 +55,10 @@ __all__ = [
     "delete_user_blueprint",
     "search_user_blueprint",
     "suspend_user_blueprint",
-    
+
     # profile
     "create_profile_blueprint",
-    "update_profile_blueprint", 
+    "update_profile_blueprint",
     "search_profile_blueprint",
     "view_profile_blueprint",
     "suspend_profile_blueprint",
@@ -60,10 +70,25 @@ __all__ = [
     # homeowner
     "add_to_shortlist_blueprint",
     "delete_from_shortlist_blueprint",
+    "search_shortlist_blueprint",
+    "view_shortlist_blueprint",
     "create_booking_blueprint",
     "search_service_blueprint",
-    "search_shortlist_blueprint",
-    "view_services_blueprint",
     "view_past_bookings_blueprint",
-    "view_shortlist_blueprint"
+    "view_services_blueprint",
+
+    # cleaner
+    "create_service_blueprint",
+    "update_service_blueprint",
+    "delete_service_blueprint",
+    "view_service_blueprint",
+    "view_booking_history_blueprint",
+
+    # platform manager
+    "create_category_blueprint",
+    "update_category_blueprint",
+    "delete_category_blueprint",
+    "search_categories_blueprint",
+    "view_all_categories_blueprint",
+    "report_blueprint"
 ]

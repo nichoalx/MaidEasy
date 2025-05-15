@@ -7,7 +7,7 @@ update_profile_blueprint = Blueprint('update_profile', __name__)
 class UpdateProfileController:
     @admin_required
     @login_required
-    @update_profile_blueprint.route('/api/profiles/<int:profile_id>', methods=['PUT'])
+    @update_profile_blueprint.route('/api/profiles/update/<int:profile_id>', methods=['PUT'])
     def update_profile(profile_id):
         data = request.get_json()
         response, status_code = Profile.update_profile(profile_id, data)
