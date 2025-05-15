@@ -183,7 +183,8 @@ function AddProfile() {
                 <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
                 <div style={{ display: "flex", gap: "12px" }}>
                   <button
-                    onClick={handleBack}
+                  onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
+
                     style={{
                       backgroundColor: "#e5edff",
                       color: "#3e4772",
@@ -303,7 +304,7 @@ function AddProfile() {
                             id={`permission-${permission}`}
                             checked={formData.permissions.includes(permission)}
                             onChange={() => handlePermissionChange(permission)}
-                            style={{ marginRight: "8px" }}
+                            style={{ marginRight: "10px" }}
                           />
                           <label htmlFor={`permission-${permission}`}>{permission}</label>
                         </div>

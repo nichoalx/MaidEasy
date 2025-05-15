@@ -164,7 +164,7 @@ function AddUser() {
                 <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Personal Information</h2>
                 <div style={{ display: "flex", gap: "12px" }}>
                   <button
-                    onClick={handleBack}
+                  onClick={() => navigate("/dashboard", { state: { page: "account" } })}
                     style={{
                       backgroundColor: "#e5edff",
                       color: "#3e4772",

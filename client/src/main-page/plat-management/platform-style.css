@@ -42,6 +42,16 @@
   flex-direction: column;
 }
 
+/* Add this to ensure icons don't flash during transitions */
+.platform-layout .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  display: inline-block;
+  transition: none; /* Prevent any transition effects */
+}
+
+/* Ensure consistent styling for all navigation items */
 .platform-layout .nav-item {
   display: flex;
   align-items: center;
@@ -61,13 +71,6 @@
   border-left: 4px solid white;
 }
 
-.platform-layout .icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  display: inline-block;
-}
-
 .platform-layout .grid-icon::before {
   content: "⊞";
 }
@@ -78,6 +81,20 @@
 
 .platform-layout .report-icon::before {
   content: "📊";
+}
+
+/* Ensure consistent styling for logout container */
+.platform-layout .logout-container {
+  padding: 24px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.platform-layout .logout-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
 }
 
 .platform-layout .logout-icon {
@@ -92,19 +109,6 @@
 
 .platform-layout .search-icon::before {
   content: "🔍";
-}
-
-.platform-layout .logout-container {
-  padding: 24px;
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.platform-layout .logout-link {
-  display: flex;
-  align-items: center;
-  color: white;
-  text-decoration: none;
 }
 
 /* Main Content */

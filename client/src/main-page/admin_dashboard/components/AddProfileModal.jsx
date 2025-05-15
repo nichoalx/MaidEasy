@@ -136,9 +136,6 @@ function AddProfileModal({ onClose, onSave }) {
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="cancel-button" onClick={onClose}>
-                Cancel
-              </button>
               <button type="submit" className="cancel-button" onClick={onClose}>
                 Cancel
               </button>

@@ -404,7 +404,9 @@
 .status-indicator.active {
   background-color: #76c069;
 }
-
+.status-indicator.inactive {
+  background-color: red;
+}
 @media (max-width: 768px) {
   .form-row {
     flex-direction: column;
@@ -873,12 +875,14 @@
   flex-direction: column;
   gap: 8px;
 }
-
-.permissions-list {
-  margin: 0;
-  padding-left: 20px;
+.permissions-container {
+  margin-left: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
 }
-
-.permission-item {
-  margin-bottom: 4px;
+.permission-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
 }

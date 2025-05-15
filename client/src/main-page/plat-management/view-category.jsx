@@ -83,15 +83,16 @@ function ViewCategory() {
 
           <nav className="nav-menu">
             <a href="#" className="nav-item active">
-              <i className="icon grid-icon"></i>
+              <img src={category || "/placeholder.svg"} className="icon" />
               <span>Categories</span>
             </a>
             <a href="#" className="nav-item">
-              <i className="icon profile-icon"></i>
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
               <span>My Profile</span>
             </a>
             <a href="#" className="nav-item">
               <img src={reportS || "/placeholder.svg"} className="icon report-icon"></img>
+              <span>Reports</span>
             </a>
           </nav>
 
