@@ -1123,7 +1123,7 @@
   
   .form-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
@@ -1181,6 +1181,30 @@
   }
 
   .profile-container .input-container input {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    font-size: 1rem;
+    color: #374151;
+  }
+
+  .input-container-email {
+    display: flex;
+    align-items: center;
+    background-color: rgba(212, 211, 211, 0.25); 
+    border: 2px solid #C5C5C5; 
+    border-radius: 999px;
+    padding: 0.25rem 1rem;
+    height: 45px;
+    width: 856px;
+    }
+
+  .profile-container .input-container-email input {
     background: transparent;
     border: none;
     outline: none;

@@ -135,7 +135,7 @@ function PlatformProfile() {
 
               <div className="form-group full-width">
                 <label htmlFor="email">Email</label>
-                <div className="input-container">
+                <div className="input-container-email">
                   <img src={mailIcon} alt="email" className="input-icon" />
                   <input type="email" id="email" value="Kieronyolin12@gmail.com" readOnly />
                 </div>
