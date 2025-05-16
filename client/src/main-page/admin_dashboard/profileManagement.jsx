@@ -1,8 +1,11 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import Pagination from "./components/Pagination"
 import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
+import SuspendProfileModal from "./SuspendProfileModal"
 
 function ProfileManagement() {
   const navigate = useNavigate()
@@ -72,6 +75,7 @@ function ProfileManagement() {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
+  const [suspendModal, setSuspendModal] = useState({ show: false, role: null })
 
   // Filter roles based on search term
   useEffect(() => {
@@ -103,16 +107,22 @@ function ProfileManagement() {
 
   // Handle suspend role
   const handleSuspend = (roleId) => {
-    setRoles(
-      roles.map((role) =>
-        role.id === roleId ? { ...role, status: role.status === "Active" ? "Inactive" : "Active" } : role,
-      ),
+    const roleToSuspend = roles.find((role) => role.id === roleId)
+    setSuspendModal({ show: true, role: roleToSuspend })
+  }
+
+  // Handle confirm suspend
+  const confirmSuspend = () => {
+    const updatedRoles = roles.map((role) =>
+      role.id === suspendModal.role.id ? { ...role, status: role.status === "Active" ? "Inactive" : "Active" } : role,
     )
+
+    setRoles(updatedRoles)
 
     // Show toast notification
     setToast({
       show: true,
-      message: `Role has been ${roles.find((r) => r.id === roleId).status === "Active" ? "deactivated" : "activated"}`,
+      message: `Role has been ${suspendModal.role.status === "Active" ? "deactivated" : "activated"}`,
       type: "success",
     })
 
@@ -120,6 +130,9 @@ function ProfileManagement() {
     setTimeout(() => {
       setToast({ show: false, message: "", type: "" })
     }, 3000)
+
+    // Close modal
+    setSuspendModal({ show: false, role: null })
   }
 
   // Handle next page
@@ -238,6 +251,15 @@ function ProfileManagement() {
           onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
         />
       </div>
+
+      {/* Suspend Profile Modal */}
+      {suspendModal.show && (
+        <SuspendProfileModal
+          role={suspendModal.role}
+          onClose={() => setSuspendModal({ show: false, role: null })}
+          onConfirm={confirmSuspend}
+        />
+      )}
 
       {/* Toast Notification */}
       {toast.show && <Toast message={toast.message} type={toast.type} />}

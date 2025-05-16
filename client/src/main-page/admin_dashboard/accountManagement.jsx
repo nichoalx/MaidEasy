@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import Pagination from "./components/Pagination"
 import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
+import SuspendConfirmModal from "./SuspendUserModal"
 
 function AccountManagement() {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ function AccountManagement() {
       email: "Nickfury@gmail.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "12893424",
     },
     {
       id: 2,
@@ -22,6 +24,7 @@ function AccountManagement() {
       email: "edm@gmail.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "82345678",
     },
     {
       id: 3,
@@ -29,6 +32,7 @@ function AccountManagement() {
       email: "igogymeeveryday@gmail.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "87654321",
     },
     {
       id: 4,
@@ -36,6 +40,7 @@ function AccountManagement() {
       email: "eateggdaily@gmail.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "81234567",
     },
     {
       id: 5,
@@ -43,6 +48,7 @@ function AccountManagement() {
       email: "jerry@gmail.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "89876543",
     },
     {
       id: 6,
@@ -50,6 +56,7 @@ function AccountManagement() {
       email: "john@example.com",
       role: "Home Owner",
       status: "Active",
+      contactNumber: "91234567",
     },
     {
       id: 7,
@@ -57,6 +64,7 @@ function AccountManagement() {
       email: "jane@example.com",
       role: "Home Owner",
       status: "Active",
+      contactNumber: "98765432",
     },
     {
       id: 8,
@@ -64,6 +72,7 @@ function AccountManagement() {
       email: "robert@example.com",
       role: "Project Management",
       status: "Active",
+      contactNumber: "93456789",
     },
     {
       id: 9,
@@ -71,6 +80,7 @@ function AccountManagement() {
       email: "emily@example.com",
       role: "Cleaner",
       status: "Suspended",
+      contactNumber: "96789012",
     },
     {
       id: 10,
@@ -78,6 +88,7 @@ function AccountManagement() {
       email: "michael@example.com",
       role: "Home Owner",
       status: "Active",
+      contactNumber: "94567890",
     },
     {
       id: 11,
@@ -85,6 +96,7 @@ function AccountManagement() {
       email: "sarah@example.com",
       role: "Project Management",
       status: "Active",
+      contactNumber: "95678901",
     },
     {
       id: 12,
@@ -92,6 +104,7 @@ function AccountManagement() {
       email: "david@example.com",
       role: "Cleaner",
       status: "Active",
+      contactNumber: "92345678",
     },
   ])
 
@@ -154,24 +167,38 @@ function AccountManagement() {
   }
 
   // Handle suspend user
+  const [showSuspendModal, setShowSuspendModal] = useState(false)
+  const [userToSuspend, setUserToSuspend] = useState(null)
+
   const handleSuspend = (userId) => {
-    setUsers(
-      users.map((user) =>
-        user.id === userId ? { ...user, status: user.status === "Active" ? "Suspended" : "Active" } : user,
-      ),
-    )
+    const user = users.find((u) => u.id === userId)
+    setUserToSuspend(user)
+    setShowSuspendModal(true)
+  }
 
-    // Show toast notification
-    setToast({
-      show: true,
-      message: `User has been ${users.find((u) => u.id === userId).status === "Active" ? "suspended" : "activated"}`,
-      type: "success",
-    })
+  const confirmSuspend = () => {
+    if (userToSuspend) {
+      // First update the user in the users array
+      const updatedUsers = users.map((user) =>
+        user.id === userToSuspend.id ? { ...user, status: user.status === "Active" ? "Suspended" : "Active" } : user,
+      )
 
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" })
-    }, 3000)
+      // Update the state with the new users array
+      setUsers(updatedUsers)
+
+      // Show toast notification with the correct message
+      setToast({
+        show: true,
+        message: `User has been ${userToSuspend.status === "Active" ? "suspended" : "activated"}`,
+        type: "success",
+      })
+
+      // Hide toast after 3 seconds
+      setTimeout(() => {
+        setToast({ show: false, message: "", type: "" })
+      }, 3000)
+    }
+    setShowSuspendModal(false)
   }
 
   // Handle next page
@@ -324,6 +351,14 @@ function AccountManagement() {
         />
       </div>
 
+      {/* Suspend Confirmation Modal */}
+      {showSuspendModal && userToSuspend && (
+        <SuspendConfirmModal
+          user={userToSuspend}
+          onClose={() => setShowSuspendModal(false)}
+          onConfirm={confirmSuspend}
+        />
+      )}
       {/* Toast Notification */}
       {toast.show && <Toast message={toast.message} type={toast.type} />}
     </main>
