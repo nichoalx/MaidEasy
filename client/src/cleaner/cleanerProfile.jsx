@@ -60,7 +60,7 @@ export default function CleanerProfile() {
             className="nav-item"
             onClick={(e) => {
               e.preventDefault()
-              navigate("/confirmed-jobs")
+              navigate("/confirmed-service")
             }}
           >
             <i className="icon report-icon"></i>
@@ -100,7 +100,7 @@ export default function CleanerProfile() {
         <div className="whiteSpace">
           <div className="platform-content">
             <div className="search-header">
-                <h1 className="services-title">My Profile</h1>
+                <h1 className="services-title2">My Profile</h1>
             </div>
             <div className="profile-container">
               <div className="form-grid">
@@ -141,9 +141,9 @@ export default function CleanerProfile() {
               </div>
 
               {/* Email */}
-              <div className="form-group full-width">
+              <div className="form-group2">
                 <label htmlFor="email">Email</label>
-                <div className="input-container">
+                <div className="input-container2">
                   <img src={mailIcon} alt="email" className="input-icon" />
                   <input type="email" id="email" value="Kieronyolin12@gmail.com" readOnly />
                 </div>

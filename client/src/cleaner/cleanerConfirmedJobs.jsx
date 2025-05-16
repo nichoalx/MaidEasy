@@ -3,9 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./cleaner.css"; // using existing styles
 import "./detailJob.css";
 import personIcon from "../assets/circle_person.png";
-import categoryIcon from "../assets/category.png";
-import reportIcon from "../assets/report.png";
 import logoutIcon from "../assets/logout.png";
+import cleaningserviceIcon from "../assets/cleaningservice.png"
+import confirmIcon from "../assets/confirmed.png"
 
 export default function ConfirmedJobs() {
   const navigate = useNavigate();
@@ -13,49 +13,73 @@ export default function ConfirmedJobs() {
 
   return (
     <div className="platform-layout">
-      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
           <h1 className="logo">Garuda<br />Indonesia</h1>
         </div>
 
         <nav className="nav-menu">
-            <a href="#" 
-            className={`nav-item ${location.pathname === "/cleaner-profile" ? "active" : ""}`} 
-            onClick={(e) => { e.preventDefault(); navigate("/cleaner-profile") }}>
-            <span><img src={personIcon} alt="icon" />My Profile</span>
-            </a>
-
-            <a href="#" 
-            className={`nav-item ${location.pathname === "/cleaning-services" ? "active" : ""}`} 
-            onClick={(e) => { e.preventDefault(); navigate("/cleaning-services") }}>
-            <span><img src={categoryIcon} alt="icon" />My Cleaning Services</span>
-            </a>
-
-            <a href="#" 
-            className={`nav-item ${location.pathname === "/confirmed-jobs" ? "active" : ""}`} 
-            onClick={(e) => { e.preventDefault(); navigate("/confirmed-jobs") }}>
-            <span><img src={reportIcon} alt="icon" />Confirmed Jobs</span>
-            </a>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/cleaner-profile")
+            }}
+          >
+            <i className="icon grid-icon"></i>
+            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+          </a>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/cleaning-services")
+            }}
+          >
+            <i className="icon profile-icon"></i>
+            <span><img src={cleaningserviceIcon} alt="person icon" />Cleaning Services</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/confirmed-jobs")
+            }}
+          >
+            <i className="icon report-icon"></i>
+            <span1><img src={confirmIcon} alt="confirm icon" />Confirmed Jobs</span1>
+          </a>
         </nav>
-
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/logout") }}>
-            <span><img src={logoutIcon} alt="logout" />Log Out</span>
+          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
+            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
           </a>
         </div>
       </div>
 
-      {/* Main Content */}
+
       <div className="main-content">
         <header className="platform-header">
-          <div className="greeting"><h2>Hi, Cleaner 1 👋</h2></div>
+          <div className="greeting">
+            <h2>
+              Hi, Platform123{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
           <div className="user-profile">
             <div className="user-info">
-              <div className="user-name">Cleaner 1</div>
-              <div className="user-email">cleaner1@gmail.com</div>
+              <img src={personIcon} alt="person icon" />
+              <div className="user-details">
+                <div className="user-name">Platform123</div>
+                <div className="user-email">plat123@gmail.com</div>
+              </div>
             </div>
-            <div className="user-avatar"></div>
           </div>
         </header>
 

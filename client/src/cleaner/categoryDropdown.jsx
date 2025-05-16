@@ -49,7 +49,19 @@ export default function CategoryDropdown({
       {isOpen && (
         <div className="dropdown-menu">
           <div className="dropdown-search">
-            <Search className="search-icon" />
+                <svg
+                    className="search-icon2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <circle cx="11" cy="11" r="10"></circle>
+                    <line x1="22" y1="22" x2="19.65" y2="19.65"></line>
+                </svg>
             <input
               type="text"
               placeholder="Search Category"

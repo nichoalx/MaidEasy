@@ -31,19 +31,44 @@
     font-size: 0.95rem;
     margin-bottom: 1rem;
   }
-  
+
+.modal-detail-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3rem;
+  font-size: 18px;
+}
+
+.modal-detail-label {
+  width: 130px; /* Fixed width for alignment */
+  text-align: left;
+  color: #6b6b6b;
+  font-weight: 500;
+}
+
+.modal-detail-value {
+  font-weight: 600;
+  text-align: left;
+}
+
+
+.modal-detail-value {
+  font-weight: 500;
+}
+
   .modal-details p {
     font-size: 0.85rem;
     text-align: left;
     margin: 4px 0;
   }
   .delete2-btn, .cancel2-btn {
-    width: 100%;
+    width: 261px;
     max-width: 320px;
-    height: 40px;
+    height: 60px;
     padding: 0 16px;
     border-radius: 999px;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 500;
     cursor: pointer;
     border: none;

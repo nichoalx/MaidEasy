@@ -9,13 +9,32 @@ export default function DeleteModal({ service, onDelete, onCancel }) {
         <p className="modal-subtitle">Are you sure you want delete?</p>
 
         <div className="modal-details">
-          <p><strong>Service Name:</strong> {service.name}</p>
-          <p><strong>Category:</strong> {service.category}</p>
-          <p><strong>Price:</strong> ${service.price}</p>
-          <p><strong>Date Created:</strong> {service.date}</p>
-          <p><strong>Total Views:</strong> {service.views}</p>
-          <p><strong>Shortlisted:</strong> {service.shortlisted}</p>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Service Name:</span>
+            <span className="modal-detail-value">{service.name}</span>
         </div>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Category:</span>
+            <span className="modal-detail-value">{service.category}</span>
+        </div>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Price:</span>
+            <span className="modal-detail-value">${service.price}</span>
+        </div>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Date Created:</span>
+            <span className="modal-detail-value">{service.date}</span>
+        </div>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Total Views:</span>
+            <span className="modal-detail-value">{service.views}</span>
+        </div>
+        <div className="modal-detail-row">
+            <span className="modal-detail-label">Shortlisted:</span>
+            <span className="modal-detail-value">{service.shortlisted}</span>
+        </div>
+        </div>
+
 
         <button className="delete2-btn" onClick={() => onDelete(service.id)}>Delete</button>
         <button className="cancel2-btn" onClick={onCancel}>Cancel</button>

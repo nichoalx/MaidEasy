@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 import "./NewService.css";
+import SingleDropdown from "./singleDropdown"
 import photoIcon from "../assets/photo.png";
 
-export default function NewService() {
+export default function NewService({ onClose }) {
+  const navigate = useNavigate();
   const [mainImage, setMainImage] = useState(null);
   const [thumbnails, setThumbnails] = useState([null, null, null]);
   const fileInputRef = useRef(null);
@@ -162,14 +166,23 @@ export default function NewService() {
 
             <div className="inputRow">
               <label className="formLabel">Category:</label>
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className={`formInput ${errors.category ? "error" : ""}`}
-              />
+              <div className="formValue" style={{ marginLeft: "4rem", padding: 0 }}>
+                <SingleDropdown
+                  selected={category}
+                  className="newCategory"
+                  onChange={(val) => setCategory(val)}
+                  options={[
+                    { id: "Home Owner", name: "Home Owner" },
+                    { id: "Floor", name: "Floor" },
+                    { id: "Roof", name: "Roof" },
+                    { id: "Ceiling", name: "Ceiling" },
+                    { id: "Car Wash", name: "Car Wash" }
+                  ]}
+                />
+              </div>
             </div>
-            {errors.category && <span className="errorText">*Please fill in this field</span>}
+
+            {errors.category && <span className="errorText">*Please select a category</span>}
 
             <div className="inputRow">
               <label className="formLabel">Description:</label>
@@ -218,9 +231,10 @@ export default function NewService() {
 
         <div className="buttonGroup">
           <button className="primaryButton" onClick={handleSubmit}>Create New Services</button>
-          <Link to="/" className="secondaryButton">Cancel</Link>
+          <button className="secondaryButton" onClick={() => navigate(-1)}>Cancel</button>
+
         </div>
       </div>
-    </div>
+     </div>
   );
 }

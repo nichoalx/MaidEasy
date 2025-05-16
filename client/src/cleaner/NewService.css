@@ -6,10 +6,11 @@
 }
 
 .newServiceWrapper {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .newServiceContainer {
@@ -151,6 +152,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-left: 2rem;
 }
 
 .inputRow label {
@@ -229,7 +231,7 @@ textarea.formInput {
   .errorText {
     color: red;
     font-size: 0.8rem;
-    margin-left: 140px;
+    margin-left: 175px;
     margin-top: -10px;
     display: block;
   }
@@ -245,4 +247,31 @@ textarea.formInput {
     color: red;
     font-size: 0.9rem;
     margin-top: 2rem;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 0;
+    max-height: 90vh; /* Prevent overflow beyond screen */
+    overflow-y: auto; /* Enables internal scroll */
+    /* width: 100%; */
+    max-width: 800px;
+  }
+
+  .newCategory {
+    width: 10rem !important; 
   }

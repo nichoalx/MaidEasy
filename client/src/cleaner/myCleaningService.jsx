@@ -81,6 +81,10 @@ export default function CleaningServices() {
     navigate(`/edit-service/${service.id}`);
     };
 
+    const handleViewClick = (service) => {
+    navigate(`/view-service/${service.id}`);
+    };
+
   const confirmDelete = (id) => {
     setServices(services.filter(s => s.id !== id));
     setShowModal(false);
@@ -126,7 +130,7 @@ export default function CleaningServices() {
             className="nav-item"
             onClick={(e) => {
               e.preventDefault()
-              navigate("/confirmed-jobs")
+              navigate("/confirmed-service")
             }}
           >
             <i className="icon report-icon"></i>
@@ -244,7 +248,7 @@ export default function CleaningServices() {
                       <td>{item.shortlisted}</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="view-btn">View</button>
+                          <button className="view-btn" onClick={() => handleViewClick(item)}>View</button>
                           <button className="edit-btn" onClick={() => handleEditClick(item)}>Edit</button>
 
                           <button className="delete-btn" onClick={() => handleDeleteClick(item)}>Delete</button>

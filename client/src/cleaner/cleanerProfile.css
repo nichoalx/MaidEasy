@@ -252,7 +252,7 @@
     flex-direction: column;
   }
   
-  .form-group.full-width {
+  .form-group2 {
     grid-column: span 2;
   }
 
@@ -264,6 +264,15 @@
     font-weight: 500;
   }
 
+    .form-group2 label{
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+    margin-left: 10px;
+    font-weight: 500;
+  }
+
+
   .input-container {
     display: flex;
     align-items: center;
@@ -274,6 +283,19 @@
     height: 45px;
     width: 415px;
     max-width: 100%;
+    }
+
+    .input-container2 {
+    display: flex;
+    align-items: center;
+    background-color: rgba(212, 211, 211, 0.25); 
+    border: 2px solid #C5C5C5; 
+    border-radius: 999px;
+    padding: 0.25rem 1rem;
+    height: 45px;
+    width: 856px;
+    max-width: 100%;
+    font-weight: 600;
     }
   
   .input-icon, .role-icon {
@@ -296,7 +318,7 @@
     margin-top: 4px;
   }
 
-  .profile-container .input-container input {
+  .profile-container .input-container2 input {
     background: transparent;
     border: none;
     outline: none;
@@ -307,31 +329,9 @@
     width: 100%;
     font-size: 1rem;
     color: #374151;
+   
   }
 
-  .input-container-email {
-    display: flex;
-    align-items: center;
-    background-color: rgba(212, 211, 211, 0.25); 
-    border: 2px solid #C5C5C5; 
-    border-radius: 999px;
-    padding: 0.25rem 1rem;
-    height: 45px;
-    width: 856px;
-    }
-
-  .profile-container .input-container-email input {
-    background: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 100%;
-    font-size: 1rem;
-    color: #374151;
-  }
 
   .select-container {
     display: flex;
@@ -368,4 +368,9 @@
     margin-left: 0.5rem;
     object-fit: contain;
     color: #6b7280;
+  }
+
+  .services-title2 {
+    margin-left: 9rem;
+    font-size: 36px;
   }
