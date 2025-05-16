@@ -85,8 +85,7 @@ function Profile() {
             <label htmlFor="role">Role</label>
             <div className="input-container dropdown">
               <i className="input-icon role-icon"></i>
-              <input type="text" id="role" value="Cleaner" readOnly />
-              <i className="dropdown-icon"></i>
+              <input type="text" id="role" value="Admin" readOnly />
             </div>
           </div>
         </div>

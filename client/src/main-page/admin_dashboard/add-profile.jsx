@@ -4,32 +4,23 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
+import logout from "../../assets/logout.png"
+import Vector from "../../assets/Vector.png"
+import Human from "../../assets/Human.png"
+import circle_person from "../../assets/circle_person.png"
 
 function AddProfile() {
   const navigate = useNavigate()
   const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
   // Available permissions for checkboxes
-  const availablePermissions = [
-    "User Management",
-    "Profile Management",
-    "System Settings",
-    "Reports",
-    "Service Management",
-    "Schedule Management",
-    "Client Communication",
-    "Service Booking",
-    "Payment Management",
-    "Reviews",
-    "Team Management",
-    "Project Planning",
-    "Ticket Management",
-    "Knowledge Base",
-    "Financial Reports",
-    "Invoice Management",
-    "Payment Processing",
-  ]
-
+   const permissionGroups = {
+  "User": [" User Management", " Schedule Management", " Team Management", " Invoice Management"],
+  "Profile": [" Profile Management", " Client Communication", " Project Planning", " Payment Processing"],
+  "System": [" System Settings", " Service Booking", " Ticket Management"],
+  "Reports": [" Reports", "  Payment Management", " Knowledge Base"],
+  "Service": [" Service Management", " Reviews", " Financial Reports"],
+}
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -112,48 +103,20 @@ function AddProfile() {
           </div>
 
           <nav className="nav-menu">
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
-              <i className="icon dashboard-icon"></i>
-              <span>Dashboard</span>
-            </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profile" } })
-              }}
-            >
-              <i className="icon profile-icon"></i>
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
+              <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
               <span>My Profile</span>
             </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "account" } })
-              }}
-            >
-              <i className="icon users-icon"></i>
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
+              <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
               <span>Account Management</span>
             </a>
             <a
               href="#"
               className="nav-item active"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profileManagement" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
-              <i className="icon profile-management-icon"></i>
+              <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
               <span>Profile Management</span>
             </a>
           </nav>
@@ -167,7 +130,7 @@ function AddProfile() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>
@@ -207,7 +170,8 @@ function AddProfile() {
                 <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
                 <div style={{ display: "flex", gap: "12px" }}>
                   <button
-                    onClick={handleBack}
+                  onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
+
                     style={{
                       backgroundColor: "#e5edff",
                       color: "#3e4772",
@@ -307,32 +271,25 @@ function AddProfile() {
                     <label>Permissions</label>
                     {errors.permissions && <div className="error-message">{errors.permissions}</div>}
 
-                    <div
-                      className="permissions-container"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                        gap: "10px",
-                        marginTop: "15px",
-                      }}
-                    >
-                      {availablePermissions.map((permission) => (
-                        <div
-                          key={permission}
-                          className="permission-checkbox"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <input
-                            type="checkbox"
-                            id={`permission-${permission}`}
-                            checked={formData.permissions.includes(permission)}
-                            onChange={() => handlePermissionChange(permission)}
-                            style={{ marginRight: "8px" }}
-                          />
-                          <label htmlFor={`permission-${permission}`}>{permission}</label>
-                        </div>
-                      ))}
-                    </div>
+                    <div className="permissions-container">
+  {Object.entries(permissionGroups).map(([group, permissions]) => (
+    <div key={group} className="permission-group">
+      <h4 className="group-title">{group}</h4>
+      {permissions.map((permission) => (
+        <label key={permission} className="permission-checkbox">
+          <input
+            type="checkbox"
+            checked={formData.permissions.includes(permission)}
+            onChange={() => handlePermissionChange(permission)}
+          />
+          {permission}
+        </label>
+      ))}
+    </div>
+  ))}
+</div>
+
+                   
                   </div>
                 </div>
               </div>

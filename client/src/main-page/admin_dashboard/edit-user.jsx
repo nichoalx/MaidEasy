@@ -12,6 +12,9 @@ import calendar_icon from "../../assets/calender_icon.png"
 import mail_icon from "../../assets/mail_icon.png"
 import lock_icon from "../../assets/lock_icon.png"
 import circle_person from "../../assets/circle_person.png"
+import logout from "../../assets/logout.png"
+import Vector from "../../assets/Vector.png"
+import Human from "../../assets/Human.png"
 
 function EditUser() {
   const navigate = useNavigate()
@@ -235,21 +238,10 @@ function EditUser() {
                 className="nav-item"
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate("/dashboard", { state: { page: "dashboard" } })
-                }}
-              >
-                <i className="icon dashboard-icon"></i>
-                <span>Dashboard</span>
-              </a>
-              <a
-                href="#"
-                className="nav-item"
-                onClick={(e) => {
-                  e.preventDefault()
                   navigate("/dashboard", { state: { page: "profile" } })
                 }}
               >
-                <i className="icon profile-icon"></i>
+                <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
                 <span>My Profile</span>
               </a>
               <a
@@ -260,7 +252,7 @@ function EditUser() {
                   navigate("/dashboard", { state: { page: "account" } })
                 }}
               >
-                <i className="icon users-icon"></i>
+                <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
                 <span>Account Management</span>
               </a>
               <a
@@ -271,7 +263,7 @@ function EditUser() {
                   navigate("/dashboard", { state: { page: "profileManagement" } })
                 }}
               >
-                <i className="icon profile-management-icon"></i>
+                <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
                 <span>Profile Management</span>
               </a>
             </nav>
@@ -285,7 +277,7 @@ function EditUser() {
                   navigate("/")
                 }}
               >
-                <i className="icon logout-icon"></i>
+                <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
                 <span>Log Out</span>
               </a>
             </div>
@@ -342,21 +334,10 @@ function EditUser() {
               className="nav-item"
               onClick={(e) => {
                 e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
-              <i className="icon dashboard-icon"></i>
-              <span>Dashboard</span>
-            </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
                 navigate("/dashboard", { state: { page: "profile" } })
               }}
             >
-              <i className="icon profile-icon"></i>
+              <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
               <span>My Profile</span>
             </a>
             <a
@@ -367,7 +348,7 @@ function EditUser() {
                 navigate("/dashboard", { state: { page: "account" } })
               }}
             >
-              <i className="icon users-icon"></i>
+              <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
               <span>Account Management</span>
             </a>
             <a
@@ -378,7 +359,7 @@ function EditUser() {
                 navigate("/dashboard", { state: { page: "profileManagement" } })
               }}
             >
-              <i className="icon profile-management-icon"></i>
+              <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
               <span>Profile Management</span>
             </a>
           </nav>
@@ -392,7 +373,7 @@ function EditUser() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>
@@ -432,7 +413,7 @@ function EditUser() {
                 <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Personal Information</h2>
                 <div style={{ display: "flex", gap: "12px" }}>
                   <button
-                    onClick={handleBack}
+                    onClick={() => navigate("/dashboard", { state: { page: "account" } })}
                     style={{
                       backgroundColor: "#e5edff",
                       color: "#3e4772",

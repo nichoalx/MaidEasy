@@ -42,6 +42,16 @@
   flex-direction: column;
 }
 
+/* Add this to ensure icons don't flash during transitions */
+.platform-layout .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  display: inline-block;
+  transition: none; /* Prevent any transition effects */
+}
+
+/* Ensure consistent styling for all navigation items */
 .platform-layout .nav-item {
   display: flex;
   align-items: center;
@@ -61,13 +71,6 @@
   border-left: 4px solid white;
 }
 
-.platform-layout .icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  display: inline-block;
-}
-
 .platform-layout .grid-icon::before {
   content: "⊞";
 }
@@ -80,18 +83,7 @@
   content: "📊";
 }
 
-.platform-layout .logout-icon::before {
-  content: "↩";
-}
-
-.platform-layout .user-icon::before {
-  content: "👤";
-}
-
-.platform-layout .search-icon::before {
-  content: "🔍";
-}
-
+/* Ensure consistent styling for logout container */
 .platform-layout .logout-container {
   padding: 24px;
   margin-top: auto;
@@ -103,6 +95,20 @@
   align-items: center;
   color: white;
   text-decoration: none;
+}
+
+.platform-layout .logout-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+}
+
+.platform-layout .user-icon::before {
+  content: "👤";
+}
+
+.platform-layout .search-icon::before {
+  content: "🔍";
 }
 
 /* Main Content */
@@ -177,6 +183,89 @@
   align-items: flex-end;
   gap: 16px;
   margin-bottom: 16px;
+}
+
+/* New Search Header Styles */
+.platform-layout .search-header-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.platform-layout .search-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.platform-layout .search-by-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-layout .search-by-dropdown {
+  position: relative;
+}
+
+.platform-layout .search-by-selected {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.platform-layout .search-by-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 150px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.platform-layout .search-by-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.platform-layout .search-by-option:hover {
+  background-color: #f5f5f5;
+}
+
+.platform-layout .search-by-option.active {
+  background-color: #e6f7ff;
+  font-weight: 500;
+}
+
+.platform-layout .dropdown-arrow {
+  font-size: 10px;
+}
+
+.platform-layout .search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.platform-layout .search-input {
+  width: 100%;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.platform-layout .search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .platform-layout .keyword-section {
@@ -628,4 +717,221 @@
 .platform-layout .status-badge.active {
   background-color: rgba(118, 192, 105, 0.1);
   color: #76c069;
+}
+
+/* Add these styles to ensure the search bar layout works correctly */
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.search-by-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-by-dropdown {
+  position: relative;
+}
+
+.search-by-selected {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.search-by-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 150px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.search-by-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.search-by-option:hover {
+  background-color: #f5f5f5;
+}
+
+.search-by-option.active {
+  background-color: #e6f7ff;
+  font-weight: 500;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Report Cards Styles */
+.platform-layout .report-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.platform-layout .report-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.platform-layout .report-card-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.platform-layout .generate-btn {
+  background-color: #3e7244;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.platform-layout .generate-btn:hover {
+  background-color: #2e5a33;
+}
+
+/* Report Modal Styles */
+.platform-layout .report-modal {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.platform-layout .report-modal-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.platform-layout .report-date {
+  font-size: 28px;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.platform-layout .report-stat-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.platform-layout .report-stat-label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.platform-layout .report-stat-value {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.platform-layout .report-section {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.platform-layout .report-section-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.platform-layout .report-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.platform-layout .report-item:last-child {
+  margin-bottom: 0;
+}
+
+.platform-layout .report-item-label {
+  font-weight: 500;
+}
+
+.platform-layout .report-item-value {
+  font-weight: 600;
+}
+
+.platform-layout .back-button {
+  background-color: #3e4772;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.platform-layout .back-button:hover {
+  background-color: #333b5e;
 }

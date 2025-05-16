@@ -1,7 +1,10 @@
+"use client"
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
+import logout from "../../assets/logout.png"
 
 import person_icon from "../../assets/person_icon.png"
 import calendar_icon from "../../assets/calender_icon.png"
@@ -9,6 +12,9 @@ import mail_icon from "../../assets/mail_icon.png"
 import lock_icon from "../../assets/lock_icon.png"
 import visibility_on from "../../assets/visibility_on.png"
 import visibility_off from "../../assets/visibility_off.png"
+import Vector from "../../assets/Vector.png"
+import Human from "../../assets/Human.png"
+import circle_person from "../../assets/circle_person.png"
 
 function AddUser() {
   const navigate = useNavigate()
@@ -86,48 +92,25 @@ function AddUser() {
           </div>
 
           <nav className="nav-menu">
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "dashboard" } })
-              }}
-            >
-              <i className="icon dashboard-icon"></i>
-              <span>Dashboard</span>
-            </a>
-            <a
-              href="#"
-              className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profile" } })
-              }}
-            >
-              <i className="icon profile-icon"></i>
+
+            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
+              <img src={circle_person || "/placeholder.svg"} alt="Profile" className="icon" />
               <span>My Profile</span>
             </a>
             <a
               href="#"
               className="nav-item active"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "account" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "account" } })}
             >
-              <i className="icon users-icon"></i>
+              <img src={Vector || "/placeholder.svg"} alt="Account" className="icon" />
               <span>Account Management</span>
             </a>
             <a
               href="#"
               className="nav-item"
-              onClick={(e) => {
-                e.preventDefault()
-                navigate("/dashboard", { state: { page: "profileManagement" } })
-              }}
+              onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}
             >
-              <i className="icon profile-management-icon"></i>
+              <img src={Human || "/placeholder.svg"} alt="Profile Management" className="icon" />
               <span>Profile Management</span>
             </a>
           </nav>
@@ -141,7 +124,7 @@ function AddUser() {
                 navigate("/")
               }}
             >
-              <i className="icon logout-icon"></i>
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
               <span>Log Out</span>
             </a>
           </div>
@@ -181,7 +164,7 @@ function AddUser() {
                 <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Personal Information</h2>
                 <div style={{ display: "flex", gap: "12px" }}>
                   <button
-                    onClick={handleBack}
+                  onClick={() => navigate("/dashboard", { state: { page: "account" } })}
                     style={{
                       backgroundColor: "#e5edff",
                       color: "#3e4772",
@@ -327,7 +310,7 @@ function AddUser() {
                   <div className="form-group">
                     <label htmlFor="status">Status</label>
                     <div className="input-container">
-                      <span className="status-indicator active"></span>
+                      <span className={`status-indicator ${formData.status.toLowerCase()}`}></span>
                       <select id="status" value={formData.status} onChange={handleChange}>
                         <option value="Active">Active</option>
                         <option value="Suspended">Suspended</option>
