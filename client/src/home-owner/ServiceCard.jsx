@@ -7,6 +7,7 @@ import menuIcon from "../assets/menu.svg"
 import "./ServiceCard.css"
 
 export default function ServiceCard({
+  service,
   serviceName,
   category,
   price,
@@ -14,7 +15,8 @@ export default function ServiceCard({
   joinedDate,
   isFavorite = false,
   imageUrl,            // ✅ Add this
-  profileImage
+  profileImage,
+  onViewClick
 }) {
   const [favorite, setFavorite] = useState(isFavorite)
 
@@ -63,13 +65,13 @@ export default function ServiceCard({
         </div>
 
         <div className="card-actions">
-            <button className="view-button" onClick={() => console.log("View Details")}>
-                <img src={menuIcon} alt="view" />
-            </button>
+          <button className="view-button" onClick={() => onViewClick(service)}>
+            <img src={menuIcon} alt="view" />
+          </button>
 
-            <button className="favorite-button" onClick={toggleFavorite}>
-                <img src={favorite ? redHeart : noHeart} alt="favorite icon" />
-            </button>
+          <button className="favorite-button" onClick={toggleFavorite}>
+              <img src={favorite ? redHeart : noHeart} alt="favorite icon" />
+          </button>
         </div>
       </div>
     </div>

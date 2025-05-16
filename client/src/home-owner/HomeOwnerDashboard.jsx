@@ -3,6 +3,7 @@ import searchIcon from "../assets/Search.png"
 import calendarIcon from "../assets/calender_icon.png"
 import CategoryDropdown from "./categoryDropdown"
 import ServiceCardGrid from "./ServiceCardGrid"
+import ViewCleaningService from "./ViewCleaningService"
 
 export default function HomeOwnerDashboard() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -12,6 +13,7 @@ export default function HomeOwnerDashboard() {
   const [services, setServices] = useState([])
   const [filtered, setFiltered] = useState([])
   const [visibleCount, setVisibleCount] = useState(18)
+  const [selectedService, setSelectedService] = useState(null)
 
   useEffect(() => {
     const dummy = Array.from({ length: 24 }, (_, i) => ({
@@ -142,7 +144,7 @@ export default function HomeOwnerDashboard() {
       </div>
 
       {/* 🧱 Service Cards */}
-      <ServiceCardGrid services={filtered.slice(0, visibleCount)} />
+      <ServiceCardGrid services={filtered.slice(0, visibleCount)} onViewClick={setSelectedService} />
 
       {/* 📦 Load More button (conditionally shown) */}
       {visibleCount < filtered.length && (
@@ -151,6 +153,12 @@ export default function HomeOwnerDashboard() {
             Load More
           </button>
         </div>
+      )}
+      {selectedService && (
+        <ViewCleaningService
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+        />
       )}
     </div>
   )
