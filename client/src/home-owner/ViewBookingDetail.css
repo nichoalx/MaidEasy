@@ -26,31 +26,71 @@
     margin-bottom: 16px;
   }
   
-  .back-btn {
+  .booking-back-btn {
     background-color: #e5edff;
     color: #3e4772;
     border: none;
-    border-radius: 16px;
-    padding: 8px 16px;
+    width: 90px;
+    border-radius: 20px;
+    padding: 6px 16px;
     cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 00.3);
+  }
+
+  .booking-back-btn:hover{
+    background-color: #d1d8e9;
   }
   
   .booking-modal-section {
     margin-top: 24px;
   }
   
+  .booking-section-title {
+    margin-bottom: 12px;
+  }
+  
   .booking-service,
   .booking-cleaner {
     display: flex;
     gap: 16px;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .booking-service-img,
   .booking-cleaner-img {
-    width: 80px;
-    height: 80px;
+    width: 150px;
+    height: 150px;
     border-radius: 8px;
     object-fit: cover;
+  }
+
+  .booking-cleaner-img{
+    border: 2px solid #ccc;
+  }
+
+  .booking-details-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .booking-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .booking-label {
+    width: 130px;
+    font-weight: 600;
+    color: #444;
+    flex-shrink: 0;
+  }
+  
+  .booking-value {
+    flex: 1;
+    font-weight: 500;
+    color: #000;
+    word-break: break-word;
   }
   

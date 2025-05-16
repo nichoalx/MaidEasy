@@ -7,7 +7,6 @@ import { format } from "date-fns"
 export default function BookingDetailModal({ booking, onClose }) {
   if (!booking) return null
 
-  // Use dynamic fields with fallbacks
   const {
     id,
     serviceName = "Unnamed Service",
@@ -20,18 +19,16 @@ export default function BookingDetailModal({ booking, onClose }) {
     providerImage
   } = booking
 
-  const formattedDate = new Date(date).toLocaleDateString("en-GB") // e.g. 15/04/2025
-
   return (
     <div className="booking-modal-overlay">
       <div className="booking-modal">
         <div className="booking-modal-header">
           <h2>Book #{id}</h2>
-          <button className="back-btn" onClick={onClose}>Back</button>
+          <button className="booking-back-btn" onClick={onClose}>Back</button>
         </div>
 
         <div className="booking-modal-section">
-          <h3>Service Details</h3>
+          <h3 className="booking-section-title">Service Details</h3>
           <div className="booking-service">
             <img
               src={serviceImage || defaultServiceImage}
@@ -39,15 +36,24 @@ export default function BookingDetailModal({ booking, onClose }) {
               className="booking-service-img"
             />
             <div className="booking-details-text">
-              <p><strong>Service Name:</strong> {serviceName}</p>
-              <p><strong>Category:</strong> {category}</p>
-              <p><strong>Price:</strong> ${price}</p>
+              <div className="booking-row">
+                <span className="booking-label">Service Name:</span>
+                <span className="booking-value">{serviceName}</span>
+              </div>
+              <div className="booking-row">
+                <span className="booking-label">Category:</span>
+                <span className="booking-value">{category}</span>
+              </div>
+              <div className="booking-row">
+                <span className="booking-label">Price:</span>
+                <span className="booking-value">${price.toLocaleString()}</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="booking-modal-section">
-          <h3>Cleaner Details</h3>
+          <h3 className="booking-section-title">Cleaner Details</h3>
           <div className="booking-cleaner">
             <img
               src={providerImage || defaultCleanerImage}
@@ -55,15 +61,23 @@ export default function BookingDetailModal({ booking, onClose }) {
               className="booking-cleaner-img"
             />
             <div className="booking-details-text">
-              <p><strong>Name:</strong> {providerName}</p>
-              <p><strong>Phone Number:</strong> {phone}</p>
+              <div className="booking-row">
+                <span className="booking-label">Name:</span>
+                <span className="booking-value">{providerName}</span>
+              </div>
+              <div className="booking-row">
+                <span className="booking-label">Phone Number:</span>
+                <span className="booking-value">{phone}</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="booking-modal-section">
-          <h3>Date/Time</h3>
-          <p>{format(new Date(date), "MMM d, yyyy")}</p>
+          <h3 className="booking-section-title">Date/Time</h3>
+          <div className="booking-row">
+            <span className="booking-value">{format(new Date(date), "MMM d, yyyy")}</span>
+          </div>
         </div>
       </div>
     </div>
