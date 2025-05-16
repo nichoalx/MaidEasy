@@ -14,13 +14,13 @@
   .modal-container {
     background-color: white;
     border-radius: 16px;
-    width: 90%;
     max-width: 1050px;
     height: 750px;
-    /* padding: 24px; */
     display: flex;
     flex-direction: column;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
   }
   
   .modal-header {
@@ -32,18 +32,27 @@
     padding: 16px 24px;
     border-radius: 12px 12px 0 0;
   }
-  
-  .close-btn img {
-    width: 20px;
-    height: 20px;
+
+  .view-close-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
+  }
+  
+  .view-close-btn img {
+    display: block;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    filter: brightness(2.3) contrast(1.9);
   }
   
   .modal-body {
     display: flex;
     flex: 1;
     padding: 24px;
-    gap: 32px;
+    gap: 5px;
   }
   
   .left-section {
@@ -51,7 +60,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 3rem;
+    margin-top: 30px;
   }
   
   .image-slider {
@@ -61,8 +71,8 @@
   }
   
   .image-box {
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
     border: 2px dashed #ccc;
     display: flex;
     align-items: center;
@@ -87,10 +97,11 @@
   }
   
   .provider-avatar {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid #ccc;
   }
   
   .provider-name {
@@ -107,25 +118,31 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 3rem;
+    margin-top: 30px;
   }
   
   .detail-row {
     display: flex;
+    align-items: flex-start;
     gap: 12px;
+    flex-wrap: wrap;
   }
   
-  .label {
+  .view-label {
+    font-size: 16px;
     width: 120px;
     color: #777;
+    flex-shrink: 0;
   }
   
-  .value {
+  .view-value {
     font-weight: 600;
+    flex: 1;
+    word-break: break-word;
   }
   
-  .back-btn {
-    margin-top: auto;
+  .view-back-btn {
     background-color: #e5edff;
     color: #3e4772;
     border: none;
@@ -134,5 +151,34 @@
     width: 100px;
     align-self: flex-start;
     cursor: pointer;
+  }
+
+
+  .view-action-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-right: 16px;
+  }
+  
+  .view-favorite-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  .view-favorite-btn img {
+    pointer-events: auto;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s;
+  }
+  
+  .view-favorite-btn:hover img {
+    transform: scale(1.1);
   }
   

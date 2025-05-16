@@ -1,8 +1,13 @@
-// HomeOwner/HomeOwnerShortlist.jsx
 import { useEffect, useState } from "react"
 import searchIcon from "../assets/Search.png"
 import CategoryDropdown from "./categoryDropdown"
 import ServiceCardGrid from "./ServiceCardGrid"
+import ViewCleaningService from "./ViewCleaningService"
+
+import sample1 from "../assets/Sample1.png"
+import sample2 from "../assets/Sample2.png"
+import sample3 from "../assets/Sample3.png"
+import nick from "../assets/nick.png"
 
 export default function HomeOwnerShortlist() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -12,22 +17,45 @@ export default function HomeOwnerShortlist() {
   const [services, setServices] = useState([])
   const [filtered, setFiltered] = useState([])
   const [visibleCount, setVisibleCount] = useState(18)
+  const [selectedService, setSelectedService] = useState(null)
 
+  // 💔 Toggle and remove if unfavorited
+  const handleToggleFavorite = (id) => {
+    const updated = services
+      .map((s) => s.id === id ? { ...s, isFavorite: !s.isFavorite } : s)
+      .filter((s) => s.isFavorite)
+  
+    setServices(updated)
+    setFiltered(updated)
+  
+    // 🧼 If the currently viewed item is removed, close the modal
+    if (selectedService?.id === id) {
+      setSelectedService(null)
+    }
+  }
+
+  // 🧪 Dummy favorited-only services
   useEffect(() => {
-    const dummy = Array.from({ length: 30 }, (_, i) => ({
+    const dummy = Array.from({ length: 24 }, (_, i) => ({
       id: i + 1,
-      serviceName: `Shortlisted ${i + 1}`,
+      serviceName: `Service ${i + 1}`,
       category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      price: 70000 + i * 500,
-      providerName: `Fav Cleaner ${i + 1}`,
-      joinedDate: `Feb ${2022 + (i % 3)}`,
-      isFavorite: true
+      price: 60000 + i * 1000,
+      providerName: `Cleaner ${i + 1}`,
+      joinedDate: `Jan ${2022 + (i % 3)}`,
+      isFavorite: true,
+      description: `This is a professional ${["floor", "glass", "furniture", "carpet"][i % 4]} cleaning service that ensures high-quality results using eco-friendly materials. Perfect for maintaining a spotless and healthy home environment.`,
+      duration: `${1 + (i % 3)} hour(s)`,
+      availability: ["Monday–Friday", "Weekends", "Daily", "Custom"][i % 4],
+      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
+      images: [sample1, sample2, sample3],
+      providerImage: nick
     }))
-
     setServices(dummy)
     setFiltered(dummy)
   }, [])
 
+  // 🔎 Filter Logic
   useEffect(() => {
     let result = [...services]
 
@@ -68,6 +96,7 @@ export default function HomeOwnerShortlist() {
     <div className="HomeOwnerShortList">
       <div className="HomeOwnerShortListName">My Shortlist</div>
 
+      {/* 🔍 Filter Bar */}
       <div className="HomeOwnerSearchContainer">
         <div className="labelRow">
           <label>Keywords</label>
@@ -77,7 +106,6 @@ export default function HomeOwnerShortlist() {
         </div>
 
         <div className="HomeOwnerSearchBar">
-          {/* Search input */}
           <div className="searchGroup">
             <span className="searchIcon">
               <img src={searchIcon} alt="search icon" />
@@ -90,7 +118,6 @@ export default function HomeOwnerShortlist() {
             />
           </div>
 
-          {/* Type dropdown */}
           <div className="HomeOwnerBy">
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
               <option value="service">By Service</option>
@@ -98,7 +125,6 @@ export default function HomeOwnerShortlist() {
             </select>
           </div>
 
-          {/* Category */}
           <div className="HomeOwnerCategoryDropdown">
             <CategoryDropdown
               selectedCategories={selectedCategories}
@@ -107,7 +133,6 @@ export default function HomeOwnerShortlist() {
             />
           </div>
 
-          {/* Price dropdown */}
           <div className="HomeOwnerPrice">
             <select value={priceSort} onChange={(e) => setPriceSort(e.target.value)}>
               <option value="none">Sort Price</option>
@@ -116,7 +141,6 @@ export default function HomeOwnerShortlist() {
             </select>
           </div>
 
-          {/* Filter button (optional interaction trigger) */}
           <button className="filterButton">Filter</button>
         </div>
       </div>
@@ -127,7 +151,11 @@ export default function HomeOwnerShortlist() {
       </div>
 
       {/* 🧱 Service Cards */}
-      <ServiceCardGrid services={filtered.slice(0, visibleCount)} />
+      <ServiceCardGrid
+        services={filtered.slice(0, visibleCount)}
+        onViewClick={setSelectedService}
+        onToggleFavorite={handleToggleFavorite}
+      />
 
       {/* Load More */}
       {visibleCount < filtered.length && (
@@ -139,6 +167,15 @@ export default function HomeOwnerShortlist() {
             Load More
           </button>
         </div>
+      )}
+
+      {/* 🔍 View Modal */}
+      {selectedService && (
+        <ViewCleaningService
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+          onToggleFavorite={handleToggleFavorite}
+        />
       )}
     </div>
   )

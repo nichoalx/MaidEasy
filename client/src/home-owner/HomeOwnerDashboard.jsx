@@ -4,6 +4,10 @@ import calendarIcon from "../assets/calender_icon.png"
 import CategoryDropdown from "./categoryDropdown"
 import ServiceCardGrid from "./ServiceCardGrid"
 import ViewCleaningService from "./ViewCleaningService"
+import sample1 from "../assets/Sample1.png"
+import sample2 from "../assets/Sample2.png"
+import sample3 from "../assets/Sample3.png"
+import nick from "../assets/nick.png"
 
 export default function HomeOwnerDashboard() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -14,6 +18,14 @@ export default function HomeOwnerDashboard() {
   const [filtered, setFiltered] = useState([])
   const [visibleCount, setVisibleCount] = useState(18)
   const [selectedService, setSelectedService] = useState(null)
+  const handleToggleFavorite = (id) => {
+    setServices((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, isFavorite: !s.isFavorite } : s))
+    )
+    setFiltered((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, isFavorite: !s.isFavorite } : s))
+    )
+  }
 
   useEffect(() => {
     const dummy = Array.from({ length: 24 }, (_, i) => ({
@@ -23,12 +35,18 @@ export default function HomeOwnerDashboard() {
       price: 60000 + i * 1000,
       providerName: `Cleaner ${i + 1}`,
       joinedDate: `Jan ${2022 + (i % 3)}`,
-      isFavorite: i % 2 === 0
-    }));
+      isFavorite: i % 2 === 0,
+      description: `This is a professional ${["floor", "glass", "furniture", "carpet"][i % 4]} cleaning service that ensures high-quality results using eco-friendly materials. Perfect for maintaining a spotless and healthy home environment.`,
+      duration: `${1 + (i % 3)} hour(s)`,
+      availability: ["Monday–Friday", "Weekends", "Daily", "Custom"][i % 4],
+      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
+      images: [sample1, sample2, sample3],
+      providerImage: nick
+    }))
   
-    setServices(dummy);
-    setFiltered(dummy);
-  }, []);
+    setServices(dummy)
+    setFiltered(dummy)
+  }, [])
 
   // 🔁 Filter & sort logic
   useEffect(() => {
@@ -144,7 +162,11 @@ export default function HomeOwnerDashboard() {
       </div>
 
       {/* 🧱 Service Cards */}
-      <ServiceCardGrid services={filtered.slice(0, visibleCount)} onViewClick={setSelectedService} />
+      <ServiceCardGrid
+        services={filtered.slice(0, visibleCount)}
+        onViewClick={setSelectedService}
+        onToggleFavorite={handleToggleFavorite}
+      />
 
       {/* 📦 Load More button (conditionally shown) */}
       {visibleCount < filtered.length && (
@@ -156,8 +178,9 @@ export default function HomeOwnerDashboard() {
       )}
       {selectedService && (
         <ViewCleaningService
-          service={selectedService}
-          onClose={() => setSelectedService(null)}
+        service={selectedService}
+        onClose={() => setSelectedService(null)}
+        onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>

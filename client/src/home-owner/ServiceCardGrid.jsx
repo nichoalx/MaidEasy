@@ -1,15 +1,15 @@
 import ServiceCard from "./serviceCard"
 import "./ServiceCard.css"
 
-export default function ServiceCardGrid({ services, onViewClick }) {
+export default function ServiceCardGrid({ services, onViewClick, onToggleFavorite }) {
   return (
     <div className="service-card-grid">
-      {services.map((service, i) => (
+      {services.map((service) => (
         <ServiceCard
-          key={i}
-          {...service}
+          key={service.id}
           service={service}
-          onViewClick={onViewClick}
+          onViewClick={onViewClick}             // ✅ make sure this is passed
+          onToggleFavorite={onToggleFavorite}   // ✅ if used
         />
       ))}
     </div>

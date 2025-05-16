@@ -7,6 +7,9 @@ import closeIcon from "../assets/close.png"
 import CategoryDropdown from "./categoryDropdown"
 import "react-date-range/dist/styles.css"
 import "react-date-range/dist/theme/default.css"
+import BookingDetailModal from "./ViewBookingDetail"
+import sample1 from "../assets/Sample1.png"
+import nick from "../assets/nick.png"
 
 export default function HomeOwnerHistory() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -18,16 +21,20 @@ export default function HomeOwnerHistory() {
   const [filtered, setFiltered] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [sortAsc, setSortAsc] = useState(true)
+  const [selectedBooking, setSelectedBooking] = useState(null)
   const itemsPerPage = 10
 
   useEffect(() => {
     const dummy = Array.from({ length: 42 }, (_, i) => ({
       id: i + 1,
-      name: `Service ${i + 1}`,
+      serviceName: `Service ${i + 1}`,
       category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      provider: `Cleaner ${i + 1}`,
+      providerName: `Cleaner ${i + 1}`,
+      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
       price: 70000 + i * 500,
-      date: new Date(2024, i % 12, (i % 28) + 1)
+      date: new Date(2024, i % 12, (i % 28) + 1),
+      serviceImage: sample1,      // ✅ dummy path or imported
+      providerImage: nick,        // ✅ dummy path or imported
     }))
     setServices(dummy)
     setFiltered(dummy)
@@ -218,13 +225,15 @@ export default function HomeOwnerHistory() {
             {currentItems.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td><b>{item.name}</b></td>
+                <td><b>{item.serviceName}</b></td>
                 <td>{item.category}</td>
-                <td>{item.provider}</td>
-                <td>Rp {item.price.toLocaleString()}</td>
+                <td>{item.providerName}</td>
+                <td>$ {item.price.toLocaleString()}</td>
                 <td>{format(new Date(item.date), "MMM d, yyyy")}</td>
                 <td>
-                  <button className="view-btn">View</button>
+                <button className="view-btn" onClick={() => setSelectedBooking(item)}>
+                  View
+                </button>
                 </td>
               </tr>
             ))}
@@ -248,6 +257,12 @@ export default function HomeOwnerHistory() {
           </div>
         </div>
       </div>
+      {selectedBooking && (
+        <BookingDetailModal
+          booking={selectedBooking}
+          onClose={() => setSelectedBooking(null)}
+        />
+      )}
     </div>
   )
 }

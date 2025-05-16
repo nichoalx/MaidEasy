@@ -5,8 +5,10 @@ import leftArrow from "../assets/leftchevron.png"
 import rightArrow from "../assets/rightchevron.png"
 import defaultImage from "../assets/photo.png"
 import closeIcon from "../assets/close.png"
+import redHeart from "../assets/RedHeart.svg"
+import noHeart from "../assets/NoHeart.svg"
 
-export default function ViewCleaningService({ service, onClose }) {
+export default function ViewCleaningService({ service, onClose, onToggleFavorite }) {
   const {
     serviceName,
     category,
@@ -22,6 +24,12 @@ export default function ViewCleaningService({ service, onClose }) {
   } = service
 
   const [index, setIndex] = useState(0)
+  const [favorite, setFavorite] = useState(service.isFavorite || false)
+
+  const handleFavoriteClick = () => {
+    setFavorite(!favorite)
+    onToggleFavorite(service.id)
+  }
 
   const nextImage = () => setIndex((prev) => (prev + 1) % images.length)
   const prevImage = () => setIndex((prev) => (prev - 1 + images.length) % images.length)
@@ -31,7 +39,7 @@ export default function ViewCleaningService({ service, onClose }) {
       <div className="modal-container">
         <div className="modal-header">
           <h2>Services Details</h2>
-          <button className="close-btn" onClick={onClose}>
+          <button className="view-close-btn" onClick={onClose}>
             <img src={closeIcon} alt="close" />
           </button>
         </div>
@@ -65,35 +73,41 @@ export default function ViewCleaningService({ service, onClose }) {
           {/* Right side: service details */}
           <div className="right-section">
             <div className="detail-row">
-              <span className="label">Service Name:</span>
-              <span className="value">{serviceName}</span>
+              <span className="view-label">Service Name:</span>
+              <span className="view-value">{serviceName}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Category:</span>
-              <span className="value">{category}</span>
+              <span className="view-label">Category:</span>
+              <span className="view-value">{category}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Description:</span>
-              <span className="value">{description}</span>
+              <span className="view-label">Description:</span>
+              <span className="view-value">{description}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Price:</span>
-              <span className="value">${price}</span>
+              <span className="view-label">Price:</span>
+              <span className="view-value">${price}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Duration:</span>
-              <span className="value">{duration}</span>
+              <span className="view-label">Duration:</span>
+              <span className="view-value">{duration}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Availability:</span>
-              <span className="value">{availability}</span>
+              <span className="view-label">Availability:</span>
+              <span className="view-value">{availability}</span>
             </div>
             <div className="detail-row">
-              <span className="label">Phone Number:</span>
-              <span className="value">{phone}</span>
+              <span className="view-label">Phone Number:</span>
+              <span className="view-value">{phone}</span>
             </div>
 
-            <button className="back-btn" onClick={onClose}>Back</button>
+            <div className="view-action-row">
+                <button className="view-back-btn" onClick={onClose}>Back</button>
+
+                <button className="view-favorite-btn" onClick={handleFavoriteClick}>
+                    <img src={favorite ? redHeart : noHeart} alt="favorite icon" />
+                </button>
+            </div>
           </div>
         </div>
       </div>
