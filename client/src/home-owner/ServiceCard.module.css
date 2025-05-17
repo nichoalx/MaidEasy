@@ -1,0 +1,123 @@
+/* components/ServiceCard.module.css */
+
+.serviceCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.3s ease;
+}
+
+.serviceCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+.topSection {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.serviceImgPreview {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.serviceImage {
+  width: 130px;
+  height: 130px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.serviceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.label {
+  font-size: 12px;
+  color: #888;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.bottomSection {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.provider {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar {
+  background-color: #facc15;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cleanerName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+}
+
+.providerJoined {
+  font-size: 11px;
+  color: #999;
+}
+
+.cardActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.viewButton,
+.favoriteButton {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.favoriteButton img {
+  width: 35px;
+  height: 35px;
+}

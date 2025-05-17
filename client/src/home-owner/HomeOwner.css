@@ -64,7 +64,7 @@ html, body, #root {
     flex: 1;
     display: flex;
     justify-content: flex-start; /* 👈 moves buttons to the left */
-    margin-left: 12rem; 
+    margin-left: 12rem; /* optional */
 }
   .userButton {
     display: flex;

@@ -1,11 +1,16 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom"
 import "./HomeOwner.css"
+import LogoutModal from "../components/LogoutModal"
 import logoutIcon from "../assets/logout.png"
 import userIcon from "../assets/circle_person.png"
+import { useState } from "react"
+
 
 export default function HomeOwner() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
+  
 
   return (
     <div className="HomeOwner">
@@ -24,7 +29,7 @@ export default function HomeOwner() {
 
         <div className="rightHODashboard">
           <div className="userButton">
-            <button className="logoutButton">
+            <button className="logoutButton" onClick={() => setShowLogoutModal(true)}>
               <img src={logoutIcon} alt="logout" />
               Log Out
             </button>
@@ -42,6 +47,15 @@ export default function HomeOwner() {
       <div className="HomeOwnerPage">
         <Outlet />
       </div>
+      {showLogoutModal && (
+        <LogoutModal
+          onConfirm={() => {
+            localStorage.removeItem("isLoggedIn")
+            navigate("/") // or "/" if main page
+          }}
+          onCancel={() => setShowLogoutModal(false)}
+        />
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import searchIcon from "../assets/Search.png"
-import CategoryDropdown from "./categoryDropdown"
+import HOCategoryDropdown from "./HOcategoryDropdown"
 import ServiceCardGrid from "./ServiceCardGrid"
 import ViewCleaningService from "./ViewCleaningService"
 
@@ -126,7 +126,7 @@ export default function HomeOwnerShortlist() {
           </div>
 
           <div className="HomeOwnerCategoryDropdown">
-            <CategoryDropdown
+            <HOCategoryDropdown
               selectedCategories={selectedCategories}
               onChange={setSelectedCategories}
               availableCategories={availableCategories}

@@ -4,7 +4,7 @@ import { format } from "date-fns"
 import searchIcon from "../assets/Search.png"
 import calendarIcon from "../assets/calender_icon.png"
 import closeIcon from "../assets/close.png"
-import CategoryDropdown from "./categoryDropdown"
+import HOCategoryDropdown from "./HOcategoryDropdown"
 import "react-date-range/dist/styles.css"
 import "react-date-range/dist/theme/default.css"
 import BookingDetailModal from "./ViewBookingDetail"
@@ -146,7 +146,7 @@ export default function HomeOwnerHistory() {
 
           {/* Category */}
           <div className="HomeOwnerCategoryDropdown">
-            <CategoryDropdown
+            <HOCategoryDropdown
               selectedCategories={selectedCategories}
               onChange={setSelectedCategories}
               availableCategories={availableCategories}
