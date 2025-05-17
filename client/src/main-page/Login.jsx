@@ -22,15 +22,18 @@ export default function Login() {
     setErrors({ email: emailEmpty, password: passwordEmpty })
 
     if (!emailEmpty && !passwordEmpty) {
-      // Check email and redirect accordingly
-      if (email === "admin@gmail.com") {
-        console.log("Admin login successful, redirecting to dashboard...")
-        navigate("/dashboard")
-      } else if (email === "plat@gmail.com") {
-        console.log("Platform manager login successful, redirecting to platform management...")
-        navigate("/platform-management")
+      // if (email === "admin@gmail.com") {
+      //   console.log("Admin login successful, redirecting to dashboard...");
+      //   navigate("/dashboard");
+      // } 
+      if (email === "clean@gmail.com") {
+        console.log("Cleaner login successful, redirecting to cleaner profile...");
+        navigate("/cleaner-profile");
+      } else if (email === "platform@gmail.com") {
+        console.log("Platform Manager login successful, redirecting to platform management...");
+        navigate("/platform-management");
       } else {
-        console.log("Login successful, but no specific route assigned. Staying on login.")
+        console.log("Login successful, but no specific route assigned. Staying on login.");
       }
     }
   }

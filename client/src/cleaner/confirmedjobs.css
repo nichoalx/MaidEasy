@@ -1,0 +1,146 @@
+.cleanerSearchContainer {
+  display: block;
+  margin: 1rem auto 2rem auto !important;   
+  width: 1188px;
+}
+
+  .labelRow2 label {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+  
+  .labelRow2 label:nth-child(1) {
+    margin-left: 20px;
+  }
+  
+  .labelRow2 label:nth-child(2) {
+    margin-left: 355px;
+  }
+  
+  .labelRow2 label:nth-child(3) {
+    margin-left: 185px;
+  }
+
+  .labelRow2 label:nth-child(4) {
+    margin-left: 180px;
+  }
+  
+  .cleanerSearchBar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    overflow: visible;
+    height: 40px;
+    margin-top: 0.5rem !important;
+    z-index: 1;
+    position: relative;
+    width: 1300px;
+  }
+
+  .searchGroup3 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+    margin-left: 1rem !important;
+  }
+  
+  .searchGroup3 input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0.5rem;
+    width: 25rem;
+    background-color: transparent;
+    border-right: 1px solid #ccc;
+  }
+  
+  .searchIcon img {
+    width: 18px;
+    margin-right: 0.5rem;
+  }
+  
+  .cleanerBy,
+  .cleanerPrice {
+    border-right: 1px solid #ccc;
+  }
+  
+  .cleanerBy select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    height: 39px;
+    background: white url("../assets/arrow.png") no-repeat right 0rem center;
+    appearance: none;
+    cursor: pointer;
+    width: 200px;
+  }
+
+  .cleanerCategoryDropdown {
+    width: 250px; /* adjust based on your design */
+    border-right: 1px solid #ccc;
+    background-color: transparent;
+  }
+
+  .filterButton {
+    background-color: #3E4772;
+    color: white;
+    border: none;
+    padding: 0 3rem;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    border-radius: 0 999px 999px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 10rem;
+  }
+  
+  .filterButton:hover {
+    background-color: #2e355c;
+  }
+
+  .cleanerDateFilter {
+    width: 15rem;
+  }
+  
+  .searchIcon {
+    margin-left: 1rem !important;
+  }
+
+  .closeIcon {
+    margin-right: 1px;
+  }
+
+  .result-count2 {
+    margin-top: 1rem !important;
+    color: #868686;
+    margin-left: 1rem !important;
+  }
+  .categorised-table thead {
+    margin-top: -1rem !important;
+  }
+
+  .nowrap {
+  white-space: nowrap;
+}
+
+.categories-table-container {
+    margin-top: 1rem !important;
+    margin-left: 4rem !important;
+}
+
+.categories-table thead th {
+  padding-top: 1px !important; 
+  padding-bottom: 6px;
+  vertical-align: bottom;
+}
+
+.services-title3 {
+    color: #3E4772;
+    margin-left: 18rem !important;
+    margin-top: 2rem !important;
+}
