@@ -8,6 +8,7 @@ from .user.update_user import update_user_blueprint
 from .user.delete_user import delete_user_blueprint
 from .user.search_user import search_user_blueprint
 from .user.suspend_user import suspend_user_blueprint
+from .user.activate_users import activate_user_blueprint
 
 # PROFILE controllers
 from .profile.create_profile import create_profile_blueprint
@@ -59,6 +60,7 @@ __all__ = [
     "delete_user_blueprint",
     "search_user_blueprint",
     "suspend_user_blueprint",
+    "activate_user_blueprint",
 
     # profile
     "create_profile_blueprint",

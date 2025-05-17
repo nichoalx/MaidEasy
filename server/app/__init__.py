@@ -13,6 +13,7 @@ from server.app.controller import (
     delete_user_blueprint,
     search_user_blueprint,
     suspend_user_blueprint,
+    activate_user_blueprint,
 
     # Profile
     create_profile_blueprint,
@@ -74,6 +75,7 @@ def create_app(config_name="development"):
     app.register_blueprint(delete_user_blueprint)
     app.register_blueprint(search_user_blueprint)
     app.register_blueprint(suspend_user_blueprint)
+    app.register_blueprint(activate_user_blueprint)
 
     # Profile
     app.register_blueprint(create_profile_blueprint)
