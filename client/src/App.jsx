@@ -20,6 +20,7 @@ import ConfirmedJobs from "./cleaner/cleanerConfirmedJobs";
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/platform-management" />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/platform-management" element={<PlatformManagement />} />
