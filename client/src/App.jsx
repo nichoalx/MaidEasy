@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 // Main Pages
 import HomePage from "./main-page/home";
-import Demo from "./demoPage";
 import LoginPage from "./main-page/Login";
 
 // Cleaning Service Pages
