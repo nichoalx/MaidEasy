@@ -1,7 +1,7 @@
 "use client"
 
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./platform-style.css"
 import logout from "../../assets/logout.png"
 import reportS from "../../assets/report.png"
@@ -14,32 +14,121 @@ function Report() {
   const [showWeeklyReport, setShowWeeklyReport] = useState(false)
   const [showMonthlyReport, setShowMonthlyReport] = useState(false)
 
-  // Get current date for reports
-  const currentDate = new Date()
-  const formattedCurrentDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`
+  // State for report data
+  const [dailyReport, setDailyReport] = useState(null)
+  const [weeklyReport, setWeeklyReport] = useState(null)
+  const [monthlyReport, setMonthlyReport] = useState(null)
+  const [summaryData, setSummaryData] = useState(null)
 
-  // Calculate one week ago
-  const oneWeekAgo = new Date(currentDate)
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-  const formattedOneWeekAgo = `${oneWeekAgo.getDate().toString().padStart(2, "0")}/${(oneWeekAgo.getMonth() + 1).toString().padStart(2, "0")}/${oneWeekAgo.getFullYear()}`
+  // Loading and error states
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  // Format date function
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
+  }
 
   // Get current month and year
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-  const currentMonth = monthNames[currentDate.getMonth()]
-  const currentYear = currentDate.getFullYear()
+  const getCurrentMonthYear = () => {
+    const date = new Date()
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ]
+    return `${monthNames[date.getMonth()]} ${date.getFullYear()}`
+  }
+
+  // Fetch summary data
+  const fetchSummaryData = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/report/summary")
+      if (!response.ok) {
+        throw new Error("Failed to fetch summary data")
+      }
+      const data = await response.json()
+      setSummaryData(data)
+    } catch (err) {
+      setError(err.message)
+      console.error("Error fetching summary data:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Fetch daily report
+  const fetchDailyReport = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/report/daily")
+      if (!response.ok) {
+        throw new Error("Failed to fetch daily report")
+      }
+      const data = await response.json()
+      setDailyReport(data)
+      setShowDailyReport(true)
+    } catch (err) {
+      setError(err.message)
+      console.error("Error fetching daily report:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Fetch weekly report
+  const fetchWeeklyReport = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/report/weekly")
+      if (!response.ok) {
+        throw new Error("Failed to fetch weekly report")
+      }
+      const data = await response.json()
+      setWeeklyReport(data)
+      setShowWeeklyReport(true)
+    } catch (err) {
+      setError(err.message)
+      console.error("Error fetching weekly report:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Fetch monthly report
+  const fetchMonthlyReport = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/report/monthly")
+      if (!response.ok) {
+        throw new Error("Failed to fetch monthly report")
+      }
+      const data = await response.json()
+      setMonthlyReport(data)
+      setShowMonthlyReport(true)
+    } catch (err) {
+      setError(err.message)
+      console.error("Error fetching monthly report:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Fetch summary data on component mount
+  useEffect(() => {
+    fetchSummaryData()
+  }, [])
 
   return (
     <div className="platform-layout">
@@ -130,28 +219,30 @@ function Report() {
         <div className="platform-content">
           <h1 className="platform-title">Report</h1>
 
+          {error && <div className="error-message">Error: {error}. Please try again later.</div>}
+
           <div className="report-cards-container">
             {/* Daily Report Card */}
             <div className="report-card">
               <h2 className="report-card-title">Daily Report</h2>
-              <button className="generate-btn" onClick={() => setShowDailyReport(true)}>
-                Generate
+              <button className="generate-btn" onClick={fetchDailyReport} disabled={isLoading}>
+                {isLoading && showDailyReport ? "Loading..." : "Generate"}
               </button>
             </div>
 
             {/* Weekly Report Card */}
             <div className="report-card">
               <h2 className="report-card-title">Weekly Report</h2>
-              <button className="generate-btn" onClick={() => setShowWeeklyReport(true)}>
-                Generate
+              <button className="generate-btn" onClick={fetchWeeklyReport} disabled={isLoading}>
+                {isLoading && showWeeklyReport ? "Loading..." : "Generate"}
               </button>
             </div>
 
             {/* Monthly Report Card */}
             <div className="report-card">
               <h2 className="report-card-title">Monthly Report</h2>
-              <button className="generate-btn" onClick={() => setShowMonthlyReport(true)}>
-                Generate
+              <button className="generate-btn" onClick={fetchMonthlyReport} disabled={isLoading}>
+                {isLoading && showMonthlyReport ? "Loading..." : "Generate"}
               </button>
             </div>
           </div>
@@ -159,43 +250,47 @@ function Report() {
       </div>
 
       {/* Daily Report Modal */}
-      {showDailyReport && (
+      {showDailyReport && dailyReport && (
         <div className="modal-overlay" onClick={() => setShowDailyReport(false)}>
           <div className="report-modal" onClick={(e) => e.stopPropagation()}>
             <h2 className="report-modal-title">Daily Report</h2>
-            <div className="report-date">{formattedCurrentDate}</div>
+            <div className="report-date">{formatDate(dailyReport.date)}</div>
 
             <div className="report-stat-container">
               <div className="report-stat-label">Total Bookings:</div>
-              <div className="report-stat-value">53</div>
+              <div className="report-stat-value">{dailyReport.bookings}</div>
             </div>
 
-            <div className="report-section">
-              <div className="report-section-title">Top 3 Active Bookings</div>
-              <div className="report-item">
-                <div className="report-item-label">1. Home Service:</div>
-                <div className="report-item-value">18</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">2. Floor:</div>
-                <div className="report-item-value">15</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">3. Rooftop:</div>
-                <div className="report-item-value">5</div>
-              </div>
-            </div>
+            {summaryData && (
+              <>
+                <div className="report-section">
+                  <div className="report-section-title">Platform Summary</div>
+                  <div className="report-item">
+                    <div className="report-item-label">Users:</div>
+                    <div className="report-item-value">{summaryData.users}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Profiles:</div>
+                    <div className="report-item-value">{summaryData.profiles}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Services:</div>
+                    <div className="report-item-value">{summaryData.services}</div>
+                  </div>
+                </div>
 
-            <div className="report-section">
-              <div className="report-item">
-                <div className="report-item-label">New Services:</div>
-                <div className="report-item-value">20</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">New Category:</div>
-                <div className="report-item-value">1</div>
-              </div>
-            </div>
+                <div className="report-section">
+                  <div className="report-item">
+                    <div className="report-item-label">Categories:</div>
+                    <div className="report-item-value">{summaryData.categories}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Total Bookings:</div>
+                    <div className="report-item-value">{summaryData.bookings}</div>
+                  </div>
+                </div>
+              </>
+            )}
 
             <button className="back-button" onClick={() => setShowDailyReport(false)}>
               Back
@@ -205,45 +300,49 @@ function Report() {
       )}
 
       {/* Weekly Report Modal */}
-      {showWeeklyReport && (
+      {showWeeklyReport && weeklyReport && (
         <div className="modal-overlay" onClick={() => setShowWeeklyReport(false)}>
           <div className="report-modal" onClick={(e) => e.stopPropagation()}>
             <h2 className="report-modal-title">Weekly Report</h2>
             <div className="report-date">
-              {formattedOneWeekAgo}-{formattedCurrentDate}
+              From {formatDate(weeklyReport.week_start)} to {formatDate(new Date())}
             </div>
 
             <div className="report-stat-container">
               <div className="report-stat-label">Total Bookings:</div>
-              <div className="report-stat-value">150</div>
+              <div className="report-stat-value">{weeklyReport.bookings}</div>
             </div>
 
-            <div className="report-section">
-              <div className="report-section-title">Top 3 Active Bookings</div>
-              <div className="report-item">
-                <div className="report-item-label">1. Home Service:</div>
-                <div className="report-item-value">35</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">2. Floor:</div>
-                <div className="report-item-value">24</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">3. Rooftop:</div>
-                <div className="report-item-value">10</div>
-              </div>
-            </div>
+            {summaryData && (
+              <>
+                <div className="report-section">
+                  <div className="report-section-title">Platform Summary</div>
+                  <div className="report-item">
+                    <div className="report-item-label">Users:</div>
+                    <div className="report-item-value">{summaryData.users}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Profiles:</div>
+                    <div className="report-item-value">{summaryData.profiles}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Services:</div>
+                    <div className="report-item-value">{summaryData.services}</div>
+                  </div>
+                </div>
 
-            <div className="report-section">
-              <div className="report-item">
-                <div className="report-item-label">New Services:</div>
-                <div className="report-item-value">100</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">New Category:</div>
-                <div className="report-item-value">5</div>
-              </div>
-            </div>
+                <div className="report-section">
+                  <div className="report-item">
+                    <div className="report-item-label">Categories:</div>
+                    <div className="report-item-value">{summaryData.categories}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Total Bookings:</div>
+                    <div className="report-item-value">{summaryData.bookings}</div>
+                  </div>
+                </div>
+              </>
+            )}
 
             <button className="back-button" onClick={() => setShowWeeklyReport(false)}>
               Back
@@ -253,45 +352,47 @@ function Report() {
       )}
 
       {/* Monthly Report Modal */}
-      {showMonthlyReport && (
+      {showMonthlyReport && monthlyReport && (
         <div className="modal-overlay" onClick={() => setShowMonthlyReport(false)}>
           <div className="report-modal" onClick={(e) => e.stopPropagation()}>
             <h2 className="report-modal-title">Monthly Report</h2>
-            <div className="report-date">
-              {currentMonth} {currentYear}
-            </div>
+            <div className="report-date">{getCurrentMonthYear()}</div>
 
             <div className="report-stat-container">
               <div className="report-stat-label">Total Bookings:</div>
-              <div className="report-stat-value">170</div>
+              <div className="report-stat-value">{monthlyReport.bookings}</div>
             </div>
 
-            <div className="report-section">
-              <div className="report-section-title">Top 3 Active Bookings</div>
-              <div className="report-item">
-                <div className="report-item-label">1. Home Service:</div>
-                <div className="report-item-value">50</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">2. Floor:</div>
-                <div className="report-item-value">25</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">3. Rooftop:</div>
-                <div className="report-item-value">15</div>
-              </div>
-            </div>
+            {summaryData && (
+              <>
+                <div className="report-section">
+                  <div className="report-section-title">Platform Summary</div>
+                  <div className="report-item">
+                    <div className="report-item-label">Users:</div>
+                    <div className="report-item-value">{summaryData.users}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Profiles:</div>
+                    <div className="report-item-value">{summaryData.profiles}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Services:</div>
+                    <div className="report-item-value">{summaryData.services}</div>
+                  </div>
+                </div>
 
-            <div className="report-section">
-              <div className="report-item">
-                <div className="report-item-label">New Services:</div>
-                <div className="report-item-value">120</div>
-              </div>
-              <div className="report-item">
-                <div className="report-item-label">New Category:</div>
-                <div className="report-item-value">7</div>
-              </div>
-            </div>
+                <div className="report-section">
+                  <div className="report-item">
+                    <div className="report-item-label">Categories:</div>
+                    <div className="report-item-value">{summaryData.categories}</div>
+                  </div>
+                  <div className="report-item">
+                    <div className="report-item-label">Total Bookings:</div>
+                    <div className="report-item-value">{summaryData.bookings}</div>
+                  </div>
+                </div>
+              </>
+            )}
 
             <button className="back-button" onClick={() => setShowMonthlyReport(false)}>
               Back
