@@ -54,7 +54,6 @@ export default function App() {
       <Route path="/services/toilet-cleaning" element={<ToiletCleaningPage />} />
       <Route path="/services/window-cleaning" element={<WindowCleaningPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/demo" element={<Demo />} />
 
       {/* 🏠 Homeowner (nested layout) */}
       <Route path="/homeowner" element={<HomeOwner />}>
@@ -88,9 +87,6 @@ export default function App() {
       <Route path="/edit-profile/:profileId" element={<EditProfile />} />
       <Route path="/view-profile/:profileId" element={<ViewProfile />} />
       <Route path="/add-profile" element={<AddProfile />} />
-
-      {/* 🌍 Default Redirects (if needed) */}
-      <Route path="/home" element={<Navigate to="/" />} />
     </Routes>
   );
 }
