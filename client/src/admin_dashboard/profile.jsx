@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from "../../utils/axiosInstance";
-import visibility_on from "../../assets/visibility_on.png";
-import visibility_off from "../../assets/visibility_off.png";
+import axios from "../utils/axiosInstance";
+import visibility_on from "../assets/visibility_on.png";
+import visibility_off from "../assets/visibility_off.png";
 
 function Profile() {
   const [showPassword, setShowPassword] = useState(false);

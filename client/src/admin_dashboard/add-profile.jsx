@@ -4,10 +4,10 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
-import logout from "../../assets/logout.png"
-import Vector from "../../assets/Vector.png"
-import Human from "../../assets/Human.png"
-import circle_person from "../../assets/circle_person.png"
+import logout from "../assets/logout.png"
+import Vector from "../assets/Vector.png"
+import Human from "../assets/Human.png"
+import circle_person from "../assets/circle_person.png"
 
 function AddProfile() {
   const navigate = useNavigate()

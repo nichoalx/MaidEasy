@@ -6,10 +6,10 @@ import Profile from "./profile"
 import AccountManagement from "./accountManagement"
 import ProfileManagement from "./profileManagement"
 import "./dashstyle.css"
-import logout from "../../assets/logout.png"
-import circlePersonIcon from "../../assets/circle_person.png"
-import vectorIcon from "../../assets/Vector.png"
-import humanIcon from "../../assets/Human.png"
+import logout from "../assets/logout.png"
+import circlePersonIcon from "../assets/circle_person.png"
+import vectorIcon from "../assets/Vector.png"
+import humanIcon from "../assets/Human.png"
 
 function AdminPanel() {
   const location = useLocation()

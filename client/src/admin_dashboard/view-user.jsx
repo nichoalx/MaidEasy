@@ -4,14 +4,14 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./dashstyle.css"
 
-import person_icon from "../../assets/person_icon.png"
-import calendar_icon from "../../assets/calender_icon.png"
-import mail_icon from "../../assets/mail_icon.png"
-import lock_icon from "../../assets/lock_icon.png"
-import logout from "../../assets/logout.png"
-import Vector from "../../assets/Vector.png"
-import Human from "../../assets/Human.png"
-import circle_person from "../../assets/circle_person.png"
+import person_icon from "../assets/person_icon.png"
+import calendar_icon from "../assets/calender_icon.png"
+import mail_icon from "../assets/mail_icon.png"
+import lock_icon from "../assets/lock_icon.png"
+import logout from "../assets/logout.png"
+import Vector from "../assets/Vector.png"
+import Human from "../assets/Human.png"
+import circle_person from "../assets/circle_person.png"
 
 function ViewUser() {
   const navigate = useNavigate()

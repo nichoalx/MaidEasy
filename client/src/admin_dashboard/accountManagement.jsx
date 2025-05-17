@@ -6,7 +6,7 @@ import Pagination from "./components/Pagination"
 import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
 import SuspendConfirmModal from "./SuspendUserModal"
-import axios from "../../utils/axiosInstance"; 
+import axios from "../utils/axiosInstance"; 
 
 
 function AccountManagement() {
