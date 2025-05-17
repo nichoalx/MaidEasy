@@ -1,9 +1,9 @@
 "use client"
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./LoginSignup.css"
 
+import axios from "../utils/axiosInstance"
 import mail_icon from "../assets/mail_icon.png"
 import lock_icon from "../assets/lock_icon.png"
 import visibility_on from "../assets/visibility_on.png"
@@ -16,27 +16,45 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({ email: false, password: false })
 
-  const handleLogin = () => {
-    const emailEmpty = email.trim() === ""
-    const passwordEmpty = password.trim() === ""
-    setErrors({ email: emailEmpty, password: passwordEmpty })
+  const handleLogin = async () => {
+    const emailEmpty = email.trim() === "";
+    const passwordEmpty = password.trim() === "";
+    setErrors({ email: emailEmpty, password: passwordEmpty });
 
-    if (!emailEmpty && !passwordEmpty) {
-      // if (email === "admin@gmail.com") {
-      //   console.log("Admin login successful, redirecting to dashboard...");
-      //   navigate("/dashboard");
-      // } 
-      if (email === "clean@gmail.com") {
-        console.log("Cleaner login successful, redirecting to cleaner profile...");
-        navigate("/cleaner-profile");
-      } else if (email === "platform@gmail.com") {
-        console.log("Platform Manager login successful, redirecting to platform management...");
+    if (emailEmpty || passwordEmpty) return;
+
+    try {
+      const { data } = await axios.post("/api/auth/login", {
+        email,
+        password
+    });
+
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("user_id", data.user_id);
+    localStorage.setItem("role", data.role);
+
+    // Redirect to the appropriate page based on the role
+    switch (data.role.toLowerCase()) {
+      case "admin":
+        navigate("/dashboard");
+        break;
+      case "platform_manager":
         navigate("/platform-management");
-      } else {
-        console.log("Login successful, but no specific route assigned. Staying on login.");
-      }
+        break;
+      case "cleaner":
+        navigate("/cleaner-profile");
+        break;
+      case "homeowner":
+        navigate("/homeowner/dashboard");
+        break;
+      default:
+        alert("Unknown role");
     }
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Login failed. Please check your credentials.");
   }
+};
 
   return (
     <div className="login-wrapper">

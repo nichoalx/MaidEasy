@@ -6,107 +6,12 @@ import Pagination from "./components/Pagination"
 import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
 import SuspendConfirmModal from "./SuspendUserModal"
+import axios from "../../utils/axiosInstance"; 
+
 
 function AccountManagement() {
   const navigate = useNavigate()
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Nick Fury",
-      email: "Nickfury@gmail.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "12893424",
-    },
-    {
-      id: 2,
-      name: "Edmond",
-      email: "edm@gmail.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "82345678",
-    },
-    {
-      id: 3,
-      name: "Kennegg",
-      email: "igogymeeveryday@gmail.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "87654321",
-    },
-    {
-      id: 4,
-      name: "Keegpin",
-      email: "eateggdaily@gmail.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "81234567",
-    },
-    {
-      id: 5,
-      name: "Ben Ice Cream",
-      email: "jerry@gmail.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "89876543",
-    },
-    {
-      id: 6,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Home Owner",
-      status: "Active",
-      contactNumber: "91234567",
-    },
-    {
-      id: 7,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "Home Owner",
-      status: "Active",
-      contactNumber: "98765432",
-    },
-    {
-      id: 8,
-      name: "Robert Johnson",
-      email: "robert@example.com",
-      role: "Project Management",
-      status: "Active",
-      contactNumber: "93456789",
-    },
-    {
-      id: 9,
-      name: "Emily Davis",
-      email: "emily@example.com",
-      role: "Cleaner",
-      status: "Suspended",
-      contactNumber: "96789012",
-    },
-    {
-      id: 10,
-      name: "Michael Wilson",
-      email: "michael@example.com",
-      role: "Home Owner",
-      status: "Active",
-      contactNumber: "94567890",
-    },
-    {
-      id: 11,
-      name: "Sarah Brown",
-      email: "sarah@example.com",
-      role: "Project Management",
-      status: "Active",
-      contactNumber: "95678901",
-    },
-    {
-      id: 12,
-      name: "David Miller",
-      email: "david@example.com",
-      role: "Cleaner",
-      status: "Active",
-      contactNumber: "92345678",
-    },
-  ])
+  const [users, setUsers] = useState([])
 
   // State for search, pagination, and modals
   const [searchTerm, setSearchTerm] = useState("")
@@ -119,31 +24,54 @@ function AccountManagement() {
 
   // Filter users based on search term and search criteria
   useEffect(() => {
-    let results = [...users]
+    const fetchUsers = async () => {
+      try {
+        const { data } = await axios.get("/api/users");
+        console.log("Fetched users:", data); 
 
-    if (searchTerm) {
+        const formatted = data.success.map((user) => ({
+          id: user.user_id,
+          name: `${user.first_name} ${user.last_name}`,
+          email: user.email,
+          role: user.profile_name,
+          status: user.is_active ? "Active" : "Suspended",
+          contactNumber: user.contact_number
+        }));
+        setUsers(formatted);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    let results = [...users];
+
+    if (searchTerm.trim()) {
+      const lower = searchTerm.toLowerCase();
+
       switch (searchBy) {
         case "Name":
-          results = users.filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
-          break
+          results = results.filter((user) => user.name.toLowerCase().includes(lower));
+          break;
         case "Email":
-          results = users.filter((user) => user.email.toLowerCase().includes(searchTerm.toLowerCase()))
-          break
+          results = results.filter((user) => user.email.toLowerCase().includes(lower));
+          break;
         case "User ID":
-          results = users.filter((user) => user.id.toString().includes(searchTerm))
-          break
+          results = results.filter((user) => user.id.toString().includes(lower));
+          break;
         default:
-          results = users.filter(
-            (user) =>
-              user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-          )
+          break;
       }
     }
 
-    setFilteredUsers(results)
-    setCurrentPage(1) // Reset to first page when search changes
-  }, [searchTerm, searchBy, users])
+    setFilteredUsers(results);
+    setCurrentPage(1); // reset page on new search
+  }, [users, searchTerm, searchBy]);
+
+
 
   // Get current users for pagination
   const indexOfLastUser = currentPage * itemsPerPage
@@ -176,30 +104,46 @@ function AccountManagement() {
     setShowSuspendModal(true)
   }
 
-  const confirmSuspend = () => {
-    if (userToSuspend) {
-      // First update the user in the users array
+  const confirmSuspend = async () => {
+    if (!userToSuspend) return;
+
+    const isCurrentlyActive = userToSuspend.status === "Active";
+    const endpoint = isCurrentlyActive
+      ? `/api/users/suspend/${userToSuspend.id}`
+      : `/api/users/activate/${userToSuspend.id}`;
+
+    try {
+      const { data } = await axios.put(endpoint);
+
       const updatedUsers = users.map((user) =>
-        user.id === userToSuspend.id ? { ...user, status: user.status === "Active" ? "Suspended" : "Active" } : user,
-      )
+        user.id === userToSuspend.id
+          ? { ...user, status: isCurrentlyActive ? "Suspended" : "Active" }
+          : user
+      );
 
-      // Update the state with the new users array
-      setUsers(updatedUsers)
+      setUsers(updatedUsers);
 
-      // Show toast notification with the correct message
       setToast({
         show: true,
-        message: `User has been ${userToSuspend.status === "Active" ? "suspended" : "activated"}`,
+        message: `User has been ${isCurrentlyActive ? "suspended" : "activated"}`,
         type: "success",
-      })
+      });
 
-      // Hide toast after 3 seconds
       setTimeout(() => {
-        setToast({ show: false, message: "", type: "" })
-      }, 3000)
+        setToast({ show: false, message: "", type: "" });
+      }, 3000);
+    } catch (error) {
+      console.error(`${isCurrentlyActive ? "Suspend" : "Activate"} error:`, error);
+      setToast({
+        show: true,
+        message: `Failed to ${isCurrentlyActive ? "suspend" : "activate"} user`,
+        type: "error",
+      });
     }
-    setShowSuspendModal(false)
-  }
+
+    setShowSuspendModal(false);
+  };
+
 
   // Handle next page
   const handleNextPage = () => {

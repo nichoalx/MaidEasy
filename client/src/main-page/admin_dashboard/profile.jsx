@@ -1,14 +1,32 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react';
+import axios from "../../utils/axiosInstance";
 import visibility_on from "../../assets/visibility_on.png";
 import visibility_off from "../../assets/visibility_off.png";
 
 function Profile() {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState(null);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id");
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`);
+        setUser(data.success);
+      } catch (error) {
+        console.error("Failed to load user profile:", error);
+        alert("Unable to load user profile.");
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (!user) return <p>Loading profile...</p>;
 
   return (
     <main className="profile-content">
@@ -19,16 +37,14 @@ function Profile() {
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <div className="input-container">
-              <i className="input-icon user-icon"></i>
-              <input type="text" id="firstName" value="Kieron" readOnly />
+              <input type="text" id="firstName" value={user.first_name} readOnly />
             </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <div className="input-container">
-              <i className="input-icon user-icon"></i>
-              <input type="text" id="lastName" value="Yolin" readOnly />
+              <input type="text" id="lastName" value={user.last_name} readOnly />
             </div>
           </div>
         </div>
@@ -37,16 +53,14 @@ function Profile() {
           <div className="form-group">
             <label htmlFor="dob">Date of Birth</label>
             <div className="input-container">
-              <i className="input-icon calendar-icon"></i>
-              <input type="text" id="dob" value="12/10/2004" readOnly />
+              <input type="text" id="dob" value={user.dob} readOnly />
             </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="contactNumber">Contact Number</label>
             <div className="input-container">
-              <i className="input-icon phone-icon"></i>
-              <input type="text" id="contactNumber" value="82622526" readOnly />
+              <input type="text" id="contactNumber" value={user.contact_number} readOnly />
             </div>
           </div>
         </div>
@@ -55,61 +69,30 @@ function Profile() {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <div className="input-container">
-              <i className="input-icon email-icon"></i>
-              <input type="email" id="email" value="kieronyolin12@gmail.com" readOnly />
+              <input type="email" id="email" value={user.email} readOnly />
             </div>
           </div>
         </div>
 
         <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-container">
-              <i className="input-icon lock-icon"></i>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                value="MySecurePassword123"
-                readOnly
-              />
-              <img
-                src={showPassword ? visibility_on : visibility_off}
-                className="eye-icon"
-                onClick={() => setShowPassword(!showPassword)}
-                alt="Toggle visibility"
-              />
-            </div>
-          </div>
-
           <div className="form-group">
             <label htmlFor="role">Role</label>
-            <div className="input-container dropdown">
-              <i className="input-icon role-icon"></i>
-              <input type="text" id="role" value="Admin" readOnly />
+            <div className="input-container">
+              <input type="text" id="role" value={user.profile_name || "admin"} readOnly />
             </div>
           </div>
-        </div>
 
-        <div className="form-row">
           <div className="form-group">
             <label htmlFor="status">Status</label>
             <div className="input-container">
-              <span className="status-indicator active"></span>
-              <input type="text" id="status" value="Active" readOnly />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="createdDate">Created Date</label>
-            <div className="input-container">
-              <i className="input-icon calendar-icon"></i>
-              <input type="text" id="createdDate" value="09/04/2025" readOnly />
+              <span className={`status-indicator ${user.is_active ? "active" : "inactive"}`}></span>
+              <input type="text" id="status" value={user.is_active ? "Active" : "Inactive"} readOnly />
             </div>
           </div>
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

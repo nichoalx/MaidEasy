@@ -19,7 +19,7 @@ export default function HomePage() {
           </div>
           <button
             className="login-button"
-            onClick={() => window.open("/login", "_blank")}
+            onClick={() => window.open("/login", "_self")}
           >
             Login
           </button>
