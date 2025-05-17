@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+.HomeOwner{
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+}
+.headerTitle {
+    background-color: #3E4772;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+  
+  .headerLogo {
+    color: white;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-left: 6rem;
+  }
+  
+  .leftHODashboard {
+    flex: 0 0 auto;
+  }
+
+  .titleButton {
+    display: flex;
+  }
+  
+  .titleButton button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    width: 10rem;
+    height: 5rem;
+  }
+
+  .titleButton button:hover {
+    background-color: #8D96A9;
+  }
+
+  .titleButton button.activeTab {
+    background-color: #8D96A9;
+  }
+
+.middleHODashboard {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start; /* 👈 moves buttons to the left */
+    margin-left: 12rem; /* optional */
+}
+  .userButton {
+    display: flex;
+    align-items: center;
+    margin-right: 6rem;
+  }
+  
+  .logoutButton {
+    background: none;
+    border: none;
+    border-radius: 0;
+    color: white;
+    display: flex;    
+    align-items: center;        
+    justify-content: center; 
+    gap: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0;
+    width: 10rem;
+    height: 5rem;
+  }
+
+  .profileButton {
+    background: none;
+    border: none;
+    color: white;
+    display: flex;    
+    align-items: center;        
+    justify-content: center; 
+    gap: 1rem;
+    cursor: pointer;
+    width: 14rem;
+    height: 5rem;
+  }
+  
+  .logoutButton img{
+    width: 30px;
+    height: 30px;
+  }
+
+  .profileButton img {
+    width: 30px;
+    height: 30px;
+  
+  }
+  
+  .userButton  button:hover {
+    background-color: #8D96A9;
+  }
+  
+  .rightHODashboard {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .profileButton .homeownerInfo .name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .profileButton .homeownerInfo .email {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .HomeOwnerPage {
+    background-color: #f4f6fb;
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+  }
+  
+  .HomeOwnerDesc{
+    margin-top: 4rem;
+    font-weight: 800;
+    margin-left: -1rem;
+    margin-bottom: -1rem;
+  }
+  .HomeOwnerWelcome{
+    font-size: 36px;
+    color: #3E4772;
+  }
+
+  .HomeOwnerDescription{
+    margin-top: 1rem;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .HomeOwnerSearchContainer {
+    width: 1188px;
+    margin: 3rem auto 2rem auto;
+  }
+  
+  .labelRow label {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+  
+  .labelRow label:nth-child(1) {
+    margin-left: 1rem;
+  }
+  
+  .labelRow label:nth-child(2) {
+    margin-left: 22rem;
+  }
+  
+  .labelRow label:nth-child(3) {
+    margin-left: 9rem;
+  }
+
+  .labelRow label:nth-child(4) {
+    margin-left: 8rem;
+  }
+  
+  .HomeOwnerSearchBar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    overflow: visible;
+    height: 40px;
+    margin-top: 0.5rem;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .searchGroup {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 1rem;
+    
+  }
+  
+  .searchGroup input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: transparent;
+    border-right: 1px solid #ccc;
+  }
+  
+  .searchIcon img {
+    width: 18px;
+    margin-right: 0.5rem;
+  }
+  
+  .HomeOwnerBy,
+  .HomeOwnerPrice {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ccc;
+  }
+  
+  .HomeOwnerBy select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: -1rem 1.5rem;
+    height: 39px;
+    background: white url("../assets/arrow.png") no-repeat right 0rem center;
+    appearance: none;
+    cursor: pointer;
+    width: 180px;
+  }
+
+  .HomeOwnerCategoryDropdown {
+    width: 200px; /* adjust based on your design */
+    border-right: 1px solid #ccc;
+    background-color: transparent;
+  }
+  
+
+  .HomeOwnerPrice select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0 0 0 0.7rem;
+    height: 39px;
+    background: white url("../assets/arrow.png") no-repeat right 0rem center;
+    appearance: none;
+    cursor: pointer;
+    width: 200px;
+  }
+
+  .filterButton {
+    background-color: #3E4772;
+    color: white;
+    border: none;
+    padding: 0 3rem;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    border-radius: 0 999px 999px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 10rem;
+  }
+  
+  .filterButton:hover {
+    background-color: #2e355c;
+  }
+
+
+  .HomeOwnerShortListName, .HomeOwnerHistoryName{
+    font-size: 36px;
+    color: #3E4772;
+    margin-top: 4rem;
+    font-weight: 800;
+    margin-left: -1rem;
+    margin-bottom: -2rem;
+  }
+
+  .HomeOwnerHistoryBar {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .HomeOwnerSearchGroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .HomeOwnerSearchGroup .labelRow label:nth-child(1) {
+    margin-left: 1rem;
+  }
+
+  .HomeOwnerSearchGroup .labelRow label:nth-child(2) {
+    margin-left: 31rem;
+  }
+
+  .HomeOwnerDateFilter {
+    width: 200px;
+    font-size: 14px;
+  }
+
+  .dateOutput {
+    margin-left: 1rem;
+  }
+
+  .calendarText{
+    margin-left: 5px;
+  }
+
+  .clear-date-btn img {
+    filter: grayscale(100%);   /* optional: make it blend with theme */
+    transition: opacity 0.2s;
+    margin-right: 8px;
+  }
+  
+  .clear-date-btn:hover img {
+    opacity: 0.75;
+  }
+
+  .load-more-container {
+    text-align: center;
+    margin: 20px 0 40px;
+  }
+  
+  .load-more-button {
+    background-color: #3e4772;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .load-more-button:hover {
+    background-color: #5c6494;
+  }
+  
+
+  .categories-table-container {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 1150px;
+    padding: 20px;
+    position: relative;
+    padding-bottom: 70px;
+    height: auto;
+  }
+  
+  .categories-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .categories-table th,
+  .categories-table td {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .categories-table th {
+    font-weight: 500;
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .categories-table td {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .categories-table td b {
+    font-weight: 600;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .view-btn {
+    width: 90px;
+    background-color: #e5edff;
+    color: #3e4772;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 00.3);
+  }
+
+  .view-btn:hover{
+    background-color: #d1d8e9;
+  }
+  
+  
+  /* Pagination */
+  .paginationBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+  }
+  
+  .paginationSection {
+    flex: 1;
+  }
+  
+  .paginationSection.center {
+    text-align: center;
+  }
+  
+  .paginationSection.left {
+    text-align: left;
+  }
+  
+  .paginationSection.right {
+    text-align: right;
+  }
+  
+  .prev-btn,
+  .next-btn {
+    background-color: transparent;
+    border: none;
+    color: #3e4772;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px 12px;
+  }
+  

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { Send, ArrowLeft } from "lucide-react"
-import windowClean from "../Assets/window-cleaning.jpg"
+import "./home.css"
 
 export default function WindowCleaningPage() {
   return (
@@ -15,14 +15,17 @@ export default function WindowCleaningPage() {
               Indonesia
             </h1>
           </Link>
-          <button
-            className="login-button"
-            onClick={() => window.open("/login", "_blank")}
-          >
-            Login
-          </button>
+          <button className="login-button">Login</button>
         </div>
       </header>
+
+      {/* Back Button */}
+      <div className="back-button-container">
+        <Link to="/" className="back-button">
+          <ArrowLeft size={16} className="back-icon" />
+          Back to Home
+        </Link>
+      </div>
 
       {/* Service Details */}
       <section className="service-details">
@@ -44,7 +47,7 @@ export default function WindowCleaningPage() {
 
             <div className="service-features">
               <img
-                src={windowClean||"/placeholder.svg"}
+                src="/placeholder.svg"
                 alt="Window Cleaning"
                 width={400}
                 height={300}
@@ -124,20 +127,11 @@ export default function WindowCleaningPage() {
               <p className="cta-description">
                 Contact us today to schedule your window cleaning service or request a free quote.
               </p>
-              <button className="cta-button"
-              onClick={() => window.open("/login", "_blank")}>Get Started</button>
+              <button className="cta-button">Get Started</button>
             </div>
           </div>
         </div>
       </section>
-
-{/* Back Button */}
-      <div className="back-button-container">
-        <Link to="/" className="back-button">
-          <ArrowLeft size={16} className="back-icon" />
-          Back to Home
-        </Link>
-      </div>
 
       {/* Footer */}
       <footer className="footer">
