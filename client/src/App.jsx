@@ -54,7 +54,6 @@ export default function App() {
       <Route path="/services/toilet-cleaning" element={<ToiletCleaningPage />} />
       <Route path="/services/window-cleaning" element={<WindowCleaningPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/demo" element={<Demo />} />
 
       {/* 🏠 Homeowner (nested layout) */}
       <Route path="/homeowner" element={<HomeOwner />}>
