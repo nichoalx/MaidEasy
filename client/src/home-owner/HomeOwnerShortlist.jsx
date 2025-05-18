@@ -17,7 +17,7 @@ export default function HomeOwnerShortlist() {
   const [visibleCount, setVisibleCount] = useState(18);
   const [selectedService, setSelectedService] = useState(null);
 
-  // ✅ Fetch shortlisted services
+  //Fetch shortlisted services
   useEffect(() => {
     const fetchShortlisted = async () => {
       try {
@@ -61,7 +61,7 @@ export default function HomeOwnerShortlist() {
     fetchShortlisted();
   }, []);
 
-  // 🧼 Handle favorite toggle (remove from shortlist)
+  // Handle favorite toggle (remove from shortlist)
   const handleToggleFavorite = (id) => {
     const updated = services
       .map((s) => s.id === id ? { ...s, isFavorite: !s.isFavorite } : s)
@@ -74,7 +74,7 @@ export default function HomeOwnerShortlist() {
       setSelectedService(null);
     }
 
-    // 🔄 Send to backend
+    //Send to backend
     axios.delete(`/api/homeowner/delete_from_shortlist/${id}`, {
       data: { service_id: id }
     }).catch(err => {
@@ -82,7 +82,7 @@ export default function HomeOwnerShortlist() {
     });
   };
 
-  // 🔎 Filtering
+  // Filtering
   useEffect(() => {
     let result = [...services];
 

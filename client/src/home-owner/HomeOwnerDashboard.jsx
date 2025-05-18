@@ -79,7 +79,6 @@ export default function HomeOwnerDashboard() {
           data: { service_id: serviceId }
         });
       } else {
-        // ✅ POST with JSON body (axiosInstance already includes correct Content-Type)
         await axios.post(`/api/homeowner/add_to_shortlist`, {
           service_id: serviceId
         });

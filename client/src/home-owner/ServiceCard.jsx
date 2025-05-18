@@ -1,4 +1,3 @@
-// components/ServiceCard.jsx
 import { useState } from "react"
 import redHeart from "../assets/RedHeart.svg"
 import noHeart from "../assets/NoHeart.svg"
@@ -36,7 +35,7 @@ export default function ServiceCard({ service, onViewClick, onToggleFavorite}) {
           <div className={styles.label}>Category:</div>
           <div className={styles.value}>{category || "Uncategorized"}</div>
           <div className={styles.label}>Price:</div>
-          <div className={styles.value}>Rp {price?.toLocaleString() || "0"}</div>
+          <div className={styles.value}>$ {price?.toLocaleString() || "0"}</div>
         </div>
       </div>
 
