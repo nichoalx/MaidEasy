@@ -91,7 +91,7 @@ function SuspendProfileModal({ role, onClose, onConfirm }) {
             </div>
             <div className="detail-row" style={{ display: "flex", marginBottom: "12px" }}>
               <span style={{ width: "120px", fontWeight: "500" }}>Permissions:</span>
-              <span>{role.permissions.join(", ")}</span>
+              <span>{Array.isArray(role.permissions) ? role.permissions.join(", ") : "None"}</span>
             </div>
             <div className="detail-row" style={{ display: "flex", marginBottom: "12px" }}>
               <span style={{ width: "120px", fontWeight: "500" }}>Active User:</span>

@@ -64,8 +64,6 @@ class Profile(db.Model):
             return {"error": "Profile not found"}, 404
 
         if update_data.get('role_name'):
-            if cls.query.filter_by(role_name=update_data['role_name']).one_or_none():
-                return {"error": "Profile with this role name already exists"}, 400
             profile.role_name = update_data['role_name']
         if 'has_booking_permission' in update_data:
             profile.has_booking_permission = update_data['has_booking_permission']
@@ -90,6 +88,24 @@ class Profile(db.Model):
             profile.is_active = False
             db.session.commit()
             return {"message": "Profile suspended successfully"}, 200
+
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500
+        
+    @classmethod
+    def activate_profile(cls, profile_id: int) -> tuple[dict, int]:
+        profile = cls.query.get(profile_id)
+        if not profile:
+            return {"error": "Profile not found"}, 404
+
+        try:
+            if profile.is_active:
+                return {"error": "Profile is already active"}, 400
+
+            profile.is_active = True
+            db.session.commit()
+            return {"message": "Profile activated successfully"}, 200
 
         except Exception as e:
             db.session.rollback()

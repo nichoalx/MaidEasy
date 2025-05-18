@@ -1,158 +1,124 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import Pagination from "./components/Pagination"
-import ShowingDropdown from "./components/ShowingDropdown"
-import Toast from "./components/Toast"
-import SuspendProfileModal from "./SuspendProfileModal"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Pagination from "./components/Pagination";
+import ShowingDropdown from "./components/ShowingDropdown";
+import Toast from "./components/Toast";
+import SuspendProfileModal from "./SuspendProfileModal";
+import axios from "../utils/axiosInstance";
 
 function ProfileManagement() {
-  const navigate = useNavigate()
-  const [roles, setRoles] = useState([
-    {
-      id: 1,
-      name: "Admin",
-      users: 2,
-      status: "Active",
-      description: "System administrators with full access to all features",
-      permissions: ["User Management", "Profile Management", "System Settings", "Reports"],
-    },
-    {
-      id: 2,
-      name: "Cleaner",
-      users: 20,
-      status: "Active",
-      description: "Professional cleaners who provide cleaning services",
-      permissions: ["Service Management", "Schedule Management", "Client Communication"],
-    },
-    {
-      id: 3,
-      name: "Home Owner",
-      users: 68,
-      status: "Active",
-      description: "Customers who book cleaning services for their homes",
-      permissions: ["Service Booking", "Payment Management", "Reviews"],
-    },
-    {
-      id: 4,
-      name: "Baby Sitter",
-      users: 13,
-      status: "Inactive",
-      description: "Professionals who provide baby sitting services",
-      permissions: ["Schedule Management", "Client Communication"],
-    },
-    {
-      id: 5,
-      name: "Project Manager",
-      users: 8,
-      status: "Active",
-      description: "Managers who oversee cleaning projects and teams",
-      permissions: ["Team Management", "Project Planning", "Client Communication", "Reports"],
-    },
-    {
-      id: 6,
-      name: "Customer Support",
-      users: 5,
-      status: "Active",
-      description: "Staff who handle customer inquiries and issues",
-      permissions: ["Ticket Management", "Client Communication", "Knowledge Base"],
-    },
-    {
-      id: 7,
-      name: "Accountant",
-      users: 3,
-      status: "Active",
-      description: "Financial staff who manage billing and payments",
-      permissions: ["Financial Reports", "Invoice Management", "Payment Processing"],
-    },
-  ])
+  const navigate = useNavigate();
+  const [roles, setRoles] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredRoles, setFilteredRoles] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+  const [suspendModal, setSuspendModal] = useState({ show: false, role: null });
 
-  // State for search, pagination, and modals
-  const [searchByOpen, setSearchByOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filteredRoles, setFilteredRoles] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [toast, setToast] = useState({ show: false, message: "", type: "" })
-  const [suspendModal, setSuspendModal] = useState({ show: false, role: null })
-
-  // Filter roles based on search term
   useEffect(() => {
-    const results = roles.filter((role) => role.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    setFilteredRoles(results)
-    setCurrentPage(1) // Reset to first page when search changes
-  }, [searchTerm, roles])
+    const fetchRolesWithUserCounts = async () => {
+      try {
+        const [profilesRes, usersRes] = await Promise.all([
+          axios.get("/api/profiles"),
+          axios.get("/api/users"),
+        ]);
 
-  // Get current roles for pagination
-  const indexOfLastRole = currentPage * itemsPerPage
-  const indexOfFirstRole = indexOfLastRole - itemsPerPage
-  const currentRoles = filteredRoles.slice(indexOfFirstRole, indexOfLastRole)
-  const totalPages = Math.ceil(filteredRoles.length / itemsPerPage)
+        const users = usersRes.data.success;
 
-  // Handle view role
-  const handleView = (profileId) => {
-    navigate(`/view-profile/${profileId}`)
-  }
+        const formatted = profilesRes.data.success.map((role) => {
+          const count = users.filter(
+            (u) => u.profile_name.toLowerCase() === role.role_name.toLowerCase()
+          ).length;
 
-  // Handle edit role
-  const handleEdit = (profileId) => {
-    navigate(`/edit-profile/${profileId}`)
-  }
+          return {
+            id: role.profile_id,
+            name: role.role_name,
+            users: count,
+            status: role.is_active ? "Active" : "Inactive",
+            description: role.description || "-",
+            permissions: [
+            ...(role.has_booking_permission ? ["Booking"] : []),
+            ...(role.has_listing_permission ? ["Listing"] : []),
+            ...(role.has_view_analytics_permission ? ["Analytics"] : []),
+          ]
+       };
+        });
 
-  // Handle add new profile
-  const handleAddProfile = () => {
-    navigate("/add-profile")
-  }
+        setRoles(formatted);
+      } catch (error) {
+        console.error("Error fetching profiles/users:", error);
+      }
+    };
 
-  // Handle suspend role
+    fetchRolesWithUserCounts();
+  }, []);
+
+  useEffect(() => {
+    const results = roles.filter((role) =>
+      role.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredRoles(results);
+    setCurrentPage(1);
+  }, [searchTerm, roles]);
+
+  const indexOfLastRole = currentPage * itemsPerPage;
+  const indexOfFirstRole = indexOfLastRole - itemsPerPage;
+  const currentRoles = filteredRoles.slice(indexOfFirstRole, indexOfLastRole);
+  const totalPages = Math.ceil(filteredRoles.length / itemsPerPage);
+
+  const handleView = (profileId) => navigate(`/view-profile/${profileId}`);
+  const handleEdit = (profileId) => navigate(`/edit-profile/${profileId}`);
+  const handleAddProfile = () => navigate("/add-profile");
+
   const handleSuspend = (roleId) => {
-    const roleToSuspend = roles.find((role) => role.id === roleId)
-    setSuspendModal({ show: true, role: roleToSuspend })
-  }
+    const role = roles.find((r) => r.id === roleId);
+    setSuspendModal({ show: true, role });
+  };
 
-  // Handle confirm suspend
-  const confirmSuspend = () => {
-    const updatedRoles = roles.map((role) =>
-      role.id === suspendModal.role.id ? { ...role, status: role.status === "Active" ? "Inactive" : "Active" } : role,
-    )
+  const confirmSuspend = async () => {
+    if (!suspendModal.role) return;
 
-    setRoles(updatedRoles)
+    const { id, status } = suspendModal.role;
+    const isCurrentlyActive = status === "Active";
 
-    // Show toast notification
-    setToast({
-      show: true,
-      message: `Role has been ${suspendModal.role.status === "Active" ? "deactivated" : "activated"}`,
-      type: "success",
-    })
+    try {
+      const endpoint = isCurrentlyActive
+        ? `/api/profiles/suspend/${id}`
+        : `/api/profiles/activate/${id}`;
 
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast({ show: false, message: "", type: "" })
-    }, 3000)
+      await axios.put(endpoint);
 
-    // Close modal
-    setSuspendModal({ show: false, role: null })
-  }
+      const updatedRoles = roles.map((role) =>
+        role.id === id
+          ? { ...role, status: isCurrentlyActive ? "Inactive" : "Active" }
+          : role
+      );
 
-  // Handle next page
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
-    } else {
-      // Show toast notification for no more data
+      setRoles(updatedRoles);
+
       setToast({
         show: true,
-        message: "No more data to display",
-        type: "info",
-      })
-
-      // Hide toast after 3 seconds
-      setTimeout(() => {
-        setToast({ show: false, message: "", type: "" })
-      }, 3000)
+        message: `Role has been ${isCurrentlyActive ? "deactivated" : "activated"}`,
+        type: "success",
+      });
+    } catch (error) {
+      console.error("Failed to toggle profile status:", error);
+      setToast({ show: true, message: "Failed to update role status", type: "error" });
     }
-  }
+
+    setSuspendModal({ show: false, role: null });
+    setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else {
+      setToast({ show: true, message: "No more data to display", type: "info" });
+      setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
+    }
+  };
 
   return (
     <main className="profile-management-content">
@@ -165,9 +131,7 @@ function ProfileManagement() {
             <div className="search-by-container">
               <label className="search-by-label">Search By</label>
               <div className="search-by-dropdown">
-                <div className="search-by-selected" onClick={() => setSearchByOpen(!searchByOpen)}>
-                  Role <span className="dropdown-arrow">▼</span>
-                </div>
+                <div className="search-by-selected">Role</div>
               </div>
             </div>
           </div>
@@ -181,14 +145,12 @@ function ProfileManagement() {
             />
           </div>
           <div className="results-info">
-            Showing {indexOfFirstRole + 1} to {Math.min(indexOfLastRole, filteredRoles.length)} of{" "}
-            {filteredRoles.length} results
+            Showing {indexOfFirstRole + 1} to {Math.min(indexOfLastRole, filteredRoles.length)} of {filteredRoles.length} results
           </div>
         </div>
 
         <div className="profile-management-actions">
           <ShowingDropdown value={itemsPerPage} onChange={setItemsPerPage} options={[5, 10, 15, 20]} />
-
           <button className="add-profile-button" onClick={handleAddProfile}>
             <span>+</span> Add New Profile
           </button>
@@ -213,21 +175,14 @@ function ProfileManagement() {
                   <td>{indexOfFirstRole + index + 1}</td>
                   <td>{role.name}</td>
                   <td>{role.users}</td>
-                  <td>
-                    <span className={`status-badge ${role.status.toLowerCase()}`}>{role.status}</span>
-                  </td>
+                  <td><span className={`status-badge ${role.status.toLowerCase()}`}>{role.status}</span></td>
                   <td>
                     <div className="action-buttons">
-                      <button className="view-button" onClick={() => handleView(role.id)}>
-                        View
-                      </button>
-                      <button className="edit-button" onClick={() => handleEdit(role.id)}>
-                        Edit
-                      </button>
+                      <button className="view-button" onClick={() => handleView(role.id)}>View</button>
+                      <button className="edit-button" onClick={() => handleEdit(role.id)}>Edit</button>
                       <button
                         className={role.status === "Active" ? "suspend-button" : "edit-button"}
-                        onClick={() => handleSuspend(role.id)}
-                      >
+                        onClick={() => handleSuspend(role.id)}>
                         {role.status === "Active" ? "Suspend" : "Activate"}
                       </button>
                     </div>
@@ -236,9 +191,7 @@ function ProfileManagement() {
               ))
             ) : (
               <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
-                  No roles found
-                </td>
+                <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No roles found</td>
               </tr>
             )}
           </tbody>
@@ -252,7 +205,6 @@ function ProfileManagement() {
         />
       </div>
 
-      {/* Suspend Profile Modal */}
       {suspendModal.show && (
         <SuspendProfileModal
           role={suspendModal.role}
@@ -261,10 +213,9 @@ function ProfileManagement() {
         />
       )}
 
-      {/* Toast Notification */}
       {toast.show && <Toast message={toast.message} type={toast.type} />}
     </main>
-  )
+  );
 }
 
-export default ProfileManagement
+export default ProfileManagement;

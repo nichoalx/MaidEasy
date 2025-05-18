@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import "./dashstyle.css"
-
+import axios from "../utils/axiosInstance";
 import person_icon from "../assets/person_icon.png"
 import calendar_icon from "../assets/calender_icon.png"
 import mail_icon from "../assets/mail_icon.png"
@@ -19,41 +19,32 @@ function ViewUser() {
   const [userData, setUserData] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Mock user data - in a real app, this would come from an API
-
 
   useEffect(() => {
-    // Simulate API call to fetch user data
-    setLoading(true)
-    setTimeout(() => {
-      const user = usersData.find((u) => u.id === Number.parseInt(userId))
-      if (user) {
-        setUserData(user)
-      } else {
-        // If user not found in our mock data, create a default one
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`);
         setUserData({
-          id: Number.parseInt(userId),
-          firstName: "User",
-          lastName: userId,
-          dateOfBirth: "01/01/1990",
-          contactNumber: "12345678",
-          email: `user${userId}@example.com`,
-          password: "••••••••••",
-          role: "Cleaner",
-          status: "Active",
-          createdDate: "01/01/2023",
-          cleanerSummary: {
-            servicesOffered: 5,
-            views: 150,
-            shortlisted: 8,
-            confirmedJobs: 3,
-            lastJob: "01/03/2025",
-          },
-        })
+          id: data.success.user_id,
+          firstName: data.success.first_name,
+          lastName: data.success.last_name,
+          dateOfBirth: data.success.dob,
+          contactNumber: data.success.contact_number,
+          email: data.success.email,
+          role: data.success.profile_name,
+          status: data.success.is_active ? "Active" : "Suspended",
+        });
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        alert("Failed to load user data.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false)
-    }, 500)
-  }, [userId])
+    };
+
+    fetchUser();
+  }, [userId]);
 
   const handleBack = () => {
     navigate(-1)
@@ -331,14 +322,6 @@ function ViewUser() {
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <div className="input-container">
-                      <img src={lock_icon || "/placeholder.svg"} alt="Lock" className="input-icon" />
-                      <input type="password" id="password" value={userData.password} readOnly />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
                     <label htmlFor="role">Role</label>
                     <div className="input-container">
                       <i className="icon role-icon"></i>
@@ -356,42 +339,6 @@ function ViewUser() {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="createdDate">Created Date</label>
-                    <div className="input-container">
-                      <img src={calendar_icon || "/placeholder.svg"} alt="Calendar" className="input-icon" />
-                      <input type="text" id="createdDate" value={userData.createdDate} readOnly />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ borderTop: "1px solid #e0e0e0", paddingTop: "24px", marginTop: "24px" }}>
-                <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px" }}>Cleaner Summary</h2>
-
-                <div style={{ display: "flex", marginBottom: "12px" }}>
-                  <span style={{ width: "150px", color: "#666666" }}>Services Offered :</span>
-                  <span style={{ fontWeight: "500" }}>{userData.cleanerSummary.servicesOffered}</span>
-                </div>
-
-                <div style={{ display: "flex", marginBottom: "12px" }}>
-                  <span style={{ width: "150px", color: "#666666" }}>Views :</span>
-                  <span style={{ fontWeight: "500" }}>{userData.cleanerSummary.views}</span>
-                </div>
-
-                <div style={{ display: "flex", marginBottom: "12px" }}>
-                  <span style={{ width: "150px", color: "#666666" }}>Shortlisted :</span>
-                  <span style={{ fontWeight: "500" }}>{userData.cleanerSummary.shortlisted}</span>
-                </div>
-
-                <div style={{ display: "flex", marginBottom: "12px" }}>
-                  <span style={{ width: "150px", color: "#666666" }}>Confirmed Jobs :</span>
-                  <span style={{ fontWeight: "500" }}>{userData.cleanerSummary.confirmedJobs}</span>
-                </div>
-
-                <div style={{ display: "flex", marginBottom: "12px" }}>
-                  <span style={{ width: "150px", color: "#666666" }}>Last Job :</span>
-                  <span style={{ fontWeight: "500" }}>{userData.cleanerSummary.lastJob}</span>
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ from .profile.update_profile import update_profile_blueprint
 from .profile.search_profile import search_profile_blueprint
 from .profile.view_profile import view_profile_blueprint
 from .profile.suspend_profile import suspend_profile_blueprint
+from .profile.activate_profile import activate_profile_blueprint
 from .profile.get_all_profiles import get_all_profiles_blueprint
 
 # AUTH controllers
@@ -68,6 +69,7 @@ __all__ = [
     "search_profile_blueprint",
     "view_profile_blueprint",
     "suspend_profile_blueprint",
+    "activate_profile_blueprint",
     "get_all_profiles_blueprint",
 
     # auth
