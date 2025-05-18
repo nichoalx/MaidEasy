@@ -10,6 +10,7 @@ import "react-date-range/dist/theme/default.css"
 import BookingDetailModal from "./ViewBookingDetail"
 import sample1 from "../assets/Sample1.png"
 import nick from "../assets/nick.png"
+import axios from "../utils/axiosInstance";
 
 export default function HomeOwnerHistory() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -25,20 +26,47 @@ export default function HomeOwnerHistory() {
   const itemsPerPage = 10
 
   useEffect(() => {
-    const dummy = Array.from({ length: 42 }, (_, i) => ({
-      id: i + 1,
-      serviceName: `Service ${i + 1}`,
-      category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      providerName: `Cleaner ${i + 1}`,
-      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
-      price: 70000 + i * 500,
-      date: new Date(2024, i % 12, (i % 28) + 1),
-      serviceImage: sample1,      // ✅ dummy path or imported
-      providerImage: nick,        // ✅ dummy path or imported
-    }))
-    setServices(dummy)
-    setFiltered(dummy)
-  }, [])
+    const fetchPastBookings = async () => {
+      try {
+        const res = await axios.get("/api/homeowner/view_past_bookings");
+        const bookings = res.data;
+  
+        const transformed = await Promise.all(
+          bookings.map(async (b) => {
+            let phone = "-";
+  
+            try {
+              const userRes = await axios.get(`/api/users/${b.cleaner_user_id}`);
+              if (userRes.data.success?.contact_number) {
+                phone = userRes.data.success.contact_number;
+              }
+            } catch (err) {
+              console.warn(`Could not fetch phone for cleaner ${b.cleaner_user_id}`, err);
+            }
+  
+            return {
+              id: b.booking_id || b.id,
+              serviceName: b.service_name || "Unnamed Service",
+              category: b.service_category || "Uncategorized",
+              cleanerName: b.cleaner_name || "Unknown Cleaner",
+              phone,
+              price: b.price || 0,
+              date: b.date || new Date(),
+              serviceImage: b.service_image || sample1,
+              cleanerImage: b.cleaner_image || nick,
+            };
+          })
+        );
+  
+        setServices(transformed);
+        setFiltered(transformed);
+      } catch (err) {
+        console.error("Failed to fetch past bookings:", err);
+      }
+    };
+  
+    fetchPastBookings();
+  }, []);
 
   useEffect(() => {
     let result = [...services]
@@ -47,16 +75,16 @@ export default function HomeOwnerHistory() {
     if (searchTerm.trim()) {
       result = result.filter(
         (s) =>
-          s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          s.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           s.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          s.provider.toLowerCase().includes(searchTerm.toLowerCase())
+          s.cleanerName.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 
     // Type filter
     if (typeFilter === "cleaner") {
       result = result.filter((s) =>
-        s.provider.toLowerCase().includes(searchTerm.toLowerCase())
+        s.cleanerName.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 
@@ -227,7 +255,7 @@ export default function HomeOwnerHistory() {
                 <td>{item.id}</td>
                 <td><b>{item.serviceName}</b></td>
                 <td>{item.category}</td>
-                <td>{item.providerName}</td>
+                <td>{item.cleanerName}</td>
                 <td>$ {item.price.toLocaleString()}</td>
                 <td>{format(new Date(item.date), "MMM d, yyyy")}</td>
                 <td>

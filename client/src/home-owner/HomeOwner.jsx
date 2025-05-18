@@ -48,14 +48,32 @@ export default function HomeOwner() {
         <Outlet />
       </div>
       {showLogoutModal && (
-        <LogoutModal
-          onConfirm={() => {
-            localStorage.removeItem("isLoggedIn")
-            navigate("/") // or "/" if main page
-          }}
-          onCancel={() => setShowLogoutModal(false)}
-        />
-      )}
+      <LogoutModal
+        onConfirm={async () => {
+          try {
+            // ✅ 1. Call backend logout endpoint
+            await fetch("http://localhost:5000/api/auth/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            });
+          } catch (err) {
+            console.warn("Logout request failed (may still clear locally)", err);
+          }
+
+          // ✅ 2. Clear token and user session data
+          localStorage.removeItem("token");
+          localStorage.removeItem("user_id");
+          localStorage.removeItem("role");
+          localStorage.removeItem("isLoggedIn");
+
+          // ✅ 3. Navigate to login or homepage
+          navigate("/");
+        }}
+        onCancel={() => setShowLogoutModal(false)}
+      />
+    )}
     </div>
   )
 }
