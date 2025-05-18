@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import axios from "../utils/axiosInstance";
+import axios from "../utils/axiosInstance"
 import "./platform-style.css"
 import logout from "../assets/logout.png"
 import reportS from "../assets/report.png"
@@ -29,6 +29,8 @@ function Report() {
     monthly: false,
   })
   const [error, setError] = useState(null)
+
+  const [user, setUser] = useState(null)
 
   // Format date function
   const formatDate = (dateString) => {
@@ -124,6 +126,20 @@ function Report() {
     fetchSummaryData()
   }, [])
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id")
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`)
+        setUser(data.success)
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error)
+      }
+    }
+
+    fetchUser()
+  }, [])
+
   return (
     <div className="platform-layout">
       {/* Sidebar */}
@@ -192,7 +208,7 @@ function Report() {
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, Platform123{" "}
+              Hi, {user?.first_name }{" "}
               <span role="img" aria-label="wave">
                 👋
               </span>
@@ -201,11 +217,11 @@ function Report() {
 
           <div className="user-profile">
             <div className="user-info">
-              <div className="user-name">Platform123</div>
-              <div className="user-email">plat123@gmail.com</div>
-            </div>
-            <div className="user-avatar">
-              <i className="icon user-icon"></i>
+              <img src={circle_person || "/placeholder.svg"} alt="profile icon" />
+              <div className="user-details">
+                <div className="user-name">{user?.first_name }</div>
+                <div className="user-email">{user?.email }</div>
+              </div>
             </div>
           </div>
         </header>
