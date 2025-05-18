@@ -1,16 +1,31 @@
-import { Outlet, useNavigate, useLocation } from "react-router-dom"
-import "./HomeOwner.css"
-import LogoutModal from "../components/LogoutModal"
-import logoutIcon from "../assets/logout.png"
-import userIcon from "../assets/circle_person.png"
-import { useState } from "react"
-
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import "./HomeOwner.css";
+import LogoutModal from "../components/LogoutModal";
+import logoutIcon from "../assets/logout.png";
+import userIcon from "../assets/circle_person.png";
+import { useState, useEffect } from "react";
+import axios from "../utils/axiosInstance";
 
 export default function HomeOwner() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [showLogoutModal, setShowLogoutModal] = useState(false)
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // ✅ Fetch user details from backend
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem("user_id");
+        const res = await axios.get(`/api/users/${userId}`);
+        setUser(res.data.success);
+      } catch (err) {
+        console.error("Failed to fetch user info:", err);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <div className="HomeOwner">
@@ -36,8 +51,8 @@ export default function HomeOwner() {
             <button className="profileButton">
               <img src={userIcon} alt="user" />
               <div className="homeownerInfo">
-                <p className="name">Cleaner 1</p>
-                <p className="email">cleaner1@main.com</p>
+                <p className="name">{user ? `${user.first_name}` : "..."}</p>
+                <p className="email">{user ? user.email : "Loading..."}</p>
               </div>
             </button>
           </div>
@@ -47,33 +62,31 @@ export default function HomeOwner() {
       <div className="HomeOwnerPage">
         <Outlet />
       </div>
+
       {showLogoutModal && (
-      <LogoutModal
-        onConfirm={async () => {
-          try {
-            // ✅ 1. Call backend logout endpoint
-            await fetch("http://localhost:5000/api/auth/logout", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              }
-            });
-          } catch (err) {
-            console.warn("Logout request failed (may still clear locally)", err);
-          }
+        <LogoutModal
+          onConfirm={async () => {
+            try {
+              await fetch("http://localhost:5000/api/auth/logout", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              });
+            } catch (err) {
+              console.warn("Logout request failed (may still clear locally)", err);
+            }
 
-          // ✅ 2. Clear token and user session data
-          localStorage.removeItem("token");
-          localStorage.removeItem("user_id");
-          localStorage.removeItem("role");
-          localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("role");
+            localStorage.removeItem("isLoggedIn");
 
-          // ✅ 3. Navigate to login or homepage
-          navigate("/");
-        }}
-        onCancel={() => setShowLogoutModal(false)}
-      />
-    )}
+            navigate("/");
+          }}
+          onCancel={() => setShowLogoutModal(false)}
+        />
+      )}
     </div>
-  )
+  );
 }
