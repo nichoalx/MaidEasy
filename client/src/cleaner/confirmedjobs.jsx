@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 import personIcon from "../assets/circle_person.png";
 import logoutIcon from "../assets/logout.png";
@@ -8,55 +9,64 @@ import confirmIcon from "../assets/confirmed.png";
 import searchIcon from "../assets/search.png";
 import calendarIcon from "../assets/calender_icon.png";
 import closeIcon from "../assets/close.png";
-
+import LogoutModal from "../components/LogoutModal";
 import "./confirmedjobs.css";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 
-import DeleteModal from "./deleteModal";
 import CategoryDropdown from "./categoryDropdown";
 
-// You may import or replace these with real image paths
+// Sample images (replace with actual if needed)
 import sample1 from "../assets/Sample1.png";
 import nick from "../assets/nick.png";
 
 export default function ConfirmedJobsPage() {
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [typeFilter, setTypeFilter] = useState("service");
   const [range, setRange] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [services, setServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [sortAsc, setSortAsc] = useState(true);
-  const [selectedBooking, setSelectedBooking] = useState(null);
-
-  const generateDummyServices = () =>
-    Array.from({ length: 42 }, (_, i) => ({
-      id: i + 1,
-      serviceName: `Service ${i + 1}`,
-      category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      providerName: `Cleaner ${i + 1}`,
-      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
-      price: 70000 + i * 500,
-      date: new Date(2024, i % 12, (i % 28) + 1),
-      serviceImage: sample1,
-      providerImage: nick,
-    }));
+  const [showLogoutModal, setShowLogoutModal] = useState(false); 
 
   useEffect(() => {
-    const dummy = generateDummyServices();
-    setServices(dummy);
-    setFiltered(dummy);
+    const fetchJobHistory = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+        const response = await axiosInstance.get("/cleaner/view_job_history", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const jobData = response.data.map((item, index) => ({
+          id: index + 1,
+          serviceName: item.service_name || `Service ${index + 1}`,
+          category: item.category_name || "General",
+          providerName: item.homeowner_name || item.cleaner_name || "Unknown",
+          phone: item.phone || "+62",
+          price: item.price || 50000,
+          date: new Date(item.date),
+          serviceImage: sample1,
+          providerImage: nick,
+        }));
+
+        setServices(jobData);
+        setFiltered(jobData);
+      } catch (error) {
+        console.error("Error fetching job history", error);
+      }
+    };
+
+    fetchJobHistory();
   }, []);
 
   useEffect(() => {
@@ -168,22 +178,27 @@ export default function ConfirmedJobsPage() {
             <span1><img src={confirmIcon} alt="confirm icon" />Confirmed Jobs</span1>
           </a>
         </nav>
+
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowLogoutModal(true);
+            }}
+          >
+            <img src={logoutIcon} alt="logout icon" />
+            Log Out
           </a>
         </div>
       </div>
-
 
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, Platform123{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
+              Hi, Platform123 👋
             </h2>
           </div>
 
@@ -197,9 +212,11 @@ export default function ConfirmedJobsPage() {
             </div>
           </div>
         </header>
+
         <div className="search-header">
-            <h1 className="services-title3">My Profile</h1>
+          <h1 className="services-title3">Confirmed Jobs</h1>
         </div>
+
         <div className="cleanerSearchContainer">
           <div className="labelRow2">
             <label>Keywords</label>
@@ -288,13 +305,13 @@ export default function ConfirmedJobsPage() {
             <table className="categories-table">
               <thead>
                 <tr>
-                    <th className="col-id">ID</th>
-                    <th className="col-name">Service Name</th>
-                    <th className="col-category">Category</th>
-                    <th className="col-cleaner">Cleaners</th>
-                    <th className="col-price">Price</th>
-                    <th className="col-date" onClick={toggleSort}>Date {sortAsc ? "▲" : "▼"}</th>
-                    <th className="col-action">Action</th>
+                  <th className="col-id">ID</th>
+                  <th className="col-name">Service Name</th>
+                  <th className="col-category">Category</th>
+                  <th className="col-cleaner">Cleaner</th>
+                  <th className="col-price">Price</th>
+                  <th className="col-date" onClick={toggleSort}>Date {sortAsc ? "▲" : "▼"}</th>
+                  <th className="col-action">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -307,35 +324,55 @@ export default function ConfirmedJobsPage() {
                     <td className="nowrap">$ {item.price.toLocaleString()}</td>
                     <td className="nowrap">{format(new Date(item.date), "MMM d, yyyy")}</td>
                     <td className="nowrap">
-                        <button
-                        className="view-btn"
-                        onClick={() => navigate(`/confirmed-jobs/${item.id}`)}
-                        >
-                        View
-                        </button>
+                      <button className="view-btn" onClick={() => navigate(`/confirmed-jobs/${item.id}`)}>View</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
             <div className="paginationBar">
-                <div className="paginationSection left">
-                    {currentPage > 1 && (
-                    <button className="prev-btn" onClick={() => setCurrentPage((prev) => prev - 1)}>&lt; Previous</button>
-                    )}
-                </div>
-                <div className="paginationSection center">
-                    <span className="page-info">Page {currentPage} of {totalPages}</span>
-                </div>
-                <div className="paginationSection right">
-                    {currentPage < totalPages && (
-                    <button className="next-btn" onClick={() => setCurrentPage((prev) => prev + 1)}>Next &gt;</button>
-                    )}
-                </div>
-            </div>
+              <div className="paginationSection left">
+                {currentPage > 1 && (
+                  <button className="prev-btn" onClick={() => setCurrentPage((prev) => prev - 1)}>&lt; Previous</button>
+                )}
+              </div>
+              <div className="paginationSection center">
+                <span className="page-info">Page {currentPage} of {totalPages}</span>
+              </div>
+              <div className="paginationSection right">
+                {currentPage < totalPages && (
+                  <button className="next-btn" onClick={() => setCurrentPage((prev) => prev + 1)}>Next &gt;</button>
+                )}
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      {showLogoutModal && (
+        <LogoutModal
+          onConfirm={async () => {
+            try {
+              await fetch("http://localhost:5000/api/auth/logout", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+            } catch (err) {
+              console.warn("Logout request failed", err);
+            }
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("role");
+            localStorage.removeItem("isLoggedIn");
+
+            navigate("/");
+          }}
+          onCancel={() => setShowLogoutModal(false)}
+        />
+      )}
     </div>
   );
 }

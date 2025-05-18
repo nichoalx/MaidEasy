@@ -92,33 +92,6 @@
   margin-right: 12px;
 }
 
-.user-icon::before {
-  content: "👤";
-}
-
-.calendar-icon::before {
-  content: "📅";
-}
-
-.phone-icon::before {
-  content: "📞";
-}
-
-.email-icon::before {
-  content: "✉️";
-}
-
-.lock-icon::before {
-  content: "🔒";
-}
-
-.eye-icon::before {
-  content: "👁️";
-}
-
-.role-icon::before {
-  content: "👥";
-}
 
 
 /* Main Content */

@@ -20,11 +20,11 @@ import ViewProfile from "./main-page/admin_dashboard/view-profile";
 import AddProfile from "./main-page/admin_dashboard/add-profile";
 
 // Platform Manager
-import PlatformManagement from "./main-page/plat-management/platformManagement";
-import EditCategory from "./main-page/plat-management/edit-category";
-import ViewCategory from "./main-page/plat-management/view-category";
-import Report from "./main-page/plat-management/report";
-import PlatformProfile from "./main-page/plat-management/platform-profile";
+import PlatformManagement from "./plat-management/platformManagement";
+import EditCategory from "./plat-management/edit-category";
+import ViewCategory from "./plat-management/view-category";
+import Report from "./plat-management/report";
+import PlatformProfile from "./plat-management/platform-profile";
 import Logout from "./plat-management/Logout";
 
 // Cleaner

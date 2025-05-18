@@ -1,29 +1,41 @@
-// cleanerProfile.jsx
-import React, { useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import "./cleanerProfile.css"
+import React, { useState, useEffect } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
+import axios from "../utils/axiosInstance";
+import "./cleanerProfile.css";
+import LogoutModal from "../components/LogoutModal";
 
-import personIcon from "../assets/circle_person.png"
-import categoryIcon from "../assets/category.png"
-import reportIcon from "../assets/report.png"
-import logoutIcon from "../assets/logout.png"
-
-import userIcon from "../assets/person_icon.png"
-import calendarIcon from "../assets/calender_icon.png"
-import phoneIcon from "../assets/phone.png"
-import mailIcon from "../assets/mail_icon.png"
-import lockIcon from "../assets/lock_icon.png"
-import roleIcon from "../assets/circle_person.png"
-import statusIcon from "../assets/green.png"
-import eyeIcon from "../assets/visibility_on.png"
-import eyeOffIcon from "../assets/visibility_off.png"
-import cleaningserviceIcon from "../assets/cleaningservice.png"
-import confirmIcon from "../assets/confirmed.png"
+import personIcon from "../assets/circle_person.png";
+import logoutIcon from "../assets/logout.png";
+import userIcon from "../assets/person_icon.png";
+import calendarIcon from "../assets/calender_icon.png";
+import phoneIcon from "../assets/phone.png";
+import mailIcon from "../assets/mail_icon.png";
+import roleIcon from "../assets/circle_person.png";
+import statusIcon from "../assets/green.png";
+import cleaningserviceIcon from "../assets/cleaningservice.png";
+import confirmIcon from "../assets/confirmed.png";
 
 export default function CleanerProfile() {
-  const [showPassword, setShowPassword] = useState(false)
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [user, setUser] = useState(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false); 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id");
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`);
+        setUser(data.success);
+      } catch (error) {
+        console.error("Failed to load user profile:", error);
+        alert("Unable to load user profile.");
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (!user) return <p>Loading profile...</p>;
 
   return (
     <div className="platform-layout">
@@ -67,148 +79,138 @@ export default function CleanerProfile() {
             <span1><img src={confirmIcon} alt="confirm icon" />Confirmed Jobs</span1>
           </a>
         </nav>
+
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowLogoutModal(true);
+            }}
+          >
+            <img src={logoutIcon} alt="logout icon" />
+            Log Out
           </a>
         </div>
       </div>
 
-
+      {/* Main Content */}
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
-            <h2>
-              Hi, Platform123{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
-            </h2>
+            <h2>Hi, {user.first_name} 👋</h2>
           </div>
 
           <div className="user-profile">
-            <div className="user-info">
-              <img src={personIcon} alt="person icon" />
-              <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
-              </div>
+            <img src={personIcon} alt="user icon" />
+            <div className="user-details">
+              <div className="user-name">{user.first_name} {user.last_name}</div>
+              <div className="user-email">{user.email}</div>
             </div>
           </div>
         </header>
 
         <div className="whiteSpace">
           <div className="platform-content">
-            <div className="search-header">
-                <h1 className="services-title2">My Profile</h1>
-            </div>
+            <h1 className="services-title7">My Profile</h1>
+
             <div className="profile-container">
               <div className="form-grid">
-              {/* First Name */}
-              <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
-                <div className="input-container">
-                  <img src={userIcon} alt="first" className="input-icon" />
-                  <input type="text" id="firstName" value="Kieron" readOnly />
-                </div>
-              </div>
 
-              {/* Last Name */}
-              <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
-                <div className="input-container">
-                  <img src={userIcon} alt="last" className="input-icon" />
-                  <input type="text" id="lastName" value="Yolin" readOnly />
-                </div>
-              </div>
-
-              {/* Date of Birth */}
-              <div className="form-group">
-                <label htmlFor="dob">Date of Birth</label>
-                <div className="input-container">
-                  <img src={calendarIcon} alt="dob" className="input-icon" />
-                  <input type="text" id="dob" value="12/10/2004" readOnly />
-                </div>
-              </div>
-
-              {/* Contact Number */}
-              <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number</label>
-                <div className="input-container">
-                  <img src={phoneIcon} alt="phone" className="input-icon" />
-                  <input type="text" id="contactNumber" value="82622526" readOnly />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="form-group2">
-                <label htmlFor="email">Email</label>
-                <div className="input-container2">
-                  <img src={mailIcon} alt="email" className="input-icon" />
-                  <input type="email" id="email" value="Kieronyolin12@gmail.com" readOnly />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <div className="input-container">
-                  <img src={lockIcon} alt="password" className="input-icon" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value="password123"
-                    readOnly
-                  />
-                  <button
-                    className="password-toggle"
-                    onClick={() => setShowPassword(!showPassword)}
-                    type="button"
-                  >
-                    <img
-                      src={showPassword ? eyeOffIcon : eyeIcon}
-                      alt="Toggle"
-                      className="toggle"
-                    />
-                  </button>
-                </div>
-              </div>
-
-              {/* Role */}
-              <div className="form-group">
-                <label htmlFor="role">Role</label>
-                <div className="input-container">
-                  <img src={roleIcon} alt="role" className="input-icon" />
-                  <div className="select-container">
-                    <input type="text" id="role" value="Cleaner" readOnly />
+                {/* First Name */}
+                <div className="form-group">
+                  <label>First Name</label>
+                  <div className="input-container">
+                    <img src={userIcon} className="input-icon" alt="first name" />
+                    <input type="text" value={user.first_name} readOnly />
                   </div>
                 </div>
-              </div>
 
-              {/* Status */}
-              <div className="form-group">
-                <label htmlFor="status">Status</label>
-                <div className="input-container">
-                <img src={statusIcon} alt="status" className="status-icon" />
-                  <div className="status-indicator">
-                    <input type="text" id="status" value="Active" readOnly />
+                {/* Last Name */}
+                <div className="form-group">
+                  <label>Last Name</label>
+                  <div className="input-container">
+                    <img src={userIcon} className="input-icon" alt="last name" />
+                    <input type="text" value={user.last_name} readOnly />
                   </div>
                 </div>
-              </div>
 
-              {/* Created Date */}
-              <div className="form-group">
-                <label htmlFor="createdDate">Created Date</label>
-                <div className="input-container">
-                  <img src={calendarIcon} alt="created" className="input-icon" />
-                  <input type="text" id="createdDate" value="09/04/2025" readOnly />
+                {/* DOB */}
+                <div className="form-group">
+                  <label>Date of Birth</label>
+                  <div className="input-container">
+                    <img src={calendarIcon} className="input-icon" alt="dob" />
+                    <input type="text" value={user.dob} readOnly />
+                  </div>
                 </div>
+
+                {/* Contact Number */}
+                <div className="form-group">
+                  <label>Contact Number</label>
+                  <div className="input-container">
+                    <img src={phoneIcon} className="input-icon" alt="contact number" />
+                    <input type="text" value={user.contact_number} readOnly />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="form-group full-width">
+                  <label>Email</label>
+                  <div className="input-container15">
+                    <img src={mailIcon} className="input-icon" alt="email" />
+                    <input type="text" value={user.email} readOnly />
+                  </div>
+                </div>
+
+                {/* Role */}
+                <div className="form-group">
+                  <label>Role</label>
+                  <div className="input-container">
+                    <img src={roleIcon} className="role-icon" alt="role" />
+                    <input type="text" value={user.profile_name || "Cleaner"} readOnly />
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="form-group">
+                  <label>Status</label>
+                  <div className="input-container">
+                    <img src={statusIcon} className="status-icon" alt="status" />
+                    <input type="text" value={user.is_active ? "Active" : "Inactive"} readOnly />
+                  </div>
+                </div>
+
               </div>
-              </div>
-            </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {showLogoutModal && (
+        <LogoutModal
+          onConfirm={async () => {
+            try {
+              await fetch("http://localhost:5000/api/auth/logout", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+            } catch (err) {
+              console.warn("Logout request failed", err);
+            }
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("role");
+            localStorage.removeItem("isLoggedIn");
+
+            navigate("/");
+          }}
+          onCancel={() => setShowLogoutModal(false)}
+        />
+      )}
     </div>
-  )
+  );
 }

@@ -62,26 +62,6 @@
   display: inline-block;
 }
 
-.dashboard-icon::before {
-  content: "⊞";
-}
-
-.profile-icon::before {
-  content: "👤";
-}
-
-.users-icon::before {
-  content: "👥";
-}
-
-.profile-management-icon::before {
-  content: "👤";
-}
-
-.logout-icon::before {
-  content: "↩";
-}
-
 .logout-container {
   padding: 12px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

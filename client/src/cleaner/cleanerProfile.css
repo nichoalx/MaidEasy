@@ -232,6 +232,7 @@
   border-radius: 0.5rem;
   max-width: 54rem;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .form-grid {
@@ -285,7 +286,7 @@
     max-width: 100%;
     }
 
-    .input-container2 {
+    .input-container15 {
     display: flex;
     align-items: center;
     background-color: rgba(212, 211, 211, 0.25); 
@@ -306,7 +307,7 @@
     color: #6b7280;
   }
 
-  .role-icon {
+  .role-icon5 {
     filter: brightness(0) saturate(100%) invert(36%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(0.9);
   }
 
@@ -318,7 +319,7 @@
     margin-top: 4px;
   }
 
-  .profile-container .input-container2 input {
+  .profile-container .input-container15 input {
     background: transparent;
     border: none;
     outline: none;
@@ -370,7 +371,8 @@
     color: #6b7280;
   }
 
-  .services-title2 {
-    margin-left: 9rem;
+  .services-title7 {
+    margin-left: -42rem;
     font-size: 36px;
+    color: #3e4772;
   }
