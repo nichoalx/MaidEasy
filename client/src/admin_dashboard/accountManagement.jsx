@@ -7,12 +7,13 @@ import ShowingDropdown from "./components/ShowingDropdown"
 import Toast from "./components/Toast"
 import SuspendConfirmModal from "./SuspendUserModal"
 import axios from "../utils/axiosInstance"; 
+import AddAccountModal from "./components/AddAccountModal";
 
 
 function AccountManagement() {
   const navigate = useNavigate()
   const [users, setUsers] = useState([])
-
+  const [showAddModal, setShowAddModal] = useState(false);
   // State for search, pagination, and modals
   const [searchTerm, setSearchTerm] = useState("")
   const [searchBy, setSearchBy] = useState("Name")
@@ -71,7 +72,15 @@ function AccountManagement() {
     setCurrentPage(1); // reset page on new search
   }, [users, searchTerm, searchBy]);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const handleDropdownOpen = () => setIsDropdownOpen(true);
+
+  const handleDropdownClose = () => {
+    // Delay so the selection can finish before closing
+    setTimeout(() => setIsDropdownOpen(false), 100);
+  };
+  const [typeFilter, setTypeFilter] = useState("service");
 
   // Get current users for pagination
   const indexOfLastUser = currentPage * itemsPerPage
@@ -93,7 +102,7 @@ function AccountManagement() {
   const handleAddUser = () => {
     navigate("/add-user")
   }
-
+  const [inputTerm, setInputTerm] = useState("");
   // Handle suspend user
   const [showSuspendModal, setShowSuspendModal] = useState(false)
   const [userToSuspend, setUserToSuspend] = useState(null)
@@ -165,147 +174,143 @@ function AccountManagement() {
   }
 
   return (
-    <main className="account-content">
-      <h1 className="account-title">User Account</h1>
+    <div className="whiteSpace">
+      <div className="platform-content">
+        <div className="search-header">
+          <h1 className="services-title">User Account</h1>
+            <button className="add-button" onClick={() => setShowAddModal(true)}>
+              <span>+</span> Add New Account
+            </button>
+        </div>
 
-      <div className="account-controls">
         <div className="search-container">
-          <div className="search-header">
-            <label>Keyword</label>
-            <div className="search-by-container">
-              <label className="search-by-label">Search By</label>
-              <div className="search-by-dropdown">
-                <div className="search-by-selected" onClick={() => setSearchByOpen(!searchByOpen)}>
-                  {searchBy} <span className="dropdown-arrow">▼</span>
-                </div>
-                {searchByOpen && (
-                  <div className="search-by-options">
-                    <div
-                      className={`search-by-option ${searchBy === "Name" ? "active" : ""}`}
-                      onClick={() => {
-                        setSearchBy("Name")
-                        setSearchByOpen(false)
-                      }}
-                    >
-                      Name
-                    </div>
-                    <div
-                      className={`search-by-option ${searchBy === "Email" ? "active" : ""}`}
-                      onClick={() => {
-                        setSearchBy("Email")
-                        setSearchByOpen(false)
-                      }}
-                    >
-                      Email
-                    </div>
-                    <div
-                      className={`search-by-option ${searchBy === "User ID" ? "active" : ""}`}
-                      onClick={() => {
-                        setSearchBy("User ID")
-                        setSearchByOpen(false)
-                      }}
-                    >
-                      User ID
-                    </div>
-                  </div>
-                )}
-              </div>
+          <div className="user-search-group">
+            <label className="user-input-label">Keyword</label>
+            <div className="user-input-wrapper">
+              <svg className="user-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="10" />
+                <line x1="22" y1="22" x2="19.65" y2="19.65" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Enter user's name or email address or ID"
+                className="user-search-input"
+                value={inputTerm}
+                onChange={(e) => setInputTerm(e.target.value)}
+              />
             </div>
           </div>
-          <div className="search-input-wrapper">
-            <input
-              type="text"
-              placeholder={`Search by ${searchBy.toLowerCase()}`}
-              className="search-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+
+          {/* Search By Dropdown */}
+          <div className="user-search-group">
+            <label className="user-input-label">Search By</label>
+              <div className={`user-dropdown-wrapper ${isDropdownOpen ? "open" : ""}`}>
+                <select
+                  value={searchBy}
+                  onChange={(e) => setSearchBy(e.target.value)}
+                  onClick={handleDropdownOpen}
+                  onBlur={handleDropdownClose}
+                >
+                  <option value="Name">Name</option>
+                  <option value="Email">Email</option>
+                  <option value="User ID">User ID</option>
+                </select>
+              </div>
+
           </div>
-          <div className="results-info">
-            Showing {indexOfFirstUser + 1} to {Math.min(indexOfLastUser, filteredUsers.length)} of{" "}
-            {filteredUsers.length} results
-          </div>
-        </div>
 
-        <div className="account-actions">
-          <ShowingDropdown value={itemsPerPage} onChange={setItemsPerPage} options={[5, 10, 15, 20]} />
+            <div className="search-button-container">
+              <button className="user-search-button" onClick={() => setSearchTerm(inputTerm)}>
+                Search
+              </button>
+            </div>
+          </div> 
+          <div className="result-count">
+            Showing {filteredUsers.length} of {users.length} Results
+          </div>     
 
-          <button className="add-account-button" onClick={handleAddUser}>
-            <span>+</span> Add New Account
-          </button>
-        </div>
-      </div>
 
-      <div className="account-table-container">
-        <table className="account-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentUsers.length > 0 ? (
-              currentUsers.map((user, index) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <span className={`status-badge ${user.status.toLowerCase()}`}>{user.status}</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="view-button" onClick={() => handleView(user.id)}>
-                        View
-                      </button>
-                      <button className="edit-button" onClick={() => handleEdit(user.id)}>
-                        Edit
-                      </button>
-                      <button
-                        className={user.status === "Active" ? "suspend-button" : "edit-button"}
-                        onClick={() => handleSuspend(user.id)}
-                      >
-                        {user.status === "Active" ? "Suspend" : "Activate"}
-                      </button>
-                    </div>
+        <div className="categories-table-container6">
+          <table className="categories-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentUsers.length > 0 ? (
+                currentUsers.map((user, index) => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.role}</td>
+                    <td>
+                      <span className={`status-badge ${user.status.toLowerCase()}`}>{user.status}</span>
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        <button className="view-btn" onClick={() => handleView(user.id)}>
+                          View
+                        </button>
+                        <button className="edit-btn" onClick={() => handleEdit(user.id)}>
+                          Edit
+                        </button>
+                        <button
+                          className={user.status === "Active" ? "suspend-button" : "edit-btn"}
+                          onClick={() => handleSuspend(user.id)}
+                        >
+                          {user.status === "Active" ? "Suspend" : "Activate"}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
+                    No users found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
-                  No users found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onNextPage={handleNextPage}
-          onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-        />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onNextPage={handleNextPage}
+            onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
+          />
+        </div>
+
+
+        {showSuspendModal && userToSuspend && (
+          <SuspendConfirmModal
+            user={userToSuspend}
+            onClose={() => setShowSuspendModal(false)}
+            onConfirm={confirmSuspend}
+          />
+        )}
+
+        {toast.show && <Toast message={toast.message} type={toast.type} />}
+
+        {showAddModal && (
+          <AddAccountModal
+            onClose={() => setShowAddModal(false)}
+            onSave={(formData) => {
+              console.log("Account to save:", formData);
+              setShowAddModal(false);
+            }}
+          />
+        )}
       </div>
-
-      {/* Suspend Confirmation Modal */}
-      {showSuspendModal && userToSuspend && (
-        <SuspendConfirmModal
-          user={userToSuspend}
-          onClose={() => setShowSuspendModal(false)}
-          onConfirm={confirmSuspend}
-        />
-      )}
-      {/* Toast Notification */}
-      {toast.show && <Toast message={toast.message} type={toast.type} />}
-    </main>
+    </div>
   )
 }
 

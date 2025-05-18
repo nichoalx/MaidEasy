@@ -52,46 +52,70 @@ function ViewProfile() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="dashboard-layout">
-      <div className="app-container">
+    <div className="platform-layout">
         <div className="sidebar">
           <div className="logo-container">
             <h1 className="logo">Garuda<br />Indonesia</h1>
           </div>
+
           <nav className="nav-menu">
-            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
-              <img src={circle_person} alt="Profile" className="icon" />
-              <span>My Profile</span>
+            <a
+              href="#"
+              className="nav-item active"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("profile")
+              }}
+            >
+              <i className="icon grid-icon"></i>
+              <span1><img src={circlePersonIcon} alt="person icon" />My Profile</span1>
             </a>
-            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
-              <img src={Vector} alt="Account" className="icon" />
-              <span>Account Management</span>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("account")
+              }}
+            >
+            <i className="icon profile-icon"></i>
+            <span><img src={vectorIcon} alt="person icon" />Account Management</span>
             </a>
-            <a href="#" className="nav-item active" onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}>
-              <img src={Human} alt="Profile Management" className="icon" />
-              <span>Profile Management</span>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("profileManagement")
+              }}
+            >
+            <i className="icon report-icon"></i>
+            <span1><img src={humanIcon} alt="confirm icon" />Profile Management</span1>
             </a>
           </nav>
+
           <div className="logout-container">
-            <a href="#" className="logout-link" onClick={() => navigate("/")}> 
-              <img src={logout} alt="Logout" className="logout-icon" />
-              <span>Log Out</span>
+            <a href="#" className="logout-link" onClick={handleLogout}>
+            <img src={logout} alt="logout icon" />
+            Log Out
             </a>
           </div>
         </div>
 
+        {/* Main Content */}
         <div className="main-content">
-          <header className="header">
+          <header className="platform-header">
             <div className="greeting">
-              <h2>Hi, Admin Ganteng <span role="img" aria-label="wave">👋</span></h2>
+              <h2>
+                Hi, Admin Ganteng 👋
+              </h2>
             </div>
+
             <div className="user-profile">
-              <div className="user-info">
+              <img src={circlePersonIcon} alt="user icon" />
+              <div className="user-details">
                 <div className="user-name">Admin Ganteng</div>
                 <div className="user-email">admin@example.com</div>
-              </div>
-              <div className="user-avatar">
-                <i className="icon user-icon"></i>
               </div>
             </div>
           </header>
@@ -148,7 +172,7 @@ function ViewProfile() {
           </div>
         </div>
       </div>
-    </div>
+
   );
 }
 
