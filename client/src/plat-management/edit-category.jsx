@@ -1,132 +1,321 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "./platform-style.css";
+import { useState, useEffect } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import "./platform-style.css"
+import axios from "../utils/axiosInstance"
 
-import categoryIcon from "../assets/category.png";
-import personIcon from "../assets/circle_person.png";
-import reportIcon from "../assets/report.png";
-import logoutIcon from "../assets/logout.png";
+// Import icons
+import category from "../assets/category.png"
+import circle_person from "../assets/circle_person.png"
+import reportS from "../assets/report.png"
+import logout from "../assets/logout.png"
 
 function EditCategory() {
-  const navigate = useNavigate();
-  const { categoryId } = useParams();
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const { categoryId } = useParams()
+  const [loading, setLoading] = useState(true)
   const [formData, setFormData] = useState({
-    name: "",
+    category_name: "",
     description: "",
-    createdOn: "",
-    services: 0,
-  });
+    created_at: "",
+    services_count: 0,
+  })
+  const [user, setUser] = useState(null)
 
-  const categoriesData = [
-    {
-      id: 1,
-      name: "Floor Cleaning",
-      createdOn: "01/12/2001",
-      services: 120,
-      description: "Professional floor cleaning services for all types of flooring",
-    },
-    {
-      id: 2,
-      name: "Chair",
-      createdOn: "02/10/2002",
-      services: 100,
-      description: "Chair cleaning and maintenance services",
-    },
-    {
-      id: 3,
-      name: "Rooftop",
-      createdOn: "03/12/2010",
-      services: 10,
-      description: "Rooftop cleaning and maintenance services",
-    },
-  ];
+  // Fetch user data
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem("user_id")
+        if (userId) {
+          const { data } = await axios.get(`/api/users/${userId}`)
+          setUser(data.success)
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error)
+      }
+    }
+
+    fetchUser()
+  }, [])
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      const category = categoriesData.find((c) => c.id === Number(categoryId));
-      if (category) {
-        setFormData({
-          name: category.name,
-          description: category.description,
-          createdOn: category.createdOn,
-          services: category.services,
-        });
+    const fetchCategory = async () => {
+      setLoading(true)
+      try {
+        const response = await axios.get(`/api/category/${categoryId}`)
+        if (response.data && response.data.success) {
+          const category = response.data.success
+          setFormData({
+            category_name: category.category_name,
+            description: category.description,
+            created_at: new Date(category.created_at).toLocaleDateString(),
+            services_count: category.services_count || 0,
+          })
+        }
+      } catch (error) {
+        console.error("Failed to fetch category:", error)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false);
-    }, 500);
-  }, [categoryId]);
+    }
+
+    fetchCategory()
+  }, [categoryId])
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate("/platform-management");
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.put(`/api/category/update/${categoryId}`, {
+        category_name: formData.category_name,
+        description: formData.description,
+      })
+
+      if (response.data && response.data.success) {
+        navigate("/platform-management")
+      }
+    } catch (error) {
+      console.error("Failed to update category:", error)
+      alert("Failed to update category. Please try again.")
+    }
+  }
 
   const handleBack = () => {
-    navigate("/platform-management");
-  };
+    navigate("/platform-management")
+  }
 
   if (loading) {
     return (
       <div className="platform-layout">
-        <Sidebar navigate={navigate} />
+        <div className="sidebar">
+          <div className="logo-container">
+            <h1 className="logo">
+              Garuda
+              <br />
+              Indonesia
+            </h1>
+          </div>
+
+          <nav className="nav-menu">
+            <a
+              href="#"
+              className="nav-item active"
+              onClick={(e) => {
+                e.preventDefault()
+                navigate("/platform-management")
+              }}
+            >
+              <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
+              <span>Categories</span>
+            </a>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                navigate("/platform-profile")
+              }}
+            >
+              <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
+              <span>My Profile</span>
+            </a>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                navigate("/report")
+              }}
+            >
+              <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+              <span>Reports</span>
+            </a>
+          </nav>
+
+          <div className="logout-container">
+            <a
+              href="#"
+              className="logout-link"
+              onClick={(e) => {
+                e.preventDefault()
+                navigate("/Logout")
+              }}
+            >
+              <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
+              <span>Log Out</span>
+            </a>
+          </div>
+        </div>
         <div className="main-content">
-          <Header />
+          <header className="platform-header">
+            <div className="greeting">
+              <h2>
+                Hi, {user?.first_name || "User"}{" "}
+                <span role="img" aria-label="wave">
+                  👋
+                </span>
+              </h2>
+            </div>
+
+            <div className="user-profile">
+              <div className="user-info">
+                <img src={circle_person || "/placeholder.svg"} alt="profile icon" />
+                <div className="user-details">
+                  <div className="user-name">{user?.first_name || "User"}</div>
+                  <div className="user-email">{user?.email || "user@example.com"}</div>
+                </div>
+              </div>
+            </div>
+          </header>
           <div className="platform-content">
             <h1 className="platform-title">Categories &gt; Edit Category</h1>
             <div className="loading-indicator">Loading category data...</div>
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div className="platform-layout">
-      <Sidebar navigate={navigate} />
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
+        </div>
+
+        <nav className="nav-menu">
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-management")
+            }}
+          >
+            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
+            <span>Categories</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-profile")
+            }}
+          >
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
+            <span>My Profile</span>
+          </a>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/report")
+            }}
+          >
+            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+            <span>Reports</span>
+          </a>
+        </nav>
+
+        <div className="logout-container">
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/Logout")
+            }}
+          >
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
+            <span>Log Out</span>
+          </a>
+        </div>
+      </div>
+       {/* Main Content */}
       <div className="main-content">
-        <Header />
+        <header className="platform-header">
+          <div className="greeting">
+            <h2>
+              Hi, {user?.first_name }{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
+          <div className="user-profile">
+            <div className="user-info">
+              <img src={circle_person || "/placeholder.svg"} alt="profile icon" />
+              <div className="user-details">
+                <div className="user-name">{user?.first_name }</div>
+                <div className="user-email">{user?.email }</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
         <div className="platform-content">
           <h1 className="platform-title">Categories &gt; Edit Category</h1>
           <div className="category-detail-card">
             <div className="card-header">
               <h3>Categories Detail</h3>
               <div className="button-group">
-                <button className="back-btn2" onClick={handleBack}>Back</button>
-                <button className="save-btn2" onClick={handleSubmit}>Save</button>
+                <button className="back-btn2" onClick={handleBack}>
+                  Back
+                </button>
+                <button className="save-btn2" onClick={handleSubmit}>
+                  Save
+                </button>
               </div>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="form-line">
                   <label>Category Name:</label>
-                  <input className="detail-input" type="text" name="name" value={formData.name} onChange={handleChange} required />
+                  <input
+                    className="detail-input"
+                    type="text"
+                    name="category_name"
+                    value={formData.category_name}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
 
                 <div className="form-line">
                   <label>Created On:</label>
-                  <input className="detail-input" type="text" name="createdOn" value={formData.createdOn} readOnly />
+                  <input className="detail-input" type="text" name="created_at" value={formData.created_at} readOnly />
                 </div>
 
                 <div className="form-line">
                   <label>Description:</label>
-                  <textarea className="detail-textarea" name="description" value={formData.description} onChange={handleChange} />
+                  <textarea
+                    className="detail-textarea"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="form-line">
                   <label>Total Services:</label>
-                  <div className="detail-value">{formData.services}</div>
+                  <div className="detail-value">{formData.services_count}</div>
                 </div>
               </form>
             </div>
@@ -134,77 +323,7 @@ function EditCategory() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-function Sidebar({ navigate }) {
-  return (
-    <div className="sidebar">
-      <div className="logo-container">
-        <h1 className="logo">Garuda<br />Indonesia</h1>
-      </div>
-
-      <nav className="nav-menu">
-        <a
-          href="#"
-          className="nav-item active"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/platform-management")
-          }}
-        >
-          <i className="icon grid-icon"></i>
-          <span><img src={categoryIcon} alt="category icon" />Categories</span>
-        </a>
-        <a
-          href="#"
-          className="nav-item"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/platform-profile")
-          }}
-        >
-          <i className="icon profile-icon"></i>
-          <span1><img src={personIcon} alt="person icon" />My Profile</span1>
-        </a>
-        <a
-          href="#"
-          className="nav-item"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/report")
-          }}
-        >
-          <i className="icon report-icon"></i>
-          <span><img src={reportIcon} alt="report icon" />Report</span>
-        </a>
-      </nav>
-      <div className="logout-container">
-        <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-          <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="platform-header">
-      <div className="greeting">
-        <h2>Hi, Platform123 👋</h2>
-      </div>
-      <div className="user-profile">
-        <div className="user-info">
-          <img src={personIcon} alt="person icon" />
-          <div className="user-details">
-            <div className="user-name">Platform123</div>
-            <div className="user-email">plat123@gmail.com</div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-export default EditCategory;
+export default EditCategory

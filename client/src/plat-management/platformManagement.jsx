@@ -3,12 +3,15 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./platform-style.css"
-import categoryIcon from "../assets/category.png";
-import personIcon from "../assets/circle_person.png";
-import reportIcon from "../assets/report.png";
-import logoutIcon from "../assets/logout.png";
-import searchIcon from "../assets/Search.png";
-import arrowIcon from "../assets/arrow.png";
+import axios from "../utils/axiosInstance"
+
+// Import icons
+import category from "../assets/category.png"
+import circle_person from "../assets/circle_person.png"
+import reportS from "../assets/report.png"
+import logout from "../assets/logout.png"
+import searchIcon from "../assets/Search.png"
+import arrowIcon from "../assets/arrow.png"
 
 function PlatformManagement() {
   const navigate = useNavigate()
@@ -17,38 +20,42 @@ function PlatformManagement() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [currentCategory, setCurrentCategory] = useState(null)
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Floor Cleaning", createdOn: "01/12/2001", services: 120, description: "Professional floor cleaning services for all types of flooring" },
-    { id: 2, name: "Chair", createdOn: "02/10/2002", services: 100, description: "Chair cleaning and maintenance services" },
-    { id: 3, name: "Rooftop", createdOn: "03/12/2010", services: 10, description: "Rooftop cleaning and maintenance services" },
-    { id: 4, name: "Wall Cleaning", createdOn: "10/08/2013", services: 80, description: "Clean your walls professionally" },
-    { id: 5, name: "Window Shine", createdOn: "04/05/2017", services: 75, description: "Crystal clear window service" },
-    { id: 6, name: "Carpet Deep Clean", createdOn: "06/11/2019", services: 90, description: "For a healthier carpet" },
-    { id: 7, name: "Ceiling Care", createdOn: "07/03/2018", services: 50, description: "Remove cobwebs and dust" },
-    { id: 8, name: "Garage Sweep", createdOn: "09/01/2016", services: 45, description: "Keep your garage spotless" },
-    { id: 9, name: "Pool Clean", createdOn: "12/12/2020", services: 33, description: "Sparkling clean pool service" },
-    { id: 10, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
-    { id: 11, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
-    { id: 12, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" }
-  ])
+  const [categories, setCategories] = useState([])
   const [filteredCategories, setFilteredCategories] = useState([])
-
+  const [user, setUser] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [isAscending, setIsAscending] = useState(true)
 
+  // Fetch user data
   useEffect(() => {
-    const results = categories.filter((category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem("user_id")
+        if (userId) {
+          const { data } = await axios.get(`/api/users/${userId}`)
+          setUser(data.success)
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error)
+      }
+    }
+
+    fetchUser()
+  }, [])
+
+  // Filter categories based on search term
+  useEffect(() => {
+    const results = categories.filter((category) => category.name.toLowerCase().includes(searchTerm.toLowerCase()))
     setFilteredCategories(results)
-    setCurrentPage(1) 
+    setCurrentPage(1)
   }, [searchTerm, categories])
 
+  // Reset page when showing count changes
   useEffect(() => {
     setCurrentPage(1)
   }, [showingCount])
 
-  const [isAscending, setIsAscending] = useState(true)
-
+  // Sort categories
   useEffect(() => {
     const sorted = [...categories].sort((a, b) => {
       const [dayA, monthA, yearA] = a.createdOn.split("/").map(Number)
@@ -60,20 +67,32 @@ function PlatformManagement() {
       return isAscending ? dateA - dateB : dateB - dateA
     })
 
-    const filtered = sorted.filter((category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filtered = sorted.filter((category) => category.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
     setFilteredCategories(filtered)
     setCurrentPage(1)
   }, [categories, isAscending, searchTerm])
 
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/category/view_all")
+        if (response.data && response.data.success) {
+          setCategories(response.data.success)
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   const indexOfLastItem = currentPage * showingCount
   const indexOfFirstItem = indexOfLastItem - showingCount
   const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.max(1, Math.ceil(filteredCategories.length / showingCount));
-
+  const totalPages = Math.max(1, Math.ceil(filteredCategories.length / showingCount))
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1)
@@ -94,26 +113,45 @@ function PlatformManagement() {
     setShowDeleteModal(true)
   }
 
-  const confirmDelete = () => {
-    setCategories(categories.filter((cat) => cat.id !== currentCategory.id))
-    setShowDeleteModal(false)
+  const confirmDelete = async () => {
+    try {
+      const response = await axios.delete(`/api/category/delete/${currentCategory.id}`)
+
+      if (response.data && response.data.success) {
+        // Refresh the categories list
+        const categoriesResponse = await axios.get("/api/category/view_all")
+        if (categoriesResponse.data && categoriesResponse.data.success) {
+          setCategories(categoriesResponse.data.success)
+        }
+        setShowDeleteModal(false)
+      }
+    } catch (error) {
+      console.error("Failed to delete category:", error)
+      alert("Failed to delete category. Please try again.")
+    }
   }
 
   const handleAddNew = () => setShowAddModal(true)
 
-  const handleAddCategory = (newCategory) => {
-    const id = categories.length > 0 ? Math.max(...categories.map((cat) => cat.id)) + 1 : 1
-    const today = new Date()
-    const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear()}`
-    const categoryToAdd = {
-      id,
-      name: newCategory.name,
-      createdOn: formattedDate,
-      services: 0,
-      description: newCategory.description,
+  const handleAddCategory = async (newCategory) => {
+    try {
+      const response = await axios.post("/api/category/create", {
+        category_name: newCategory.name,
+        description: newCategory.description,
+      })
+
+      if (response.data && response.data.success) {
+        // Refresh the categories list
+        const categoriesResponse = await axios.get("/api/category/view_all")
+        if (categoriesResponse.data && categoriesResponse.data.success) {
+          setCategories(categoriesResponse.data.success)
+        }
+        setShowAddModal(false)
+      }
+    } catch (error) {
+      console.error("Failed to add category:", error)
+      alert("Failed to add category. Please try again.")
     }
-    setCategories([...categories, categoryToAdd])
-    setShowAddModal(false)
   }
 
   const toggleSortOrder = () => {
@@ -122,9 +160,14 @@ function PlatformManagement() {
 
   return (
     <div className="platform-layout">
+      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
-          <h1 className="logo">Garuda<br />Indonesia</h1>
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
         </div>
 
         <nav className="nav-menu">
@@ -136,8 +179,8 @@ function PlatformManagement() {
               navigate("/platform-management")
             }}
           >
-            <i className="icon grid-icon"></i>
-            <span><img src={categoryIcon} alt="category icon" />Categories</span>
+            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
+            <span>Categories</span>
           </a>
           <a
             href="#"
@@ -147,8 +190,8 @@ function PlatformManagement() {
               navigate("/platform-profile")
             }}
           >
-            <i className="icon profile-icon"></i>
-            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
+            <span>My Profile</span>
           </a>
           <a
             href="#"
@@ -158,26 +201,44 @@ function PlatformManagement() {
               navigate("/report")
             }}
           >
-            <i className="icon report-icon"></i>
-            <span><img src={reportIcon} alt="report icon" />Report</span>
+            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+            <span>Reports</span>
           </a>
         </nav>
+
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/Logout")
+            }}
+          >
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
+            <span>Log Out</span>
           </a>
         </div>
       </div>
 
+       {/* Main Content */}
       <div className="main-content">
         <header className="platform-header">
-          <div className="greeting"><h2>Hi, Platform123 👋</h2></div>
+          <div className="greeting">
+            <h2>
+              Hi, {user?.first_name }{" "}
+              <span role="img" aria-label="wave">
+                👋
+              </span>
+            </h2>
+          </div>
+
           <div className="user-profile">
             <div className="user-info">
-              <img src={personIcon} alt="person icon" />
+              <img src={circle_person || "/placeholder.svg"} alt="profile icon" />
               <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
+                <div className="user-name">{user?.first_name }</div>
+                <div className="user-email">{user?.email }</div>
               </div>
             </div>
           </div>
@@ -187,9 +248,11 @@ function PlatformManagement() {
           <div className="platform-content">
             <div className="platform-title-bar">
               <h1 className="platform-title">Categories</h1>
-              <button className="add-button" onClick={handleAddNew}>+ Add New Categories</button>
+              <button className="add-button" onClick={handleAddNew}>
+                + Add New Categories
+              </button>
             </div>
-            
+
             <div className="platform-controls">
               <div className="search-section">
                 <div className="keyword-section">
@@ -202,7 +265,9 @@ function PlatformManagement() {
                       onChange={handleSearch}
                       className="search-input"
                     />
-                    <i className="search-icon"><img src={searchIcon} alt="search icon" /></i>
+                    <i className="search-icon">
+                      <img src={searchIcon || "/placeholder.svg"} alt="search icon" />
+                    </i>
                   </div>
                 </div>
                 <button className="searchButton">Search</button>
@@ -221,7 +286,7 @@ function PlatformManagement() {
                       <span className="header-with-icon">
                         Created On{" "}
                         <img
-                          src={arrowIcon}
+                          src={arrowIcon || "/placeholder.svg"}
                           alt="arrow icon"
                           className={isAscending ? "arrow-up" : "arrow-down"}
                         />
@@ -241,9 +306,15 @@ function PlatformManagement() {
                         <td>{category.services}</td>
                         <td>
                           <div className="action-buttons">
-                            <button className="view-btn" onClick={() => handleView(category)}>View</button>
-                            <button className="edit-btn" onClick={() => handleEdit(category)}>Edit</button>
-                            <button className="delete-btn" onClick={() => handleDelete(category)}>Delete</button>
+                            <button className="view-btn" onClick={() => handleView(category)}>
+                              View
+                            </button>
+                            <button className="edit-btn" onClick={() => handleEdit(category)}>
+                              Edit
+                            </button>
+                            <button className="delete-btn" onClick={() => handleDelete(category)}>
+                              Delete
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -256,16 +327,20 @@ function PlatformManagement() {
                       <td>28</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="view-btn" onClick={() => alert("Viewing Garden Maintenance")}>View</button>
-                          <button className="edit-btn" onClick={() => alert("Editing Garden Maintenance")}>Edit</button>
-                          <button className="delete-btn" onClick={() => alert("Deleting Garden Maintenance")}>Delete</button>
+                          <button className="view-btn" onClick={() => alert("Viewing Garden Maintenance")}>
+                            View
+                          </button>
+                          <button className="edit-btn" onClick={() => alert("Editing Garden Maintenance")}>
+                            Edit
+                          </button>
+                          <button className="delete-btn" onClick={() => alert("Deleting Garden Maintenance")}>
+                            Delete
+                          </button>
                         </div>
                       </td>
                     </tr>
                   )}
                 </tbody>
-
-
               </table>
 
               <div className="paginationBar">
@@ -277,7 +352,9 @@ function PlatformManagement() {
                   )}
                 </div>
                 <div className="paginationSection center">
-                  <span className="page-info">Page {currentPage} of {totalPages}</span>
+                  <span className="page-info">
+                    Page {currentPage} of {totalPages}
+                  </span>
                 </div>
                 <div className="paginationSection right">
                   {currentPage < totalPages && (
@@ -287,7 +364,6 @@ function PlatformManagement() {
                   )}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -347,13 +423,16 @@ function AddCategoryModal({ onClose, onAdd }) {
             />
           </div>
           <div className="addAction">
-            <button type="submit" className="categoryButton">Create Categories</button>
-            <button type="button" className="categoryCancelButton" onClick={onClose}>Cancel</button>
+            <button type="submit" className="categoryButton">
+              Create Categories
+            </button>
+            <button type="button" className="categoryCancelButton" onClick={onClose}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
     </div>
-
   )
 }
 
@@ -382,13 +461,16 @@ function DeleteConfirmModal({ category, onCancel, onConfirm }) {
           </div>
         </div>
         <div className="modal-actions">
-          <button className="delete-confirm-btn" onClick={onConfirm}>Delete</button>
-          <button className="cancel-btn" onClick={onCancel}>Cancel</button>
+          <button className="delete-confirm-btn" onClick={onConfirm}>
+            Delete
+          </button>
+          <button className="cancel-btn" onClick={onCancel}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
   )
 }
-
 
 export default PlatformManagement

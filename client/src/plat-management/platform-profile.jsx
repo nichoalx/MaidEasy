@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom"
 import axios from "../utils/axiosInstance"
 import "./platform-style.css"
 
-import categoryIcon from "../assets/category.png"
-import personIcon from "../assets/circle_person.png"
-import reportIcon from "../assets/report.png"
-import logoutIcon from "../assets/logout.png"
+import category from "../assets/category.png"
+import circle_person from "../assets/circle_person.png"
+import reportS from "../assets/report.png"
+import logout from "../assets/logout.png"
 
 import userIcon from "../assets/person_icon.png"
 import calendarIcon from "../assets/calender_icon.png"
@@ -35,28 +35,65 @@ function PlatformProfile() {
     fetchUser()
   }, [])
 
-  return (
+ return (
     <div className="platform-layout">
+      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
-          <h1 className="logo">Garuda<br />Indonesia</h1>
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
         </div>
 
         <nav className="nav-menu">
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
-            <span><img src={categoryIcon} alt="category icon" />Categories</span>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-management")
+            }}
+          >
+            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
+            <span>Categories</span>
           </a>
-          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
-            <span><img src={personIcon} alt="profile icon" />My Profile</span>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/platform-profile")
+            }}
+          >
+            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
+            <span>My Profile</span>
           </a>
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
-            <span><img src={reportIcon} alt="report icon" />Report</span>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/report")
+            }}
+          >
+            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
+            <span>Reports</span>
           </a>
         </nav>
 
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate("/Logout")
+            }}
+          >
+            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
+            <span>Log Out</span>
           </a>
         </div>
       </div>
@@ -65,13 +102,13 @@ function PlatformProfile() {
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, {user?.first_name || "User"} 👋
+              Hi, {user?.first_name } 👋
             </h2>
           </div>
 
           <div className="user-profile">
             <div className="user-info">
-              <img src={personIcon} alt="icon" />
+              <img src={circle_person} alt="icon" />
               <div className="user-details">
                 <div className="user-name">{user?.first_name}</div>
                 <div className="user-email">{user?.email}</div>
