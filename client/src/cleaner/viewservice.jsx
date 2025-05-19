@@ -26,6 +26,11 @@ export default function ViewService() {
   const [price, setPrice] = useState("");
   const [duration, setDuration] = useState("");
   const [availability, setAvailability] = useState("");
+  const [user, setUser] = useState(null);
+  const [createdAt, setCreatedAt] = useState("");
+  const [viewCount, setViewCount] = useState("");
+  const [shortlistCount, setShortlistCount] = useState("");
+
 
   const fileInputRef = useRef(null);
   const thumbnailInputRefs = useRef([null, null, null]);
@@ -41,13 +46,33 @@ export default function ViewService() {
   });
 
   useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get("/api/users/" + localStorage.getItem("user_id"));
+      setUser(data.success);
+    } catch (err) {
+      console.error("Failed to fetch user profile", err);
+    }
+  };
+
+  fetchUser();
+  }, []);
+  
+
+  useEffect(() => {
     const fetchServiceDetails = async () => {
       try {
         const res = await axios.get(`/api/cleaner/view/${id}`, {
           withCredentials: true,
         });
 
-        const service = res.data.services;
+        const service = Array.isArray(res.data.services) ? res.data.services[0] : res.data.services;
+        console.log("Raw API response:", res.data);
+        console.log("Raw services array:", res.data.services);
+        console.log("First service entry:", res.data.services[0]);
+
+
+        console.log("API Response:", res.data);
 
         setServiceName(service.name || "");
         setCategory(service.category_name || "");
@@ -55,6 +80,9 @@ export default function ViewService() {
         setPrice(service.price || "");
         setDuration(service.duration || "");
         setAvailability(service.availability || "");
+        setCreatedAt(service.created_at ? formatDate(service.created_at) : "");
+        setViewCount(service.view_count || "");
+        setShortlistCount(service.shortlist_count|| "");
         setMainImage(service.main_image_url || null);
         setThumbnails([
           service.thumb1_url || null,
@@ -70,6 +98,15 @@ export default function ViewService() {
       }
     };
 
+    function formatDate(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
     fetchServiceDetails();
   }, [id]);
 
@@ -82,7 +119,7 @@ export default function ViewService() {
     <div className="platform-layout">
       <Sidebar navigate={navigate} />
       <div className="main-content">
-        <Header />
+        {user && <Header user={user} />}
         <h1 className="platformTitle">My Services &gt; View Services</h1>
         <div className="newServiceWrapper">
           <div className="newServiceContainer">
@@ -125,9 +162,9 @@ export default function ViewService() {
                 <InputRow label="Price" value={price} />
                 <InputRow label="Duration" value={duration} />
                 <InputRow label="Availability" value={availability} />
-                <InputRow label="Date Created" value="31/01/2025" />
-                <InputRow label="Total Views" value="214" />
-                <InputRow label="Shortlisted" value="12" />
+                <InputRow label="Date Created" value={createdAt} />
+                <InputRow label="Total Views" value={viewCount} />
+                <InputRow label="Shortlisted" value={shortlistCount} />
               </div>
             </div>
           </div>
@@ -204,7 +241,7 @@ function Sidebar({ navigate }) {
 }
 
 
-function Header({ user }) {
+function Header({ user = {} }) {
   return (
     <header className="platform-header">
       <div className="greeting">

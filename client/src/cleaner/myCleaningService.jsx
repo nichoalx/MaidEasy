@@ -121,9 +121,16 @@ export default function CleaningServices() {
     navigate(`/view-service/${service.id}`);
   };
 
-  const confirmDelete = (id) => {
-    setServices((prev) => prev.filter((s) => s.id !== id));
-    setShowModal(false);
+  const confirmDelete = async (id) => {
+    try {
+      await axios.delete(`/api/cleaner/delete/${id}`, { withCredentials: true });
+
+      setServices((prev) => prev.filter((s) => s.id !== id));
+      setShowModal(false);
+    } catch (error) {
+      console.error("Failed to delete service:", error);
+      alert("Failed to delete the service.");
+    }
   };
 
   const cancelDelete = () => {

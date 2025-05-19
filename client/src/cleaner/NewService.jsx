@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "../utils/axiosInstance";
 
 import "./NewService.css";
@@ -13,9 +13,10 @@ export default function NewService({ onClose }) {
   const fileInputRef = useRef(null);
   const thumbnailInputRefs = useRef([null, null, null]);
 
-  // Controlled input states
+  const [categories, setCategories] = useState([]);
+
   const [serviceName, setServiceName] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(null);
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [duration, setDuration] = useState("");
@@ -28,38 +29,43 @@ export default function NewService({ onClose }) {
     price: false,
     duration: false,
     availability: false,
-    images: [false, false, false, false], // [mainImage, thumb1, thumb2, thumb3]
   });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get("/api/category/view_all", { withCredentials: true });
+        const formatted = data.success.map((cat) => ({ id: cat.category_id, name: cat.category_name }));
+        setCategories(formatted);
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+        setCategories([]); // fallback
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async () => {
     const newErrors = {
       serviceName: !serviceName.trim(),
-      category: !category.trim(),
+      category: !category,
       description: !description.trim(),
       price: !price.trim(),
       duration: !duration.trim(),
       availability: !availability.trim(),
-      images: [
-        !mainImage,
-        !thumbnails[0],
-        !thumbnails[1],
-        !thumbnails[2],
-      ],
     };
 
     setErrors(newErrors);
 
-    const hasError =
-      Object.values(newErrors).some((val) => val === true) ||
-      newErrors.images.some((e) => e === true);
+    const hasError = Object.values(newErrors).some((val) => val === true);
 
     if (!hasError) {
       try {
-        const response = await axios.post(
+        await axios.post(
           "/api/cleaner/create",
           {
             name: serviceName,
-            category_name: category,
+            category_name: category.name,
             description,
             price,
             duration,
@@ -82,167 +88,25 @@ export default function NewService({ onClose }) {
       <div className="newServiceContainer">
         <h1 className="newServiceTitle">Create New Services</h1>
         <div className="formGrid">
-          {/* Image Upload */}
-          <div>
-            <label className="formLabel">Service Photo</label>
-            <div
-              className={`photoUpload hoverable ${errors.images[0] ? "errorBorder" : ""}`}
-              onClick={() => fileInputRef.current.click()}
-            >
-              {mainImage ? (
-                <>
-                  <img src={mainImage} alt="Uploaded" className="uploadedImage" />
-                  <button
-                    className="removeButton"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMainImage(null);
-                    }}
-                  >
-                    ✕
-                  </button>
-                </>
-              ) : (
-                <img src={photoIcon} alt="Upload" className="uploadIcon" />
-              )}
-            </div>
-
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const imageUrl = URL.createObjectURL(file);
-                  setMainImage(imageUrl);
-                }
-              }}
-            />
-
-            <div className="thumbnailRow">
-              {thumbnails.map((thumb, index) => (
-                <div
-                  className={`thumbnail hoverable ${errors.images[index + 1] ? "errorBorder" : ""}`}
-                  key={index}
-                  onClick={() => thumbnailInputRefs.current[index].click()}
-                >
-                  {thumb ? (
-                    <>
-                      <img src={thumb} alt={`Thumbnail ${index}`} className="uploadedImage" />
-                      <button
-                        className="removeButton"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const updated = [...thumbnails];
-                          updated[index] = null;
-                          setThumbnails(updated);
-                        }}
-                      >
-                        ✕
-                      </button>
-                    </>
-                  ) : (
-                    <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    ref={(el) => (thumbnailInputRefs.current[index] = el)}
-                    style={{ display: "none" }}
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const imageUrl = URL.createObjectURL(file);
-                        const updated = [...thumbnails];
-                        updated[index] = imageUrl;
-                        setThumbnails(updated);
-                      }
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-            {errors.images.some((e) => e) && (
-              <div className="imageErrorText">*Please upload image</div>
-            )}
-          </div>
-
-          {/* Form Inputs */}
           <div className="inputGroup">
-            <div className="inputRow">
-              <label className="formLabel">Service Name:</label>
-              <input
-                type="text"
-                value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
-                className={`formInput ${errors.serviceName ? "error" : ""}`}
-              />
-            </div>
-            {errors.serviceName && <span className="errorText">*Please fill in this field</span>}
-
+            <Input label="Service Name" value={serviceName} setter={setServiceName} error={errors.serviceName} />
             <div className="inputRow">
               <label className="formLabel">Category:</label>
-              <div className="formValue" style={{ marginLeft: "4rem", padding: 0 }}>
-                <SingleDropdown
-                  selected={category}
-                  className="newCategory"
-                  onChange={(val) => setCategory(val)}
-                  options={[
-                    { id: "Home Owner", name: "Home Owner" },
-                    { id: "Floor", name: "Floor" },
-                    { id: "Roof", name: "Roof" },
-                    { id: "Ceiling", name: "Ceiling" },
-                    { id: "Car Wash", name: "Car Wash" }
-                  ]}
-                />
-              </div>
+              <SingleDropdown
+                selected={category}
+                onChange={(selectedId) => {
+                  const found = categories.find((cat) => cat.id === selectedId);
+                  setCategory(found);
+                }}
+                options={categories}
+                className="newCategory"
+              />
             </div>
             {errors.category && <span className="errorText">*Please select a category</span>}
-
-            <div className="inputRow">
-              <label className="formLabel">Description:</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className={`formInput ${errors.description ? "error" : ""}`}
-              />
-            </div>
-            {errors.description && <span className="errorText">*Please fill in this field</span>}
-
-            <div className="inputRow">
-              <label className="formLabel">Price:</label>
-              <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className={`formInput ${errors.price ? "error" : ""}`}
-              />
-            </div>
-            {errors.price && <span className="errorText">*Please fill in this field</span>}
-
-            <div className="inputRow">
-              <label className="formLabel">Duration:</label>
-              <input
-                type="text"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                className={`formInput ${errors.duration ? "error" : ""}`}
-              />
-            </div>
-            {errors.duration && <span className="errorText">*Please fill in this field</span>}
-
-            <div className="inputRow">
-              <label className="formLabel">Availability:</label>
-              <input
-                type="text"
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
-                className={`formInput ${errors.availability ? "error" : ""}`}
-              />
-            </div>
-            {errors.availability && <span className="errorText">*Please fill in this field</span>}
+            <Input label="Description" value={description} setter={setDescription} error={errors.description} multiline />
+            <Input label="Price" value={price} setter={setPrice} error={errors.price} />
+            <Input label="Duration" value={duration} setter={setDuration} error={errors.duration} />
+            <Input label="Availability" value={availability} setter={setAvailability} error={errors.availability} />
           </div>
         </div>
 
@@ -251,6 +115,29 @@ export default function NewService({ onClose }) {
           <button className="secondaryButton" onClick={() => navigate(-1)}>Cancel</button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Input({ label, value, setter, error, multiline = false }) {
+  return (
+    <div className="inputRow">
+      <label className="formLabel">{label}:</label>
+      {multiline ? (
+        <textarea
+          value={value}
+          onChange={(e) => setter(e.target.value)}
+          className={`formInput ${error ? "error" : ""}`}
+        />
+      ) : (
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setter(e.target.value)}
+          className={`formInput ${error ? "error" : ""}`}
+        />
+      )}
+      {error && <span className="errorText">*Please fill in this field</span>}
     </div>
   );
 }

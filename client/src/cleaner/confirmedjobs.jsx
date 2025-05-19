@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../utils/axiosInstance";
-
+import axios from "../utils/axiosInstance";
 import personIcon from "../assets/circle_person.png";
 import logoutIcon from "../assets/logout.png";
 import cleaningserviceIcon from "../assets/cleaningservice.png";
@@ -41,22 +40,19 @@ export default function ConfirmedJobsPage() {
     const fetchJobHistory = async () => {
       try {
         const token = localStorage.getItem("access_token");
-        const response = await axiosInstance.get("/cleaner/view_job_history", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await axios.get("/api/cleaner/view_job_history", {
+          withCredentials: true,
         });
 
-        const jobData = response.data.map((item, index) => ({
-          id: index + 1,
-          serviceName: item.service_name || `Service ${index + 1}`,
-          category: item.category_name || "General",
+        const jobData = response.data.map((item) => ({
+          id: item.booking_id,
+          serviceName: item.service_name,
+          category: item.service_category,
           providerName: item.homeowner_name || item.cleaner_name || "Unknown",
-          phone: item.phone || "+62",
-          price: item.price || 50000,
-          date: new Date(item.date),
-          serviceImage: sample1,
-          providerImage: nick,
+          price: item.price || 0,
+          date: new Date(item.booking_date),  // Correct property
+          serviceImage: sample1,              // Placeholder
+          providerImage: nick,                // Placeholder
         }));
 
         setServices(jobData);
@@ -253,46 +249,6 @@ export default function ConfirmedJobsPage() {
               />
             </div>
 
-            <div className="cleanerDateFilter" style={{ position: "relative", display: "flex", alignItems: "center" }}>
-              <div
-                className="searchGroup"
-                onClick={() => setShowPicker(!showPicker)}
-                style={{ cursor: "pointer" }}
-              >
-                <span className="searchIcon">
-                  <img src={calendarIcon} alt="calendar icon" />
-                </span>
-                <span className="calendarText">{formatRange()}</span>
-              </div>
-
-              {range && (
-                <button
-                  className="clear-date-btn"
-                  onClick={() => setRange(null)}
-                  style={{
-                    marginLeft: "8px",
-                    padding: 0,
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer"
-                  }}
-                  aria-label="Clear date range"
-                >
-                  <img src={closeIcon} alt="Clear" style={{ width: 20, height: 20 }} />
-                </button>
-              )}
-
-              {showPicker && (
-                <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 999 }}>
-                  <DateRange
-                    editableDateInputs={true}
-                    onChange={(item) => setRange([item.selection])}
-                    moveRangeOnFirstSelection={false}
-                    ranges={range || [{ startDate: new Date(), endDate: new Date(), key: "selection" }]}
-                  />
-                </div>
-              )}
-            </div>
 
             <button className="filterButton">Filter</button>
           </div>

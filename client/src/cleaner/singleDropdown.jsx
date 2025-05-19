@@ -1,7 +1,3 @@
-import React, { useState, useEffect, useRef } from "react"
-import { Search, ChevronDown } from "lucide-react";
-import "./singleDropdown.css"
-
 export default function SingleCategoryDropdown({ selected, onChange, options = [] }) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")
@@ -22,14 +18,14 @@ export default function SingleCategoryDropdown({ selected, onChange, options = [
   }, [])
 
   const handleSelect = (item) => {
-    onChange(item.id)
+    onChange(item.name) // now you store the string directly
     setIsOpen(false)
   }
 
   return (
     <div className="single-dropdown" ref={ref}>
       <div className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
-        {selected ? options.find((opt) => opt.id === selected)?.name : "Select Category"}
+        {selected || "Select Category"}
         <ChevronDown className={`dropdown-arrow ${isOpen ? "open" : ""}`} size={16} />
       </div>
 
@@ -46,8 +42,8 @@ export default function SingleCategoryDropdown({ selected, onChange, options = [
             {filtered.length > 0 ? (
               filtered.map((opt) => (
                 <div
-                  key={opt.id}
-                  className={`dropdown-item ${selected === opt.id ? "selected" : ""}`}
+                  key={opt.name}
+                  className={`dropdown-item ${selected === opt.name ? "selected" : ""}`}
                   onClick={() => handleSelect(opt)}
                 >
                   {opt.name}
