@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "../utils/axiosInstance"
 import "./platform-style.css"
 import categoryIcon from "../assets/category.png";
 import personIcon from "../assets/circle_person.png";
@@ -11,114 +12,98 @@ import searchIcon from "../assets/Search.png";
 import arrowIcon from "../assets/arrow.png";
 
 function PlatformManagement() {
-  const navigate = useNavigate()
-  const [searchTerm, setSearchTerm] = useState("")
-  const [showingCount, setShowingCount] = useState(10)
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [currentCategory, setCurrentCategory] = useState(null)
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Floor Cleaning", createdOn: "01/12/2001", services: 120, description: "Professional floor cleaning services for all types of flooring" },
-    { id: 2, name: "Chair", createdOn: "02/10/2002", services: 100, description: "Chair cleaning and maintenance services" },
-    { id: 3, name: "Rooftop", createdOn: "03/12/2010", services: 10, description: "Rooftop cleaning and maintenance services" },
-    { id: 4, name: "Wall Cleaning", createdOn: "10/08/2013", services: 80, description: "Clean your walls professionally" },
-    { id: 5, name: "Window Shine", createdOn: "04/05/2017", services: 75, description: "Crystal clear window service" },
-    { id: 6, name: "Carpet Deep Clean", createdOn: "06/11/2019", services: 90, description: "For a healthier carpet" },
-    { id: 7, name: "Ceiling Care", createdOn: "07/03/2018", services: 50, description: "Remove cobwebs and dust" },
-    { id: 8, name: "Garage Sweep", createdOn: "09/01/2016", services: 45, description: "Keep your garage spotless" },
-    { id: 9, name: "Pool Clean", createdOn: "12/12/2020", services: 33, description: "Sparkling clean pool service" },
-    { id: 10, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
-    { id: 11, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" },
-    { id: 12, name: "Garden Maintenance", createdOn: "03/02/2021", services: 28, description: "Keep your greenery fresh" }
-  ])
-  const [filteredCategories, setFilteredCategories] = useState([])
-
-  const [currentPage, setCurrentPage] = useState(1)
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showingCount, setShowingCount] = useState(10);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isAscending, setIsAscending] = useState(true);
 
   useEffect(() => {
-    const results = categories.filter((category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setFilteredCategories(results)
-    setCurrentPage(1) 
-  }, [searchTerm, categories])
-
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [showingCount])
-
-  const [isAscending, setIsAscending] = useState(true)
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("/api/category/view_all", { withCredentials: true });
+        const formatted = res.data.success.map((c) => ({
+          id: c.category_id,
+          name: c.category_name,
+          description: c.description,
+          services: c.services || 0,
+          createdOn: new Date(c.created_at).toLocaleDateString("en-GB"),
+        }));
+        setCategories(formatted);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const sorted = [...categories].sort((a, b) => {
-      const [dayA, monthA, yearA] = a.createdOn.split("/").map(Number)
-      const [dayB, monthB, yearB] = b.createdOn.split("/").map(Number)
-
-      const dateA = new Date(yearA, monthA - 1, dayA)
-      const dateB = new Date(yearB, monthB - 1, dayB)
-
-      return isAscending ? dateA - dateB : dateB - dateA
-    })
-
+      const [dayA, monthA, yearA] = a.createdOn.split("/").map(Number);
+      const [dayB, monthB, yearB] = b.createdOn.split("/").map(Number);
+      const dateA = new Date(yearA, monthA - 1, dayA);
+      const dateB = new Date(yearB, monthB - 1, dayB);
+      return isAscending ? dateA - dateB : dateB - dateA;
+    });
     const filtered = sorted.filter((category) =>
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    );
+    setFilteredCategories(filtered);
+    setCurrentPage(1);
+  }, [categories, isAscending, searchTerm]);
 
-    setFilteredCategories(filtered)
-    setCurrentPage(1)
-  }, [categories, isAscending, searchTerm])
-
-
-  const indexOfLastItem = currentPage * showingCount
-  const indexOfFirstItem = indexOfLastItem - showingCount
-  const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem)
+  const indexOfLastItem = currentPage * showingCount;
+  const indexOfFirstItem = indexOfLastItem - showingCount;
+  const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.max(1, Math.ceil(filteredCategories.length / showingCount));
 
+  const handleSearch = (e) => setSearchTerm(e.target.value);
+  const handleNextPage = () => { if (currentPage < totalPages) setCurrentPage((prev) => prev + 1); };
+  const handlePreviousPage = () => { if (currentPage > 1) setCurrentPage((prev) => prev - 1); };
+  const toggleSortOrder = () => setIsAscending((prev) => !prev);
+  const handleAddNew = () => setShowAddModal(true);
+  const handleDelete = (category) => { setCurrentCategory(category); setShowDeleteModal(true); };
+  const handleView = (category) => navigate(`/view-category/${category.id}`);
+  const handleEdit = (category) => navigate(`/edit-category/${category.id}`);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1)
-  }
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1)
-  }
-
-  const handleSearch = (e) => setSearchTerm(e.target.value)
-
-  const handleView = (category) => navigate(`/view-category/${category.id}`)
-
-  const handleEdit = (category) => navigate(`/edit-category/${category.id}`)
-
-  const handleDelete = (category) => {
-    setCurrentCategory(category)
-    setShowDeleteModal(true)
-  }
-
-  const confirmDelete = () => {
-    setCategories(categories.filter((cat) => cat.id !== currentCategory.id))
-    setShowDeleteModal(false)
-  }
-
-  const handleAddNew = () => setShowAddModal(true)
-
-  const handleAddCategory = (newCategory) => {
-    const id = categories.length > 0 ? Math.max(...categories.map((cat) => cat.id)) + 1 : 1
-    const today = new Date()
-    const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear()}`
-    const categoryToAdd = {
-      id,
-      name: newCategory.name,
-      createdOn: formattedDate,
-      services: 0,
-      description: newCategory.description,
+  const handleAddCategory = async (newCategory) => {
+    try {
+      await axios.post("/api/category/create", {
+        category_name: newCategory.name,
+        description: newCategory.description,
+      }, { withCredentials: true });
+      const res = await axios.get("/api/category/view_all", { withCredentials: true });
+      const updated = res.data.success.map((c) => ({
+        id: c.category_id,
+        name: c.category_name,
+        description: c.description,
+        services: c.services || 0,
+        createdOn: new Date(c.created_at).toLocaleDateString("en-GB"),
+      }));
+      setCategories(updated);
+      setShowAddModal(false);
+    } catch (error) {
+      console.error("Error creating category:", error);
     }
-    setCategories([...categories, categoryToAdd])
-    setShowAddModal(false)
-  }
+  };
 
-  const toggleSortOrder = () => {
-    setIsAscending((prev) => !prev)
-  }
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`/api/category/delete/${currentCategory.id}`, {
+        data: { category_id: currentCategory.id },
+        withCredentials: true,
+      });
+      setCategories(categories.filter((cat) => cat.id !== currentCategory.id));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
 
   return (
     <div className="platform-layout">
@@ -128,40 +113,17 @@ function PlatformManagement() {
         </div>
 
         <nav className="nav-menu">
-          <a
-            href="#"
-            className="nav-item active"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-management")
-            }}
-          >
-            <i className="icon grid-icon"></i>
+          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
             <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-profile")
-            }}
-          >
-            <i className="icon profile-icon"></i>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
             <span1><img src={personIcon} alt="person icon" />My Profile</span1>
           </a>
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/report")
-            }}
-          >
-            <i className="icon report-icon"></i>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
             <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
+
         <div className="logout-container">
           <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
             <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
@@ -189,25 +151,18 @@ function PlatformManagement() {
               <h1 className="platform-title">Categories</h1>
               <button className="add-button" onClick={handleAddNew}>+ Add New Categories</button>
             </div>
-            
+
             <div className="platform-controls">
               <div className="search-section">
                 <div className="keyword-section">
                   <label>Keyword</label>
                   <div className="search-input-wrapper">
-                    <input
-                      type="text"
-                      placeholder="Search by Categories"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                      className="search-input"
-                    />
+                    <input type="text" placeholder="Search by Categories" value={searchTerm} onChange={handleSearch} className="search-input" />
                     <i className="search-icon"><img src={searchIcon} alt="search icon" /></i>
                   </div>
                 </div>
                 <button className="searchButton">Search</button>
               </div>
-
               <div className="results-info">Showing {filteredCategories.length} Results</div>
             </div>
 
@@ -219,12 +174,7 @@ function PlatformManagement() {
                     <th>Categories</th>
                     <th onClick={toggleSortOrder} style={{ cursor: "pointer" }}>
                       <span className="header-with-icon">
-                        Created On{" "}
-                        <img
-                          src={arrowIcon}
-                          alt="arrow icon"
-                          className={isAscending ? "arrow-up" : "arrow-down"}
-                        />
+                        Created On <img src={arrowIcon} alt="arrow icon" className={isAscending ? "arrow-up" : "arrow-down"} />
                       </span>
                     </th>
                     <th>No. Services</th>
@@ -232,48 +182,32 @@ function PlatformManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.length > 0 ? (
-                    currentItems.map((category) => (
-                      <tr key={category.id}>
-                        <td>{category.id}</td>
-                        <td>{category.name}</td>
-                        <td>{category.createdOn}</td>
-                        <td>{category.services}</td>
-                        <td>
-                          <div className="action-buttons">
-                            <button className="view-btn" onClick={() => handleView(category)}>View</button>
-                            <button className="edit-btn" onClick={() => handleEdit(category)}>Edit</button>
-                            <button className="delete-btn" onClick={() => handleDelete(category)}>Delete</button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr className="empty-placeholder-row">
-                      <td>10</td>
-                      <td>Garden Maintenance</td>
-                      <td>03/02/2021</td>
-                      <td>28</td>
+                  {currentItems.length > 0 ? currentItems.map((category) => (
+                    <tr key={category.id}>
+                      <td>{category.id}</td>
+                      <td>{category.name}</td>
+                      <td>{category.createdOn}</td>
+                      <td>{category.services}</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="view-btn" onClick={() => alert("Viewing Garden Maintenance")}>View</button>
-                          <button className="edit-btn" onClick={() => alert("Editing Garden Maintenance")}>Edit</button>
-                          <button className="delete-btn" onClick={() => alert("Deleting Garden Maintenance")}>Delete</button>
+                          <button className="view-btn" onClick={() => navigate(`/view-category/${category.id}`)}>View</button>
+                          <button className="edit-btn" onClick={() => navigate(`/edit-category/${category.id}`)}>Edit</button>
+                          <button className="delete-btn" onClick={() => handleDelete(category)}>Delete</button>
                         </div>
                       </td>
                     </tr>
+                  )) : (
+                    <tr className="empty-placeholder-row">
+                      <td colSpan="5">No categories found.</td>
+                    </tr>
                   )}
                 </tbody>
-
-
               </table>
 
               <div className="paginationBar">
                 <div className="paginationSection left">
                   {currentPage > 1 && (
-                    <button className="prev-btn" onClick={handlePreviousPage}>
-                      &lt; Previous
-                    </button>
+                    <button className="prev-btn" onClick={handlePreviousPage}>&lt; Previous</button>
                   )}
                 </div>
                 <div className="paginationSection center">
@@ -281,13 +215,10 @@ function PlatformManagement() {
                 </div>
                 <div className="paginationSection right">
                   {currentPage < totalPages && (
-                    <button className="next-btn" onClick={handleNextPage}>
-                      Next &gt;
-                    </button>
+                    <button className="next-btn" onClick={handleNextPage}>Next &gt;</button>
                   )}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -295,28 +226,24 @@ function PlatformManagement() {
 
       {showAddModal && <AddCategoryModal onClose={() => setShowAddModal(false)} onAdd={handleAddCategory} />}
       {showDeleteModal && currentCategory && (
-        <DeleteConfirmModal
-          category={currentCategory}
-          onCancel={() => setShowDeleteModal(false)}
-          onConfirm={confirmDelete}
-        />
+        <DeleteConfirmModal category={currentCategory} onCancel={() => setShowDeleteModal(false)} onConfirm={confirmDelete} />
       )}
     </div>
-  )
+  );
 }
 
 function AddCategoryModal({ onClose, onAdd }) {
-  const [formData, setFormData] = useState({ name: "", description: "" })
+  const [formData, setFormData] = useState({ name: "", description: "" });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onAdd(formData)
-  }
+    e.preventDefault();
+    onAdd(formData);
+  };
 
   return (
     <div className="platform-layout modal-overlay">
@@ -325,26 +252,11 @@ function AddCategoryModal({ onClose, onAdd }) {
         <form onSubmit={handleSubmit}>
           <div className="addCategoryGroup">
             <label className="addCategoryLabel">Categories Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter Categories Name"
-              className="addCategoryInput"
-              required
-            />
+            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter Categories Name" className="addCategoryInput" required />
           </div>
           <div className="addCategoryGroup">
             <label className="addCategoryLabel">Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Enter Categories Descriptions"
-              rows={4}
-              className="addCategoryTextArea"
-            />
+            <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Enter Categories Descriptions" rows={4} className="addCategoryTextArea" />
           </div>
           <div className="addAction">
             <button type="submit" className="categoryButton">Create Categories</button>
@@ -353,8 +265,7 @@ function AddCategoryModal({ onClose, onAdd }) {
         </form>
       </div>
     </div>
-
-  )
+  );
 }
 
 function DeleteConfirmModal({ category, onCancel, onConfirm }) {
@@ -364,22 +275,10 @@ function DeleteConfirmModal({ category, onCancel, onConfirm }) {
         <h2>Confirm Delete</h2>
         <p className="delete-message">Are you sure you want delete?</p>
         <div className="category-info">
-          <div className="info-row">
-            <span className="info-label">Categories:</span>
-            <span className="info-value">{category.name}</span>
-          </div>
-          <div className="info-row">
-            <span className="info-label">Created On:</span>
-            <span className="info-value">{category.createdOn}</span>
-          </div>
-          <div className="info-row">
-            <span className="info-label">No. Services:</span>
-            <span className="info-value">{category.services}</span>
-          </div>
-          <div className="info-row">
-            <span className="info-label">Description:</span>
-            <span className="info-value">{category.description}</span>
-          </div>
+          <div className="info-row"><span className="info-label">Categories:</span><span className="info-value">{category.name}</span></div>
+          <div className="info-row"><span className="info-label">Created On:</span><span className="info-value">{category.createdOn}</span></div>
+          <div className="info-row"><span className="info-label">No. Services:</span><span className="info-value">{category.services}</span></div>
+          <div className="info-row"><span className="info-label">Description:</span><span className="info-value">{category.description}</span></div>
         </div>
         <div className="modal-actions">
           <button className="delete-confirm-btn" onClick={onConfirm}>Delete</button>
@@ -387,8 +286,7 @@ function DeleteConfirmModal({ category, onCancel, onConfirm }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-
-export default PlatformManagement
+export default PlatformManagement;

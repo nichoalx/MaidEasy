@@ -47,7 +47,7 @@ from .cleaner.view_job_details import view_job_details_blueprint
 from .platformmanager.categories.create_category import create_category_blueprint
 from .platformmanager.categories.update_category import update_category_blueprint
 from .platformmanager.categories.delete_category import delete_category_blueprint
-from .platformmanager.categories.search_categories import search_categories_blueprint
+from .platformmanager.categories.view_categories import view_categories_blueprint
 from .platformmanager.categories.view_all_categories import view_all_categories_blueprint
 from .platformmanager.reports.report_controller import report_blueprint
 
@@ -100,7 +100,7 @@ __all__ = [
     "create_category_blueprint",
     "update_category_blueprint",
     "delete_category_blueprint",
-    "search_categories_blueprint",
+    "view_categories_blueprint",
     "view_all_categories_blueprint",
     "report_blueprint"
 ]

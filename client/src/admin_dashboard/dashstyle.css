@@ -398,9 +398,10 @@
   }
 
   .services-title7 {
-    margin-left: -42rem;
     font-size: 36px;
     color: #3e4772;
+    text-align: center;
+    margin-left: 0;
   }
 
     .profile-container .input-container15 input {

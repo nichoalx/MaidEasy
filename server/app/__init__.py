@@ -52,7 +52,7 @@ from server.app.controller import (
     create_category_blueprint,
     update_category_blueprint,
     delete_category_blueprint,
-    search_categories_blueprint,
+    view_categories_blueprint,
     view_all_categories_blueprint,
     report_blueprint
 
@@ -115,7 +115,7 @@ def create_app(config_name="development"):
     app.register_blueprint(create_category_blueprint)
     app.register_blueprint(update_category_blueprint)
     app.register_blueprint(delete_category_blueprint)
-    app.register_blueprint(search_categories_blueprint)
+    app.register_blueprint(view_categories_blueprint)
     app.register_blueprint(view_all_categories_blueprint)
     app.register_blueprint(report_blueprint)
 

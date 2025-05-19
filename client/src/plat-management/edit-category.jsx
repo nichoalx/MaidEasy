@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "../utils/axiosInstance";
 import "./platform-style.css";
 
 import categoryIcon from "../assets/category.png";
@@ -20,44 +21,25 @@ function EditCategory() {
     services: 0,
   });
 
-  const categoriesData = [
-    {
-      id: 1,
-      name: "Floor Cleaning",
-      createdOn: "01/12/2001",
-      services: 120,
-      description: "Professional floor cleaning services for all types of flooring",
-    },
-    {
-      id: 2,
-      name: "Chair",
-      createdOn: "02/10/2002",
-      services: 100,
-      description: "Chair cleaning and maintenance services",
-    },
-    {
-      id: 3,
-      name: "Rooftop",
-      createdOn: "03/12/2010",
-      services: 10,
-      description: "Rooftop cleaning and maintenance services",
-    },
-  ];
-
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      const category = categoriesData.find((c) => c.id === Number(categoryId));
-      if (category) {
+    const fetchCategory = async () => {
+      try {
+        const res = await axios.get(`/api/category/view/${categoryId}`, { withCredentials: true });
+        const data = res.data.success;
         setFormData({
-          name: category.name,
-          description: category.description,
-          createdOn: category.createdOn,
-          services: category.services,
+          name: data.category_name,
+          description: data.description,
+          createdOn: new Date(data.created_at).toLocaleDateString("en-GB"),
+          services: data.services || 0,
         });
+      } catch (error) {
+        console.error("Error fetching category:", error);
+        alert("Failed to load category data.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    }, 500);
+    };
+    fetchCategory();
   }, [categoryId]);
 
   const handleChange = (e) => {
@@ -68,14 +50,26 @@ function EditCategory() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/platform-management");
+    try {
+      await axios.put(
+        `/api/category/update/${categoryId}`,
+        {
+          category_name: formData.name,
+          description: formData.description,
+        },
+        { withCredentials: true }
+      );
+      alert("Category updated successfully.");
+      navigate("/platform-management");
+    } catch (error) {
+      console.error("Failed to update category:", error);
+      alert("Failed to update category.");
+    }
   };
 
-  const handleBack = () => {
-    navigate("/platform-management");
-  };
+  const handleBack = () => navigate("/platform-management");
 
   if (loading) {
     return (
@@ -145,37 +139,13 @@ function Sidebar({ navigate }) {
       </div>
 
       <nav className="nav-menu">
-        <a
-          href="#"
-          className="nav-item active"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/platform-management")
-          }}
-        >
-          <i className="icon grid-icon"></i>
+        <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
           <span><img src={categoryIcon} alt="category icon" />Categories</span>
         </a>
-        <a
-          href="#"
-          className="nav-item"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/platform-profile")
-          }}
-        >
-          <i className="icon profile-icon"></i>
+        <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
           <span1><img src={personIcon} alt="person icon" />My Profile</span1>
         </a>
-        <a
-          href="#"
-          className="nav-item"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate("/report")
-          }}
-        >
-          <i className="icon report-icon"></i>
+        <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
           <span><img src={reportIcon} alt="report icon" />Report</span>
         </a>
       </nav>

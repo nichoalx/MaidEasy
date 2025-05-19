@@ -59,8 +59,8 @@ class Category(db.Model):
         return [cat.to_dict() for cat in cls.query.all()], 200
 
     @classmethod
-    def search_categories(cls, category_name=None):
-        query = cls.query
-        if category_name:
-            query = query.filter(cls.category_name.ilike(f"%{category_name}%"))
-        return [cat.to_dict() for cat in query.all()], 200
+    def get_category_by_id(cls, category_id):
+        category = cls.query.get(category_id)
+        if not category:
+            return {"error": "Category not found"}, 404
+        return category.to_dict(), 200
