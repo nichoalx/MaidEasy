@@ -1,96 +1,134 @@
-import { useEffect, useState } from "react"
-import searchIcon from "../assets/Search.png"
-import calendarIcon from "../assets/calender_icon.png"
-import CategoryDropdown from "./categoryDropdown"
-import ServiceCardGrid from "./ServiceCardGrid"
-import ViewCleaningService from "./ViewCleaningService"
-import sample1 from "../assets/Sample1.png"
-import sample2 from "../assets/Sample2.png"
-import sample3 from "../assets/Sample3.png"
-import nick from "../assets/nick.png"
+import React, { useEffect, useState } from "react";
+import searchIcon from "../assets/Search.png";
+import CategoryDropdown from "./HOcategoryDropdown";
+import ServiceCardGrid from "./ServiceCardGrid";
+import ViewCleaningService from "./ViewCleaningService";
+import axios from "../utils/axiosInstance";
 
 export default function HomeOwnerDashboard() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategories, setSelectedCategories] = useState([])
-  const [typeFilter, setTypeFilter] = useState("service")
-  const [priceSort, setPriceSort] = useState("none")
-  const [services, setServices] = useState([])
-  const [filtered, setFiltered] = useState([])
-  const [visibleCount, setVisibleCount] = useState(18)
-  const [selectedService, setSelectedService] = useState(null)
-  const handleToggleFavorite = (id) => {
-    setServices((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, isFavorite: !s.isFavorite } : s))
-    )
-    setFiltered((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, isFavorite: !s.isFavorite } : s))
-    )
-  }
+  const [services, setServices] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(18);
+  const [selectedService, setSelectedService] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [typeFilter, setTypeFilter] = useState("service");
+  const [priceSort, setPriceSort] = useState("none");
 
   useEffect(() => {
-    const dummy = Array.from({ length: 24 }, (_, i) => ({
-      id: i + 1,
-      serviceName: `Service ${i + 1}`,
-      category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      price: 60000 + i * 1000,
-      providerName: `Cleaner ${i + 1}`,
-      joinedDate: `Jan ${2022 + (i % 3)}`,
-      isFavorite: i % 2 === 0,
-      description: `This is a professional ${["floor", "glass", "furniture", "carpet"][i % 4]} cleaning service that ensures high-quality results using eco-friendly materials. Perfect for maintaining a spotless and healthy home environment.`,
-      duration: `${1 + (i % 3)} hour(s)`,
-      availability: ["Monday–Friday", "Weekends", "Daily", "Custom"][i % 4],
-      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
-      images: [sample1, sample2, sample3],
-      providerImage: nick
-    }))
+    const fetchServices = async () => {
+      try {
+        const res = await axios.get("/api/homeowner/search_services");
+        const shortlistRes = await axios.get("/api/homeowner/search_shortlist");
+        const shortlistedIds = shortlistRes.data?.filtered_shortlisted_services?.map(s => s.service_id) || [];
+
+        const serviceList = await Promise.all(res.data.map(async (s) => {
+          let cleanerName = "Unknown";
+          try {
+            const userRes = await axios.get(`/api/users/${s.cleaner_id}`);
+            if (userRes.data.success?.first_name) {
+              cleanerName = userRes.data.success.first_name;
+            }
+          } catch {
+            console.warn("Could not fetch provider name");
+          }
+
+          return {
+            id: s.service_id,
+            serviceName: s.name,
+            cleanerName,
+            category: s.category_name,
+            description: s.description || "-",
+            price: s.price || 0,
+            duration: s.duration || "-",
+            availability: s.availability || "-",
+            phone: s.contact_number || "-",
+            joinedDate: s.joined_date || "2024",
+            isFavorite: shortlistedIds.includes(s.service_id),
+            images: s.images || [],
+            cleanerImage: s.cleaner_image || null
+          };
+        }));
+
+        setServices(serviceList);
+        setFiltered(serviceList);
+      } catch (err) {
+        console.error("Failed to fetch services:", err);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const handleViewClick = async (service) => {
+    if (!service?.id) return;
+    try {
+      await axios.get(`/api/homeowner/view_services/${service.id}`);
+    } catch {
+      console.warn("Failed to increment view count");
+    }
+    setSelectedService(service);
+  };
+
+  const handleToggleFavorite = async (serviceId) => {
+    const isCurrentlyFavorite = services.find(s => s.id === serviceId)?.isFavorite;
   
-    setServices(dummy)
-    setFiltered(dummy)
-  }, [])
+    try {
+      if (isCurrentlyFavorite) {
+        await axios.delete(`/api/homeowner/delete_from_shortlist/${serviceId}`, {
+          data: { service_id: serviceId }
+        });
+      } else {
+        // ✅ POST with JSON body (axiosInstance already includes correct Content-Type)
+        await axios.post(`/api/homeowner/add_to_shortlist`, {
+          service_id: serviceId
+        });
+      }
+  
+      // Update UI after toggle
+      const updated = services.map(s =>
+        s.id === serviceId ? { ...s, isFavorite: !s.isFavorite } : s
+      );
+      setServices(updated);
+      setFiltered(updated);
+    } catch (err) {
+      console.error("Failed to update shortlist status:", err);
+    }
+  };
 
-  // 🔁 Filter & sort logic
+  const availableCategories = [
+    ...new Set(services.map(s => s.category).filter(Boolean))
+  ].map(name => ({ id: name, name }));
+
   useEffect(() => {
-    let result = [...services]
+    let result = [...services];
 
-    // 🔍 Keyword search
     if (searchTerm.trim()) {
-      result = result.filter(
-        (s) =>
-          s.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          s.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          s.providerName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      result = result.filter(s =>
+        s.serviceName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.cleanerName?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
-    // 🧪 Type filter
-    if (typeFilter === "service") {
-      // nothing to change
-    } else if (typeFilter === "cleaner") {
-      result = result.filter((s) =>
-        s.providerName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    if (typeFilter === "cleaner") {
+      result = result.filter(s =>
+        s.cleanerName?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
-    // 📁 Category filter
     if (selectedCategories.length > 0) {
-      result = result.filter((s) => selectedCategories.includes(s.category))
+      result = result.filter(s => selectedCategories.includes(s.category));
     }
 
-    // 💰 Price sort
     if (priceSort === "low") {
-      result.sort((a, b) => a.price - b.price)
+      result.sort((a, b) => a.price - b.price);
     } else if (priceSort === "high") {
-      result.sort((a, b) => b.price - a.price)
+      result.sort((a, b) => b.price - a.price);
     }
 
-    setFiltered(result)
-  }, [searchTerm, selectedCategories, typeFilter, priceSort, services])
-
-  // 📦 Extract unique categories
-  const availableCategories = [...new Set(services.map((s) => s.category))].map((cat) => ({
-    id: cat,
-    name: cat
-  }))
+    setFiltered(result);
+  }, [searchTerm, selectedCategories, typeFilter, priceSort, services]);
 
   return (
     <div className="HomeOwnerDashboard">
@@ -103,7 +141,6 @@ export default function HomeOwnerDashboard() {
         </div>
       </div>
 
-      {/* 🔍 Search Filter Bar */}
       <div className="HomeOwnerSearchContainer">
         <div className="labelRow">
           <label>Keywords</label>
@@ -113,7 +150,6 @@ export default function HomeOwnerDashboard() {
         </div>
 
         <div className="HomeOwnerSearchBar">
-          {/* Keywords */}
           <div className="searchGroup">
             <span className="searchIcon">
               <img src={searchIcon} alt="search icon" />
@@ -126,7 +162,6 @@ export default function HomeOwnerDashboard() {
             />
           </div>
 
-          {/* Type */}
           <div className="HomeOwnerBy">
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
               <option value="service">By Service</option>
@@ -134,7 +169,6 @@ export default function HomeOwnerDashboard() {
             </select>
           </div>
 
-          {/* Category */}
           <div className="HomeOwnerCategoryDropdown">
             <CategoryDropdown
               selectedCategories={selectedCategories}
@@ -143,7 +177,6 @@ export default function HomeOwnerDashboard() {
             />
           </div>
 
-          {/* Price */}
           <div className="HomeOwnerPrice">
             <select value={priceSort} onChange={(e) => setPriceSort(e.target.value)}>
               <option value="none">Sort Price</option>
@@ -156,33 +189,31 @@ export default function HomeOwnerDashboard() {
         </div>
       </div>
 
-      {/* 📊 Result Count */}
       <div className="result-count">
         Showing {filtered.length} of {services.length} Results
       </div>
 
-      {/* 🧱 Service Cards */}
       <ServiceCardGrid
         services={filtered.slice(0, visibleCount)}
-        onViewClick={setSelectedService}
+        onViewClick={handleViewClick}
         onToggleFavorite={handleToggleFavorite}
       />
 
-      {/* 📦 Load More button (conditionally shown) */}
       {visibleCount < filtered.length && (
         <div className="load-more-container">
-          <button onClick={() => setVisibleCount((prev) => prev + 18)} className="load-more-button">
+          <button onClick={() => setVisibleCount(prev => prev + 18)} className="load-more-button">
             Load More
           </button>
         </div>
       )}
+
       {selectedService && (
         <ViewCleaningService
-        service={selectedService}
-        onClose={() => setSelectedService(null)}
-        onToggleFavorite={handleToggleFavorite}
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+          onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>
-  )
+  );
 }

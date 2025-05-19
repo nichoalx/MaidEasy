@@ -1,102 +1,129 @@
-import { useEffect, useState } from "react"
-import searchIcon from "../assets/Search.png"
-import CategoryDropdown from "./categoryDropdown"
-import ServiceCardGrid from "./ServiceCardGrid"
-import ViewCleaningService from "./ViewCleaningService"
-
+import { useEffect, useState } from "react";
+import searchIcon from "../assets/Search.png";
+import HOCategoryDropdown from "./HOcategoryDropdown";
+import ServiceCardGrid from "./ServiceCardGrid";
+import ViewCleaningService from "./ViewCleaningService";
+import axios from "../utils/axiosInstance";
 import sample1 from "../assets/Sample1.png"
-import sample2 from "../assets/Sample2.png"
-import sample3 from "../assets/Sample3.png"
 import nick from "../assets/nick.png"
 
 export default function HomeOwnerShortlist() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategories, setSelectedCategories] = useState([])
-  const [typeFilter, setTypeFilter] = useState("service")
-  const [priceSort, setPriceSort] = useState("none")
-  const [services, setServices] = useState([])
-  const [filtered, setFiltered] = useState([])
-  const [visibleCount, setVisibleCount] = useState(18)
-  const [selectedService, setSelectedService] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [typeFilter, setTypeFilter] = useState("service");
+  const [priceSort, setPriceSort] = useState("none");
+  const [services, setServices] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(18);
+  const [selectedService, setSelectedService] = useState(null);
 
-  // 💔 Toggle and remove if unfavorited
+  // ✅ Fetch shortlisted services
+  useEffect(() => {
+    const fetchShortlisted = async () => {
+      try {
+        const res = await axios.get("/api/homeowner/search_shortlist");
+
+        const serviceList = await Promise.all(res.data.filtered_shortlisted_services.map(async (s) => {
+          let cleanerName = "Unknown";
+          try {
+            const userRes = await axios.get(`/api/users/${s.cleaner_id}`);
+            if (userRes.data.success?.first_name) {
+              cleanerName = userRes.data.success.first_name;
+            }
+          } catch {
+            console.warn("Failed to fetch provider name");
+          }
+
+          return {
+            id: s.service_id,
+            serviceName: s.name,
+            cleanerName,
+            category: s.category_name,
+            description: s.description || "-",
+            price: s.price || 0,
+            duration: s.duration || "-",
+            availability: s.availability || "-",
+            phone: s.contact_number || "-",
+            joinedDate: s.joined_date || "2024",
+            isFavorite: true,
+            images: s.images || [],
+            cleanerImage: s.cleaner_image || null
+          };
+        }));
+
+        setServices(serviceList);
+        setFiltered(serviceList);
+      } catch (err) {
+        console.error("Failed to load shortlist:", err);
+      }
+    };
+
+    fetchShortlisted();
+  }, []);
+
+  // 🧼 Handle favorite toggle (remove from shortlist)
   const handleToggleFavorite = (id) => {
     const updated = services
       .map((s) => s.id === id ? { ...s, isFavorite: !s.isFavorite } : s)
-      .filter((s) => s.isFavorite)
-  
-    setServices(updated)
-    setFiltered(updated)
-  
-    // 🧼 If the currently viewed item is removed, close the modal
+      .filter((s) => s.isFavorite);
+
+    setServices(updated);
+    setFiltered(updated);
+
     if (selectedService?.id === id) {
-      setSelectedService(null)
+      setSelectedService(null);
     }
-  }
 
-  // 🧪 Dummy favorited-only services
-  useEffect(() => {
-    const dummy = Array.from({ length: 24 }, (_, i) => ({
-      id: i + 1,
-      serviceName: `Service ${i + 1}`,
-      category: ["Floor", "Glass", "Furniture", "Living Room"][i % 4],
-      price: 60000 + i * 1000,
-      providerName: `Cleaner ${i + 1}`,
-      joinedDate: `Jan ${2022 + (i % 3)}`,
-      isFavorite: true,
-      description: `This is a professional ${["floor", "glass", "furniture", "carpet"][i % 4]} cleaning service that ensures high-quality results using eco-friendly materials. Perfect for maintaining a spotless and healthy home environment.`,
-      duration: `${1 + (i % 3)} hour(s)`,
-      availability: ["Monday–Friday", "Weekends", "Daily", "Custom"][i % 4],
-      phone: `+62 812 3456 78${String(i).padStart(2, "0")}`,
-      images: [sample1, sample2, sample3],
-      providerImage: nick
-    }))
-    setServices(dummy)
-    setFiltered(dummy)
-  }, [])
+    // 🔄 Send to backend
+    axios.delete(`/api/homeowner/delete_from_shortlist/${id}`, {
+      data: { service_id: id }
+    }).catch(err => {
+      console.error("Failed to remove from shortlist:", err);
+    });
+  };
 
-  // 🔎 Filter Logic
+  // 🔎 Filtering
   useEffect(() => {
-    let result = [...services]
+    let result = [...services];
 
     if (searchTerm.trim()) {
       result = result.filter(
         (s) =>
           s.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           s.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          s.providerName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+          s.cleanerName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     if (typeFilter === "cleaner") {
       result = result.filter((s) =>
-        s.providerName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+        s.cleanerName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     if (selectedCategories.length > 0) {
-      result = result.filter((s) => selectedCategories.includes(s.category))
+      result = result.filter((s) => selectedCategories.includes(s.category));
     }
 
     if (priceSort === "low") {
-      result.sort((a, b) => a.price - b.price)
+      result.sort((a, b) => a.price - b.price);
     } else if (priceSort === "high") {
-      result.sort((a, b) => b.price - a.price)
+      result.sort((a, b) => b.price - a.price);
     }
 
-    setFiltered(result)
-  }, [searchTerm, selectedCategories, typeFilter, priceSort, services])
+    setFiltered(result);
+  }, [searchTerm, selectedCategories, typeFilter, priceSort, services]);
 
   const availableCategories = [...new Set(services.map((s) => s.category))].map((cat) => ({
     id: cat,
     name: cat
-  }))
+  }));
 
   return (
     <div className="HomeOwnerShortList">
       <div className="HomeOwnerShortListName">My Shortlist</div>
 
-      {/* 🔍 Filter Bar */}
+      {/* Filter Bar */}
       <div className="HomeOwnerSearchContainer">
         <div className="labelRow">
           <label>Keywords</label>
@@ -126,7 +153,7 @@ export default function HomeOwnerShortlist() {
           </div>
 
           <div className="HomeOwnerCategoryDropdown">
-            <CategoryDropdown
+            <HOCategoryDropdown
               selectedCategories={selectedCategories}
               onChange={setSelectedCategories}
               availableCategories={availableCategories}
@@ -145,19 +172,17 @@ export default function HomeOwnerShortlist() {
         </div>
       </div>
 
-      {/* 📊 Result Count */}
+      {/* Result Count */}
       <div className="result-count">
         Showing {filtered.length} of {services.length} Results
       </div>
 
-      {/* 🧱 Service Cards */}
       <ServiceCardGrid
         services={filtered.slice(0, visibleCount)}
         onViewClick={setSelectedService}
         onToggleFavorite={handleToggleFavorite}
       />
 
-      {/* Load More */}
       {visibleCount < filtered.length && (
         <div className="load-more-container">
           <button
@@ -169,7 +194,6 @@ export default function HomeOwnerShortlist() {
         </div>
       )}
 
-      {/* 🔍 View Modal */}
       {selectedService && (
         <ViewCleaningService
           service={selectedService}
@@ -178,5 +202,5 @@ export default function HomeOwnerShortlist() {
         />
       )}
     </div>
-  )
+  );
 }

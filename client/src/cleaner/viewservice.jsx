@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "../utils/axiosInstance";
+
 import "./viewservice.css";
 
 import categoryIcon from "../assets/category.png";
 import personIcon from "../assets/circle_person.png";
 import reportIcon from "../assets/report.png";
 import logoutIcon from "../assets/logout.png";
-import cleaningserviceIcon from "../assets/cleaningservice.png"
-import confirmIcon from "../assets/confirmed.png"
+import cleaningserviceIcon from "../assets/cleaningservice.png";
+import confirmIcon from "../assets/confirmed.png";
 import photoIcon from "../assets/photo.png";
 
 export default function ViewService() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [editMode, setEditMode] = useState(true); // default to true for editing
   const [loading, setLoading] = useState(true);
 
   const [mainImage, setMainImage] = useState(null);
@@ -41,292 +41,117 @@ export default function ViewService() {
   });
 
   useEffect(() => {
-    const service = getServiceById(Number(id));
-    if (service) {
-      setServiceName(service.name);
-      setCategory(service.category || "");
-      setDescription(service.description);
-      setPrice(service.price || "");
-      setDuration(service.duration || "");
-      setAvailability(service.availability || "");
-      setMainImage(service.mainImage || null);
-      setThumbnails(service.thumbnails || [null, null, null]);
-    }
-    setLoading(false);
-  }, [id]);
+    const fetchServiceDetails = async () => {
+      try {
+        const res = await axios.get(`/api/cleaner/view/${id}`, {
+          withCredentials: true,
+        });
 
-  const getServiceById = (serviceId) => {
-    const dummyData = [
-      {
-        id: 1,
-        name: "Floor Cleaning",
-        description: "Deep clean for all types of floors.",
-        category: "Cleaning",
-        price: "30",
-        duration: "2 hours",
-        availability: "Available",
-        mainImage: null,
-        thumbnails: [null, null, null],
-      },
-      {
-        id: 2,
-        name: "Chair Service",
-        description: "Thorough chair cleaning.",
-        category: "Furniture",
-        price: "15",
-        duration: "1 hour",
-        availability: "Limited",
-        mainImage: null,
-        thumbnails: [null, null, null],
-      },
-    ];
-    return dummyData.find((s) => s.id === serviceId);
-  };
+        const service = res.data.services;
 
-  const handleSave = () => {
-    const updatedData = {
-      id: Number(id),
-      serviceName,
-      category,
-      description,
-      price,
-      duration,
-      availability,
-      mainImage,
-      thumbnails,
+        setServiceName(service.name || "");
+        setCategory(service.category_name || "");
+        setDescription(service.description || "");
+        setPrice(service.price || "");
+        setDuration(service.duration || "");
+        setAvailability(service.availability || "");
+        setMainImage(service.main_image_url || null);
+        setThumbnails([
+          service.thumb1_url || null,
+          service.thumb2_url || null,
+          service.thumb3_url || null,
+        ]);
+      } catch (error) {
+        console.error("Failed to fetch service:", error);
+        alert("Service not found.");
+        navigate("/cleaning-services");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    console.log("Updated Service:", updatedData);
-    navigate("/cleaning-services");
-  };
+    fetchServiceDetails();
+  }, [id]);
 
-  const handleBack = () => {
-    navigate("/cleaning-services");
-  };
+  const handleBack = () => navigate("/cleaning-services");
+  const handleEdit = () => navigate(`/edit-service/${id}`);
 
-    const handleEdit = () => {
-    navigate(`/edit-service/${id}`);
-  }
+  if (loading) return <p>Loading service details...</p>;
 
   return (
     <div className="platform-layout">
       <Sidebar navigate={navigate} />
       <div className="main-content">
         <Header />
-          <h1 className="platformTitle">My Services &gt; View Services</h1>
-            <div className="newServiceWrapper">
-            <div className="newServiceContainer">
-                <div className="card-header2">
-                    <h3>Services Details</h3>
-                    <div className="button-group2">
-                        <button className="back-btn2" onClick={handleBack}>Back</button>
-                        <button className="edit-btn2" onClick={handleEdit}>
-                            Edit
-                        </button>
-                    </div>
+        <h1 className="platformTitle">My Services &gt; View Services</h1>
+        <div className="newServiceWrapper">
+          <div className="newServiceContainer">
+            <div className="card-header2">
+              <h3>Services Details</h3>
+              <div className="button-group2">
+                <button className="back-btn2" onClick={handleBack}>Back</button>
+                <button className="edit-btn2" onClick={handleEdit}>Edit</button>
+              </div>
+            </div>
+
+            <div className="formGrid2">
+              <div className="photoPart2">
+                <label className="formLabel">Service Photo</label>
+                <div className="photoUpload">
+                  {mainImage ? (
+                    <img src={mainImage} alt="Main" className="uploadedImage" />
+                  ) : (
+                    <img src={photoIcon} alt="Placeholder" className="uploadIcon" />
+                  )}
                 </div>
-                <div className="formGrid2">
-                    <div className="photoPart2">
-                    <label className="formLabel">Service Photo</label>
 
-                        <div
-                            className={`photoUpload hoverable ${errors.images[0] ? "errorBorder" : ""}`}
-                            onClick={() => fileInputRef.current.click()}
-                        >
-                            {mainImage ? (
-                            <>
-                                <img src={mainImage} alt="Uploaded" className="uploadedImage" />
-                                <button
-                                className="removeButton"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setMainImage(null);
-                                }}
-                                >
-                                ✕
-                                </button>
-                            </>
-                            ) : (
-                            <img src={photoIcon} alt="Upload" className="uploadIcon" />
-                            )}
-                        </div>
-
-                        <input
-                            type="file"
-                            accept="image/*"
-                            ref={fileInputRef}
-                            style={{ display: "none" }}
-                            onChange={(e) => {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const imageUrl = URL.createObjectURL(file);
-                                setMainImage(imageUrl);
-                            }
-                            }}
-                        />
-
-                        <div className="thumbnailRow2">
-                            {thumbnails.map((thumb, index) => (
-                            <div
-                                className={`thumbnail hoverable ${errors.images[index + 1] ? "errorBorder" : ""}`}
-                                key={index}
-                                onClick={() => thumbnailInputRefs.current[index].click()}
-                            >
-                                {thumb ? (
-                                <>
-                                    <img src={thumb} alt={`Thumbnail ${index}`} className="uploadedImage" />
-                                    <button
-                                    className="removeButton"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        const updated = [...thumbnails];
-                                        updated[index] = null;
-                                        setThumbnails(updated);
-                                    }}
-                                    >
-                                    ✕
-                                    </button>
-                                </>
-                                ) : (
-                                <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
-                                )}
-                                <input
-                                type="file"
-                                accept="image/*"
-                                ref={(el) => (thumbnailInputRefs.current[index] = el)}
-                                style={{ display: "none" }}
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                    const imageUrl = URL.createObjectURL(file);
-                                    const updated = [...thumbnails];
-                                    updated[index] = imageUrl;
-                                    setThumbnails(updated);
-                                    }
-                                }}
-                                />
-                            </div>
-                            ))}
-                        </div>
-                        {errors.images.some((e) => e) && (
-                            <div className="imageErrorText">*Please upload image</div>
-                        )}
+                <div className="thumbnailRow2">
+                  {thumbnails.map((thumb, index) => (
+                    <div className="thumbnail" key={index}>
+                      {thumb ? (
+                        <img src={thumb} alt={`Thumb ${index}`} className="uploadedImage" />
+                      ) : (
+                        <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
+                      )}
                     </div>
-
-
-                <div className="inputGroup">
-                    <div className="inputRow">
-                    <label className="formLabel">Service Name:</label>
-                    <input
-                        type="text"
-                        value={serviceName}
-                        readOnly
-                        onChange={(e) => setServiceName(e.target.value)}
-                        className={`formInput ${errors.serviceName ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.serviceName && <span className="errorText">*Please fill in this field</span>}
-
-                    <div className="inputRow">
-                    <label className="formLabel">Category:</label>
-                    <input
-                        type="text"
-                        value={category}
-                        readOnly
-                        onChange={(e) => setCategory(e.target.value)}
-                        className={`formInput ${errors.category ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.category && <span className="errorText">*Please fill in this field</span>}
-
-                    <div className="inputRow">
-                    <label className="formLabel">Description:</label>
-                    <textarea
-                        value={description}
-                        readOnly
-                        onChange={(e) => setDescription(e.target.value)}
-                        className={`formInput ${errors.description ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.description && <span className="errorText">*Please fill in this field</span>}
-
-                    <div className="inputRow">
-                    <label className="formLabel">Price:</label>
-                    <input
-                        type="text"
-                        value={price}
-                        readOnly
-                        onChange={(e) => setPrice(e.target.value)}
-                        className={`formInput ${errors.price ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.price && <span className="errorText">*Please fill in this field</span>}
-
-                    <div className="inputRow">
-                    <label className="formLabel">Duration:</label>
-                    <input
-                        type="text"
-                        value={duration}
-                        readOnly
-                        onChange={(e) => setDuration(e.target.value)}
-                        className={`formInput ${errors.duration ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.duration && <span className="errorText">*Please fill in this field</span>}
-
-                    <div className="inputRow">
-                    <label className="formLabel">Availability:</label>
-                    <input
-                        type="text"
-                        value={availability}
-                        readOnly
-                        onChange={(e) => setAvailability(e.target.value)}
-                        className={`formInput ${errors.availability ? "error" : ""}`}
-                    />
-                    </div>
-                    {errors.availability && <span className="errorText">*Please fill in this field</span>}
-                    <div className="inputRow">
-                            <label className="formLabel">Date Created:</label>
-                            <input
-                                type="text"
-                                value="31/01/2025"
-                                readOnly
-                                onChange={(e) => setAvailability(e.target.value)}
-                                className={`formValue ${errors.availability ? "error" : ""}`}
-                            />
-                    </div>
-                    <div className="inputRow">
-                            <label className="formLabel">Total Views:</label>
-                            <input
-                                type="text"
-                                value="214"
-                                onChange={(e) => setAvailability(e.target.value)}
-                                className={`formValue ${errors.availability ? "error" : ""}`}
-                            />
-                    </div>
-                    <div className="inputRow">
-                            <label className="formLabel">Shortlisted:</label>
-                            <input
-                                type="text"
-                                value="12"
-                                readOnly
-                                onChange={(e) => setAvailability(e.target.value)}
-                                className={`formValue ${errors.availability ? "error" : ""}`}
-                            />
-                    </div>
-          
-
+                  ))}
                 </div>
-                </div>
-        
+              </div>
+
+              <div className="inputGroup">
+                <InputRow label="Service Name" value={serviceName} />
+                <InputRow label="Category" value={category} />
+                <InputRow label="Description" value={description} multiline />
+                <InputRow label="Price" value={price} />
+                <InputRow label="Duration" value={duration} />
+                <InputRow label="Availability" value={availability} />
+                <InputRow label="Date Created" value="31/01/2025" />
+                <InputRow label="Total Views" value="214" />
+                <InputRow label="Shortlisted" value="12" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }
 
+// Reusable Input Row Component
+function InputRow({ label, value, multiline = false }) {
+  return (
+    <div className="inputRow">
+      <label className="formLabel">{label}:</label>
+      {multiline ? (
+        <textarea value={value} readOnly className="formInput" />
+      ) : (
+        <input type="text" value={value} readOnly className="formInput" />
+      )}
+    </div>
+  );
+}
+
+// Sidebar Component (unchanged)
 function Sidebar({ navigate }) {
   return (
       <div className="sidebar">
@@ -337,18 +162,18 @@ function Sidebar({ navigate }) {
         <nav className="nav-menu">
           <a
             href="#"
-            className="nav-item"
+            className="nav-item active"
             onClick={(e) => {
               e.preventDefault()
               navigate("/cleaner-profile")
             }}
           >
             <i className="icon grid-icon"></i>
-            <span><img src={personIcon} alt="person icon" style={{ width: "20px", height: "20px", marginLeft: "-1px"}}/>My Profile</span>
+            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
           </a>
           <a
             href="#"
-            className="nav-item active"
+            className="nav-item"
             onClick={(e) => {
               e.preventDefault()
               navigate("/cleaning-services")
@@ -374,31 +199,26 @@ function Sidebar({ navigate }) {
             <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
           </a>
         </div>
-      </div>
+      </div>  
   );
 }
 
-function Header() {
+
+function Header({ user }) {
   return (
-        <header className="platform-header">
-          <div className="greeting">
-            <h2>
-              Hi, Platform123{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
-            </h2>
-          </div>
+    <header className="platform-header">
+      <div className="greeting">
+        <h2>Hi, {user.first_name} 👋</h2>
+      </div>
 
-          <div className="user-profile">
-            <div className="user-info">
-              <img src={personIcon} alt="person icon" />
-              <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
-              </div>
-            </div>
-          </div>
-        </header>
+      <div className="user-profile">
+        <img src={personIcon} alt="user icon" />
+        <div className="user-details">
+          <div className="user-name">{user.first_name} {user.last_name}</div>
+          <div className="user-email">{user.email}</div>
+        </div>
+      </div>
+    </header>
   );
 }
+

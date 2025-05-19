@@ -1,15 +1,37 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import "./cleaner.css"; // using existing styles
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "../utils/axiosInstance";
+import "./cleaner.css";
 import "./detailJob.css";
+
 import personIcon from "../assets/circle_person.png";
 import logoutIcon from "../assets/logout.png";
-import cleaningserviceIcon from "../assets/cleaningservice.png"
-import confirmIcon from "../assets/confirmed.png"
+import cleaningserviceIcon from "../assets/cleaningservice.png";
+import confirmIcon from "../assets/confirmed.png";
 
 export default function ConfirmedJobs() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { id } = useParams();
+
+  const [booking, setBooking] = useState(null);
+
+  useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const res = await axios.get(`/api/cleaner/view_job_details/${id}`, {
+          withCredentials: true
+        });
+        setBooking(res.data.booking);
+      } catch (err) {
+        console.error("Failed to fetch job details:", err);
+        alert("Unable to load job details.");
+      }
+    };
+
+    fetchJobDetails();
+  }, [id]);
+
+  if (!booking) return <p>Loading job details...</p>;
 
   return (
     <div className="platform-layout">
@@ -46,39 +68,33 @@ export default function ConfirmedJobs() {
             className="nav-item active"
             onClick={(e) => {
               e.preventDefault()
-              navigate("/confirmed-jobs")
+              navigate("/confirmed-service")
             }}
           >
             <i className="icon report-icon"></i>
             <span1><img src={confirmIcon} alt="confirm icon" />Confirmed Jobs</span1>
           </a>
         </nav>
+
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
-          </a>
+          <a className="logout-link" onClick={() => navigate("/Logout")}> <img src={logoutIcon} alt="logout" /><span>Log Out</span></a>
         </div>
       </div>
 
-
+      {/* Main Content */}
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, Platform123{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
+              Hi, {user?.first_name || "Cleaner"} 👋
             </h2>
           </div>
 
           <div className="user-profile">
-            <div className="user-info">
-              <img src={personIcon} alt="person icon" />
-              <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
-              </div>
+            <img src={personIcon} alt="user icon" />
+            <div className="user-details">
+              <div className="user-name">{user.first_name} {user.last_name}</div>
+              <div className="user-email">{user.email}</div>
             </div>
           </div>
         </header>
@@ -86,30 +102,26 @@ export default function ConfirmedJobs() {
         <div className="whiteSpace">
           <div className="platform-content">
             <div className="search-header">
-                <h1 className="services-title">Confirmed Job &gt; View Details</h1>
+              <h1 className="services-title">Confirmed Job &gt; View Details</h1>
             </div>
-            <div className="detailCard">
 
+            <div className="detailCard">
               <div className="detailHeader">
-                <h1 className="detailTitle">Job #1</h1>
-                <button className="backButton">Back</button>
+                <h1 className="detailTitle">Job #{booking.booking_id}</h1>
+                <button className="backButton" onClick={() => navigate("/confirmed-jobs")}>Back</button>
               </div>
 
               <div className="section">
                 <h2 className="sectionTitle">Service Details</h2>
-                <div className="serviceDetails">
-                  <div className="serviceInfo">
-                    <div className="infoGrid">
-                      <p className="infoLabel">Service Name:</p>
-                      <p className="infoValue">Window Cleaning</p>
+                <div className="infoGrid">
+                  <p className="infoLabel">Service Name:</p>
+                  <p className="infoValue">{booking.service_name}</p>
 
-                      <p className="infoLabel">Category:</p>
-                      <p className="infoValue">Home Service</p>
+                  <p className="infoLabel">Category:</p>
+                  <p className="infoValue">{booking.category_name}</p>
 
-                      <p className="infoLabel">Price:</p>
-                      <p className="infoValue">$100</p>
-                    </div>
-                  </div>
+                  <p className="infoLabel">Price:</p>
+                  <p className="infoValue">${booking.price}</p>
                 </div>
               </div>
 
@@ -117,26 +129,21 @@ export default function ConfirmedJobs() {
                 <h2 className="sectionTitle">Home Owner Details</h2>
                 <div className="infoGrid">
                   <p className="infoLabel">Name:</p>
-                  <p className="infoValue">Agus</p>
+                  <p className="infoValue">{booking.homeowner_name}</p>
 
                   <p className="infoLabel">Phone Number:</p>
-                  <p className="infoValue">12315214</p>
+                  <p className="infoValue">{booking.homeowner_phone}</p>
                 </div>
               </div>
 
               <div className="section">
                 <h2 className="sectionTitle">Date/Time</h2>
-                <p className="infoValue">15/04/2025, 10.00 AM</p>
+                <p className="infoValue">{new Date(booking.date).toLocaleString()}</p>
               </div>
-
             </div>
-          </div> 
+          </div>
         </div>
-
-        
       </div>
-
-      
     </div>
   );
 }

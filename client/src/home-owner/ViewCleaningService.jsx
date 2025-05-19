@@ -17,7 +17,7 @@ export default function ViewCleaningService({ service, onClose, onToggleFavorite
     duration,
     availability,
     phone,
-    providerName,
+    cleanerName,
     joinedDate,
     providerImage,
     images = [defaultImage]
@@ -64,7 +64,7 @@ export default function ViewCleaningService({ service, onClose, onToggleFavorite
             <div className="provider-info">
               <img className="provider-avatar" src={providerImage || defaultImage} alt="provider" />
               <div>
-                <div className="provider-name">{providerName}</div>
+                <div className="provider-name">{cleanerName}</div>
                 <div className="joined-text">Joined From {joinedDate}</div>
               </div>
             </div>

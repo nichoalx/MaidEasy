@@ -141,8 +141,10 @@
   background-color: #8D96A9;
 }
 
-.platform-layout .main-content {
-  margin-left: 280px;
+
+
+/* Main Content */
+.main-content {
   flex: 1;
   background-color: #F5F5F5;
   overflow: auto;

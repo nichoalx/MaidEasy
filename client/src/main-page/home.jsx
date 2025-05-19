@@ -11,15 +11,15 @@ export default function HomePage() {
       <header className="header">
         <div className="header-container">
           <div className="logo-container">
-            <h1 className="logo-text">
+            <h1 className="logo-text2">
               Garuda
               <br />
               Indonesia
             </h1>
           </div>
           <button
-            className="login-button"
-            onClick={() => window.open("/login", "_self")}
+            className="login-button2"
+            onClick={() => window.open("/login", "_blank")}
           >
             Login
           </button>
@@ -48,7 +48,7 @@ export default function HomePage() {
               <p className="hero-description">
                 Lorem ipsum dolor sit amet, consectetur dipiscing <br />elit eius mod tempor incididunt ut labore
               </p>
-              <div className="search-container">
+              <div className="search-container3">
                 <input type="text" placeholder="What service do you want to search?" className="search-input" />
                 <Search className="search-icon" size={20} />
               </div>
@@ -75,7 +75,7 @@ export default function HomePage() {
         <div className="services-container">
           <div className="services-header">
             <div className="services-title-container">
-              <h2 className="services-title">Always Provide The <br />Best Service</h2>
+              <h2 className="services-title10">Always Provide The <br />Best Service</h2>
             </div>
             <div className="services-subtitle-container">
               <h3 className="services-subtitle">Our Services</h3>

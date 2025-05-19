@@ -33,7 +33,7 @@
     border: 1px solid #ccc;
     border-radius: 999px;
     overflow: visible;
-    height: 40px;
+    height: 45px;
     margin-top: 0.5rem !important;
     z-index: 1;
     position: relative;
@@ -130,7 +130,7 @@
 
 .categories-table-container {
     margin-top: 1rem !important;
-    margin-left: 4rem !important;
+    margin-left: 8rem !important;
 }
 
 .categories-table thead th {

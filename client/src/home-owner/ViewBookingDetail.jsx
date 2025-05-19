@@ -16,7 +16,7 @@ export default function BookingDetailModal({ booking, onClose }) {
     phone = "-",
     date,
     serviceImage,
-    providerImage
+    cleanerImage
   } = booking
 
   return (
@@ -56,7 +56,7 @@ export default function BookingDetailModal({ booking, onClose }) {
           <h3 className="booking-section-title">Cleaner Details</h3>
           <div className="booking-cleaner">
             <img
-              src={providerImage || defaultCleanerImage}
+              src={cleanerImage || defaultCleanerImage}
               alt="Cleaner"
               className="booking-cleaner-img"
             />

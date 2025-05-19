@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-
+import axios from "../utils/axiosInstance";
 
 import "./NewService.css";
-import SingleDropdown from "./singleDropdown"
+import SingleDropdown from "./singleDropdown";
 import photoIcon from "../assets/photo.png";
 
 export default function NewService({ onClose }) {
@@ -32,7 +31,7 @@ export default function NewService({ onClose }) {
     images: [false, false, false, false], // [mainImage, thumb1, thumb2, thumb3]
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       serviceName: !serviceName.trim(),
       category: !category.trim(),
@@ -55,7 +54,26 @@ export default function NewService({ onClose }) {
       newErrors.images.some((e) => e === true);
 
     if (!hasError) {
-      alert("Form submitted!");
+      try {
+        const response = await axios.post(
+          "/api/cleaner/create",
+          {
+            name: serviceName,
+            category_name: category,
+            description,
+            price,
+            duration,
+            availability,
+          },
+          { withCredentials: true }
+        );
+
+        alert("Service created successfully!");
+        navigate("/cleaning-services");
+      } catch (error) {
+        console.error("Error creating service:", error);
+        alert("Failed to create service.");
+      }
     }
   };
 
@@ -64,94 +82,94 @@ export default function NewService({ onClose }) {
       <div className="newServiceContainer">
         <h1 className="newServiceTitle">Create New Services</h1>
         <div className="formGrid">
-        <div>
-          <label className="formLabel">Service Photo</label>
+          {/* Image Upload */}
+          <div>
+            <label className="formLabel">Service Photo</label>
+            <div
+              className={`photoUpload hoverable ${errors.images[0] ? "errorBorder" : ""}`}
+              onClick={() => fileInputRef.current.click()}
+            >
+              {mainImage ? (
+                <>
+                  <img src={mainImage} alt="Uploaded" className="uploadedImage" />
+                  <button
+                    className="removeButton"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMainImage(null);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </>
+              ) : (
+                <img src={photoIcon} alt="Upload" className="uploadIcon" />
+              )}
+            </div>
 
-          <div
-            className={`photoUpload hoverable ${errors.images[0] ? "errorBorder" : ""}`}
-            onClick={() => fileInputRef.current.click()}
-          >
-            {mainImage ? (
-              <>
-                <img src={mainImage} alt="Uploaded" className="uploadedImage" />
-                <button
-                  className="removeButton"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setMainImage(null);
-                  }}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const imageUrl = URL.createObjectURL(file);
+                  setMainImage(imageUrl);
+                }
+              }}
+            />
+
+            <div className="thumbnailRow">
+              {thumbnails.map((thumb, index) => (
+                <div
+                  className={`thumbnail hoverable ${errors.images[index + 1] ? "errorBorder" : ""}`}
+                  key={index}
+                  onClick={() => thumbnailInputRefs.current[index].click()}
                 >
-                  ✕
-                </button>
-              </>
-            ) : (
-              <img src={photoIcon} alt="Upload" className="uploadIcon" />
+                  {thumb ? (
+                    <>
+                      <img src={thumb} alt={`Thumbnail ${index}`} className="uploadedImage" />
+                      <button
+                        className="removeButton"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const updated = [...thumbnails];
+                          updated[index] = null;
+                          setThumbnails(updated);
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </>
+                  ) : (
+                    <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={(el) => (thumbnailInputRefs.current[index] = el)}
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const imageUrl = URL.createObjectURL(file);
+                        const updated = [...thumbnails];
+                        updated[index] = imageUrl;
+                        setThumbnails(updated);
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            {errors.images.some((e) => e) && (
+              <div className="imageErrorText">*Please upload image</div>
             )}
           </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                const imageUrl = URL.createObjectURL(file);
-                setMainImage(imageUrl);
-              }
-            }}
-          />
-
-          <div className="thumbnailRow">
-            {thumbnails.map((thumb, index) => (
-              <div
-                className={`thumbnail hoverable ${errors.images[index + 1] ? "errorBorder" : ""}`}
-                key={index}
-                onClick={() => thumbnailInputRefs.current[index].click()}
-              >
-                {thumb ? (
-                  <>
-                    <img src={thumb} alt={`Thumbnail ${index}`} className="uploadedImage" />
-                    <button
-                      className="removeButton"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const updated = [...thumbnails];
-                        updated[index] = null;
-                        setThumbnails(updated);
-                      }}
-                    >
-                      ✕
-                    </button>
-                  </>
-                ) : (
-                  <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={(el) => (thumbnailInputRefs.current[index] = el)}
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      const imageUrl = URL.createObjectURL(file);
-                      const updated = [...thumbnails];
-                      updated[index] = imageUrl;
-                      setThumbnails(updated);
-                    }
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-          {errors.images.some((e) => e) && (
-            <div className="imageErrorText">*Please upload image</div>
-          )}
-        </div>
-
-
+          {/* Form Inputs */}
           <div className="inputGroup">
             <div className="inputRow">
               <label className="formLabel">Service Name:</label>
@@ -181,7 +199,6 @@ export default function NewService({ onClose }) {
                 />
               </div>
             </div>
-
             {errors.category && <span className="errorText">*Please select a category</span>}
 
             <div className="inputRow">
@@ -232,9 +249,8 @@ export default function NewService({ onClose }) {
         <div className="buttonGroup">
           <button className="primaryButton" onClick={handleSubmit}>Create New Services</button>
           <button className="secondaryButton" onClick={() => navigate(-1)}>Cancel</button>
-
         </div>
       </div>
-     </div>
+    </div>
   );
 }

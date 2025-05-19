@@ -1,0 +1,91 @@
+.ho-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.ho-dropdown-button {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: #374151;
+}
+
+.ho-dropdown-arrow {
+  transition: transform 0.3s ease;
+}
+
+.ho-dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.ho-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+  padding: 8px 0;
+}
+
+.ho-dropdown-search {
+  position: relative;
+  padding: 8px;
+}
+
+.ho-dropdown-search input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem 0 2.5rem;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.ho-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 14px;
+  width: 14px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.ho-dropdown-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.ho-dropdown-item {
+  display: block;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.ho-forpadding {
+  margin-right: 10px;
+}
+
+.ho-dropdown-button:focus,
+.ho-dropdown-search input:focus {
+  border-color: #3b4677;
+  box-shadow: 0 0 0 2px rgba(59, 70, 119, 0.2);
+  outline: none;
+}
