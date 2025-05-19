@@ -6,9 +6,9 @@ import "./dashstyle.css"
 import Toast from "./components/Toast"
 import axios from "../utils/axiosInstance"
 import logout from "../assets/logout.png"
-import Vector from "../assets/Vector.png"
-import Human from "../assets/Human.png"
-import circle_person from "../assets/circle_person.png"
+import vectorIcon from "../assets/Vector.png"
+import humanIcon from "../assets/Human.png"
+import circlePersonIcon from "../assets/circle_person.png"
 
 function AddProfile() {
   const navigate = useNavigate()
@@ -41,15 +41,15 @@ function AddProfile() {
   const validateForm = () => {
     const newErrors = {}
     if (!formData.name.trim()) newErrors.name = "Role name is required"
-    if (
-      !formData.has_booking_permission &&
-      !formData.has_listing_permission &&
-      !formData.has_view_analytics_permission
-    ) {
-      newErrors.permissions = "At least one permission must be selected"
+    if (!formData.selectedPermission) {
+      newErrors.permissions = "Please select one permission"
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
+  }
+  const handleLogout = (e) => {
+    e.preventDefault()
+    navigate("/")
   }
 
   const handleSave = async () => {
@@ -76,102 +76,150 @@ function AddProfile() {
   }
 
   return (
-    <div className="dashboard-layout">
-      <div className="app-container">
+    <div className="platform-layout">
         <div className="sidebar">
           <div className="logo-container">
             <h1 className="logo">Garuda<br />Indonesia</h1>
           </div>
 
           <nav className="nav-menu">
-            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "profile" } })}>
-              <img src={circle_person} alt="Profile" className="icon" />
-              <span>My Profile</span>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("profile")
+              }}
+            >
+              <i className="icon grid-icon"></i>
+              <span1><img src={circlePersonIcon} alt="person icon" />My Profile</span1>
             </a>
-            <a href="#" className="nav-item" onClick={() => navigate("/dashboard", { state: { page: "account" } })}>
-              <img src={Vector} alt="Account" className="icon" />
-              <span>Account Management</span>
+            <a
+              href="#"
+              className="nav-item"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("account")
+              }}
+            >
+            <i className="icon profile-icon"></i>
+            <span><img src={vectorIcon} alt="person icon" />Account Management</span>
             </a>
-            <a href="#" className="nav-item active" onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}>
-              <img src={Human} alt="Profile Management" className="icon" />
-              <span>Profile Management</span>
+            <a
+              href="#"
+              className="nav-item active"
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentPage("profileManagement")
+              }}
+            >
+            <i className="icon report-icon"></i>
+            <span1><img src={humanIcon} alt="confirm icon" />Profile Management</span1>
             </a>
           </nav>
 
           <div className="logout-container">
-            <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/") }}>
-              <img src={logout} alt="Logout" className="logout-icon" />
-              <span>Log Out</span>
+            <a href="#" className="logout-link" onClick={handleLogout}>
+            <img src={logout} alt="logout icon" />
+            Log Out
             </a>
           </div>
         </div>
 
+        {/* Main Content */}
         <div className="main-content">
-          <header className="header">
+          <header className="platform-header">
             <div className="greeting">
-              <h2>Hi, Admin Ganteng <span role="img" aria-label="wave">👋</span></h2>
+              <h2>
+                Hi, Admin Ganteng 👋
+              </h2>
             </div>
 
             <div className="user-profile">
-              <div className="user-info">
+              <img src={circlePersonIcon} alt="user icon" />
+              <div className="user-details">
                 <div className="user-name">Admin Ganteng</div>
                 <div className="user-email">admin@example.com</div>
-              </div>
-              <div className="user-avatar">
-                <i className="icon user-icon"></i>
               </div>
             </div>
           </header>
 
-          <div className="dashboard-content">
-            <h1 className="dashboard-title">Profile Management &gt; Add New Profile</h1>
-
-            <div className="large-card">
-              <div className="card-header" style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px" }}>
-                <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  <button onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })} style={{ backgroundColor: "#e5edff", color: "#3e4772", border: "none", borderRadius: "8px", padding: "8px 24px", fontWeight: "500", cursor: "pointer" }}>Cancel</button>
-                  <button onClick={handleSave} style={{ backgroundColor: "#3e4772", color: "white", border: "none", borderRadius: "8px", padding: "8px 24px", fontWeight: "500", cursor: "pointer" }}>Save</button>
-                </div>
-              </div>
-
-              <div className="profile-form">
-                <div className="form-row full-width">
-                  <div className="form-group">
-                    <label htmlFor="name">Role Name</label>
-                    <div className={`input-container ${errors.name ? "error-input" : ""}`}>
-                      <i className="icon role-icon"></i>
-                      <input type="text" id="name" value={formData.name} onChange={handleChange} placeholder="Enter role name" />
+          <div className="whiteSpace">
+            <div className="platform-content">
+              <div className="large-card">
+                <h1 className="platform-title3">Create New Profile</h1>
+                <div className="profile-form">
+                  <div className="add-profile-form">
+                    <div className="add-profile-group">
+                      <label className="add-profile-label" htmlFor="name">Role Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter role name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="add-profile-input"
+                      />
+                      {errors.name && <div className="add-profile-error">{errors.name}</div>}
                     </div>
-                    {errors.name && <div className="error-message">{errors.name}</div>}
+
+                    <div className="add-profile-group">
+                      <label className="add-profile-label" htmlFor="description">Description</label>
+                      <textarea
+                        id="description"
+                        placeholder="Enter Role Descriptions"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="add-profile-textarea"
+                      />
+                    </div>
+
+                    <div className="add-profile-group">
+                      <label className="add-profile-label">Permissions</label>
+                      {errors.permissions && <div className="add-profile-error">{errors.permissions}</div>}
+                        <div className="add-profile-permissions">
+                          <label className="add-profile-radio">
+                            <input type="radio" name="permission" value="book"
+                              checked={formData.selectedPermission === "book"}
+                              onChange={() => setFormData({ ...formData, selectedPermission: "book" })}
+                            />
+                            <span>Book Permission</span>
+                          </label>
+
+                          <label className="add-profile-radio">
+                            <input type="radio" name="permission" value="listing"
+                              checked={formData.selectedPermission === "listing"}
+                              onChange={() => setFormData({ ...formData, selectedPermission: "listing" })}
+                            />
+                            <span>Listing Permission</span>
+                          </label>
+
+                          <label className="add-profile-radio">
+                            <input type="radio" name="permission" value="analytics"
+                              checked={formData.selectedPermission === "analytics"}
+                              onChange={() => setFormData({ ...formData, selectedPermission: "analytics" })}
+                            />
+                            <span>View Analytics Permission</span>
+                          </label>
+                        </div>
+                    </div>
+
+                    <div className="add-profile-buttons">
+                      <button className="add-profile-save" onClick={handleSave}>Save</button>
+                      <button className="add-profile-cancel" onClick={() => navigate("/dashboard", { state: { page: "profileManagement" } })}>
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                <div className="form-row full-width">
-                  <div className="form-group">
-                    <label>Permissions</label>
-                    {errors.permissions && <div className="error-message">{errors.permissions}</div>}
-                    <div className="permissions-container">
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={formData.has_booking_permission} onChange={() => handlePermissionChange("has_booking_permission")} /> Booking Permission
-                      </label>
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={formData.has_listing_permission} onChange={() => handlePermissionChange("has_listing_permission")} /> Listing Permission
-                      </label>
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={formData.has_view_analytics_permission} onChange={() => handlePermissionChange("has_view_analytics_permission")} /> View Analytics
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+          </div>  
         </div>
       </div>
-
+      
       {toast.show && <Toast message={toast.message} type={toast.type} />}
     </div>
+
   )
 }
 
