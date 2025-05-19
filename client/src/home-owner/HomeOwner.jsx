@@ -27,6 +27,16 @@ export default function HomeOwner() {
     fetchUser();
   }, []);
 
+  // ✅ Handle logout client-side only
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+
+    navigate("/");
+  };
+
   return (
     <div className="HomeOwner">
       <div className="headerTitle">
@@ -65,25 +75,7 @@ export default function HomeOwner() {
 
       {showLogoutModal && (
         <LogoutModal
-          onConfirm={async () => {
-            try {
-              await fetch("http://localhost:5000/api/auth/logout", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                }
-              });
-            } catch (err) {
-              console.warn("Logout request failed (may still clear locally)", err);
-            }
-
-            localStorage.removeItem("token");
-            localStorage.removeItem("user_id");
-            localStorage.removeItem("role");
-            localStorage.removeItem("isLoggedIn");
-
-            navigate("/");
-          }}
+          onConfirm={handleLogout}
           onCancel={() => setShowLogoutModal(false)}
         />
       )}
