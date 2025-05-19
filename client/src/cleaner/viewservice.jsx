@@ -131,31 +131,7 @@ export default function ViewService() {
               </div>
             </div>
 
-            <div className="formGrid2">
-              <div className="photoPart2">
-                <label className="formLabel">Service Photo</label>
-                <div className="photoUpload">
-                  {mainImage ? (
-                    <img src={mainImage} alt="Main" className="uploadedImage" />
-                  ) : (
-                    <img src={photoIcon} alt="Placeholder" className="uploadIcon" />
-                  )}
-                </div>
-
-                <div className="thumbnailRow2">
-                  {thumbnails.map((thumb, index) => (
-                    <div className="thumbnail" key={index}>
-                      {thumb ? (
-                        <img src={thumb} alt={`Thumb ${index}`} className="uploadedImage" />
-                      ) : (
-                        <img src={photoIcon} alt="Upload thumbnail" className="uploadIcon" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="inputGroup">
+              <div className="inputGroup2">
                 <InputRow label="Service Name" value={serviceName} />
                 <InputRow label="Category" value={category} />
                 <InputRow label="Description" value={description} multiline />
@@ -170,7 +146,7 @@ export default function ViewService() {
           </div>
         </div>
       </div>
-    </div>
+
   );
 }
 
@@ -258,4 +234,3 @@ function Header({ user = {} }) {
     </header>
   );
 }
-

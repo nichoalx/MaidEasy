@@ -4,7 +4,14 @@
   color: #3e4772;
   margin-bottom: -6rem;
   margin-left: 23rem;
-  margin-top: 2rem;
+  margin-top: 20rem;
+}
+.platformTitle3 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #3e4772;
+  margin-bottom: -6rem;
+  margin-left: 23rem;
 }
 
 .newServiceWrapper {
@@ -12,7 +19,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 3rem !important;
 }
+
 .newServiceContainer {
   background: white;
   border-radius: 1rem;

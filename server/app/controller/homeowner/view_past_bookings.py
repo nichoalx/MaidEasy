@@ -27,9 +27,9 @@ class ViewPastBookingsController:
                 data['homeowner_name'] = f"{homeowner.first_name} {homeowner.last_name}" if homeowner else "Unknown"
                 del data['cleaner_user_id']
             elif role_name == "homeowner":
-                cleaner = User.query.get(data['cleaner_user_id'])
-                data['cleaner_name'] = f"{cleaner.first_name} {cleaner.last_name}" if cleaner else "Unknown"
-                del data['homeowner_user_id']
+                homeowner = User.query.get(data['homeowner_user_id'])
+                data['homeowner_name'] = f"{homeowner.first_name} {homeowner.last_name}" if homeowner else "Unknown"
+                del data['cleaner_user_id']
             enriched_bookings.append(data)
 
         return jsonify(enriched_bookings), status_code

@@ -137,8 +137,8 @@ export default function EditService() {
               </div>
             </div>
 
-            <div className="formGrid2">
-              <div className="inputGroup">
+            <div className="formGrid3">
+              <div className="inputGroup2">
                 {[{ label: "Service Name", state: serviceName, setter: setServiceName, key: "serviceName" },
                   { label: "Category", state: category, setter: setCategory, key: "category" },
                   { label: "Description", state: description, setter: setDescription, key: "description", multiline: true },

@@ -28,7 +28,10 @@ export default function HomeOwnerHistory() {
   useEffect(() => {
     const fetchPastBookings = async () => {
       try {
-        const res = await axios.get("/api/homeowner/view_past_bookings");
+        const res = await axios.get("/api/homeowner/view_past_bookings", {
+          withCredentials: true,
+        });
+        console.log("Raw response:", res.data);  // Check if it's [] or an error message
         const bookings = res.data;
   
         const transformed = await Promise.all(
@@ -51,14 +54,13 @@ export default function HomeOwnerHistory() {
               cleanerName: b.cleaner_name || "Unknown Cleaner",
               phone,
               price: b.price || 0,
-              date: b.date || new Date(),
-              serviceImage: b.service_image || sample1,
-              cleanerImage: b.cleaner_image || nick,
+              date: b.booking_date ? new Date(b.booking_date) : new Date(),
             };
           })
         );
   
         setServices(transformed);
+        console.log("Transformed bookings:", transformed)
         setFiltered(transformed);
       } catch (err) {
         console.error("Failed to fetch past bookings:", err);
@@ -90,9 +92,12 @@ export default function HomeOwnerHistory() {
 
     // Category filter
     if (selectedCategories.length > 0) {
+      console.log("Filtering by categories:", selectedCategories)
+      console.log("First service category:", result[0]?.category)
+
       result = result.filter((s) => selectedCategories.includes(s.category))
     }
-
+    
     // Date range filter
     if (range && range[0].startDate && range[0].endDate) {
       const start = range[0].startDate
