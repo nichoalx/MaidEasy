@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./dashstyle.css";
 import logout from "../assets/logout.png";
-import Vector from "../assets/Vector.png";
-import Human from "../assets/Human.png";
-import circle_person from "../assets/circle_person.png";
+import circlePersonIcon from "../assets/circle_person.png"
+import vectorIcon from "../assets/Vector.png"
+import humanIcon from "../assets/Human.png"
 import axios from "../utils/axiosInstance";
 
 function ViewProfile() {
@@ -14,7 +14,10 @@ function ViewProfile() {
   const { profileId } = useParams();
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const handleLogout = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
   useEffect(() => {
     const fetchProfileAndUsers = async () => {
       try {
@@ -61,7 +64,7 @@ function ViewProfile() {
           <nav className="nav-menu">
             <a
               href="#"
-              className="nav-item active"
+              className="nav-item"
               onClick={(e) => {
                 e.preventDefault()
                 setCurrentPage("profile")
@@ -83,7 +86,7 @@ function ViewProfile() {
             </a>
             <a
               href="#"
-              className="nav-item"
+              className="nav-item active"
               onClick={(e) => {
                 e.preventDefault()
                 setCurrentPage("profileManagement")
@@ -111,27 +114,29 @@ function ViewProfile() {
               </h2>
             </div>
 
-            <div className="user-profile">
+            <div className="user-summary">
               <img src={circlePersonIcon} alt="user icon" />
-              <div className="user-details">
+              <div className="user-info">
                 <div className="user-name">Admin Ganteng</div>
                 <div className="user-email">admin@example.com</div>
               </div>
             </div>
           </header>
 
-          <div className="dashboard-content">
-            <h1 className="dashboard-title">Profile Management &gt; View Profile</h1>
-            <div className="large-card">
-              <div className="card-header" style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px" }}>
-                <h2 style={{ fontSize: "18px", fontWeight: "600" }}>Profile Information</h2>
-                <div style={{ display: "flex", gap: "12px" }}>
-                  <button onClick={handleBack} style={{ backgroundColor: "#e5edff", color: "#3e4772", border: "none", borderRadius: "8px", padding: "8px 24px", fontWeight: "500", cursor: "pointer" }}>Back</button>
-                  <button onClick={handleEdit} style={{ backgroundColor: "#3e4772", color: "white", border: "none", borderRadius: "8px", padding: "8px 24px", fontWeight: "500", cursor: "pointer" }}>Edit</button>
-                </div>
-              </div>
 
-              <div className="profile-form">
+            <h1 className="platform-title30">Profile Management &gt; View Profile</h1>
+            <div className="newServiceWrapper4">
+              <div className="newSerViceContainer5">
+                <div className="card-header2">
+                  <h3>Profile Information</h3>
+                  <div className="button-group2">
+                    <button className="back-btn2" onClick={handleBack}>Back</button>
+                    <button className="edit-btn2" onClick={handleEdit}>Edit</button>
+                  </div>
+                </div>
+              
+
+              <div className="profile-container4">
                 <div className="form-row full-width">
                   <div className="form-group">
                     <label>Role Name</label>
@@ -143,18 +148,39 @@ function ViewProfile() {
 
                 <div className="form-row full-width">
                   <div className="form-group">
-                    <label>Permissions</label>
-                    <div className="permissions-container">
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={profileData.has_booking_permission} readOnly /> Booking Permission
-                      </label>
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={profileData.has_listing_permission} readOnly /> Listing Permission
-                      </label>
-                      <label className="permission-checkbox">
-                        <input type="checkbox" checked={profileData.has_view_analytics_permission} readOnly /> Analytics Permission
-                      </label>
-                    </div>
+                    <label className="add-profile-label">Permissions</label>
+
+                        <div className="add-profile-permissions">
+                          <label className="add-profile-radio2">
+                              <input
+                                type="checkbox"
+                                name="permission"
+                                value="book"
+                                checked={profileData.has_booking_permission} readOnly
+                              />
+                            <span>Book Permission</span>
+                          </label>
+
+                          <label className="add-profile-radio2">
+                            <input
+                              type="checkbox"
+                              name="permission"
+                              value="listing"
+                              checked={profileData.has_listing_permission} readOnly
+                            />
+                            <span>Listing Permission</span>
+                          </label>
+
+                          <label className="add-profile-radio2">
+                              <input
+                                type="checkbox"
+                                name="permission"
+                                value="analytics"
+                                checked={profileData.has_view_analytics_permission} readOnly
+                              />
+                            <span>View Analytics Permission</span>
+                          </label>
+                        </div>
                   </div>
                 </div>
 
@@ -167,11 +193,11 @@ function ViewProfile() {
                   </div>
                 </div>
               </div>
-
+            </div>
             </div>
           </div>
         </div>
-      </div>
+
 
   );
 }

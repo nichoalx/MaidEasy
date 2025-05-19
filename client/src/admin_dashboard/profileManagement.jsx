@@ -5,6 +5,12 @@ import ShowingDropdown from "./components/ShowingDropdown";
 import Toast from "./components/Toast";
 import SuspendProfileModal from "./SuspendProfileModal";
 import axios from "../utils/axiosInstance";
+import categoryIcon from "../assets/category.png";
+import personIcon from "../assets/circle_person.png";
+import reportIcon from "../assets/report.png";
+import logoutIcon from "../assets/logout.png";
+import searchIcon from "../assets/Search.png";
+import arrowIcon from "../assets/arrow.png";
 
 function ProfileManagement() {
   const navigate = useNavigate();
@@ -15,6 +21,8 @@ function ProfileManagement() {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
   const [suspendModal, setSuspendModal] = useState({ show: false, role: null });
+  const [inputTerm, setInputTerm] = useState(""); 
+
 
   useEffect(() => {
     const fetchRolesWithUserCounts = async () => {
@@ -55,12 +63,16 @@ function ProfileManagement() {
   }, []);
 
   useEffect(() => {
-    const results = roles.filter((role) =>
-      role.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let results = [...roles];
+
+    if (searchTerm.trim()) {
+      const lower = searchTerm.toLowerCase();
+      results = results.filter((role) => role.name.toLowerCase().includes(lower));
+    }
+
     setFilteredRoles(results);
     setCurrentPage(1);
-  }, [searchTerm, roles]);
+  }, [roles, searchTerm]);
 
   const indexOfLastRole = currentPage * itemsPerPage;
   const indexOfFirstRole = indexOfLastRole - itemsPerPage;
@@ -121,100 +133,95 @@ function ProfileManagement() {
   };
 
   return (
-    <main className="profile-management-content">
-      <h1 className="profile-management-title">User Profile Management</h1>
+    <div className="whiteSpace">
+      <div className="platform-content">
+        <div className="platform-title-bar">
+          <h1 className="platform-title">User Profile Management</h1>
+          <button className="add-button" onClick={handleAddProfile}>+ Add New Profile</button>
+        </div>
 
-      <div className="profile-management-controls">
-        <div className="search-container">
-          <div className="search-header">
-            <label>Keyword</label>
-            <div className="search-by-container">
-              <label className="search-by-label">Search By</label>
-              <div className="search-by-dropdown">
-                <div className="search-by-selected">Role</div>
+          <div className="platform-controls">
+            <div className="search-section">
+              <div className="keyword-section">
+                <label>Keyword</label>
+                <div className="search-input-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Enter Role Name"
+                    className="search-input"
+                    value={inputTerm}
+                    onChange={(e) => setInputTerm(e.target.value)}
+                  />
+                  <i className="search-icon"><img src={searchIcon} alt="search icon" /></i>
+                </div>
               </div>
+              <button className="searchButton" onClick={() => setSearchTerm(inputTerm)}>
+                Search
+              </button>
             </div>
+            <div className="results-info">Showing {filteredRoles.length} Results</div>
           </div>
-          <div className="search-input-wrapper">
-            <input
-              type="text"
-              placeholder="Search by role name"
-              className="search-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+
+          <div className="categories-table-container13">
+            <table className="categories-table13">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Role Name</th>
+                  <th>No. Users</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentRoles.length > 0 ? (
+                  currentRoles.map((role, index) => (
+                    <tr key={role.id}>
+                      <td>{indexOfFirstRole + index + 1}</td>
+                      <td>{role.name}</td>
+                      <td>{role.users}</td>
+                      <td><span className={`status-badge ${role.status.toLowerCase()}`}>{role.status}</span></td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="view-btn" onClick={() => handleView(role.id)}>View</button>
+                          <button className="edit-btn" onClick={() => handleEdit(role.id)}>Edit</button>
+                          <button
+                            className={role.status === "Active" ? "suspend-button" : "activate-button"}
+                            onClick={() => handleSuspend(role.id)}>
+                            {role.status === "Active" ? "Suspend" : "Activate"}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No roles found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onNextPage={handleNextPage}
+              onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
             />
           </div>
-          <div className="results-info">
-            Showing {indexOfFirstRole + 1} to {Math.min(indexOfLastRole, filteredRoles.length)} of {filteredRoles.length} results
-          </div>
-        </div>
 
-        <div className="profile-management-actions">
-          <ShowingDropdown value={itemsPerPage} onChange={setItemsPerPage} options={[5, 10, 15, 20]} />
-          <button className="add-profile-button" onClick={handleAddProfile}>
-            <span>+</span> Add New Profile
-          </button>
-        </div>
+          {suspendModal.show && (
+            <SuspendProfileModal
+              role={suspendModal.role}
+              onClose={() => setSuspendModal({ show: false, role: null })}
+              onConfirm={confirmSuspend}
+            />
+          )}
+
+          {toast.show && <Toast message={toast.message} type={toast.type} />}
+
       </div>
-
-      <div className="profile-management-table-container">
-        <table className="profile-management-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Role Name</th>
-              <th>No. Users</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentRoles.length > 0 ? (
-              currentRoles.map((role, index) => (
-                <tr key={role.id}>
-                  <td>{indexOfFirstRole + index + 1}</td>
-                  <td>{role.name}</td>
-                  <td>{role.users}</td>
-                  <td><span className={`status-badge ${role.status.toLowerCase()}`}>{role.status}</span></td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="view-button" onClick={() => handleView(role.id)}>View</button>
-                      <button className="edit-button" onClick={() => handleEdit(role.id)}>Edit</button>
-                      <button
-                        className={role.status === "Active" ? "suspend-button" : "edit-button"}
-                        onClick={() => handleSuspend(role.id)}>
-                        {role.status === "Active" ? "Suspend" : "Activate"}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No roles found</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onNextPage={handleNextPage}
-          onPrevPage={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-        />
-      </div>
-
-      {suspendModal.show && (
-        <SuspendProfileModal
-          role={suspendModal.role}
-          onClose={() => setSuspendModal({ show: false, role: null })}
-          onConfirm={confirmSuspend}
-        />
-      )}
-
-      {toast.show && <Toast message={toast.message} type={toast.type} />}
-    </main>
+    </div>  
   );
 }
 

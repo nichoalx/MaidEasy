@@ -16,9 +16,8 @@ function AddProfile() {
 
   const [formData, setFormData] = useState({
     name: "",
-    has_booking_permission: false,
-    has_listing_permission: false,
-    has_view_analytics_permission: false,
+    description: "",
+    permissions: [], // <-- new array to hold selected values
   })
 
   const [errors, setErrors] = useState({})
@@ -41,8 +40,8 @@ function AddProfile() {
   const validateForm = () => {
     const newErrors = {}
     if (!formData.name.trim()) newErrors.name = "Role name is required"
-    if (!formData.selectedPermission) {
-      newErrors.permissions = "Please select one permission"
+    if (formData.permissions.length === 0) {
+      newErrors.permissions = "Please select at least one permission"
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -52,15 +51,29 @@ function AddProfile() {
     navigate("/")
   }
 
+  const togglePermission = (value) => {
+    setFormData((prev) => {
+      const permissions = prev.permissions.includes(value)
+        ? prev.permissions.filter((perm) => perm !== value)
+        : [...prev.permissions, value];
+
+      return {
+        ...prev,
+        permissions,
+      };
+    });
+  };
+
   const handleSave = async () => {
     if (validateForm()) {
       try {
         const payload = {
           role_name: formData.name,
+          description: formData.description,
           is_active: true,
-          has_booking_permission: formData.has_booking_permission,
-          has_listing_permission: formData.has_listing_permission,
-          has_view_analytics_permission: formData.has_view_analytics_permission,
+          has_booking_permission: formData.permissions.includes("book"),
+          has_listing_permission: formData.permissions.includes("listing"),
+          has_view_analytics_permission: formData.permissions.includes("analytics"),
         }
         await axios.post("/api/profiles/create", payload)
         setToast({ show: true, message: "Profile created successfully!", type: "success" })
@@ -179,26 +192,35 @@ function AddProfile() {
                       {errors.permissions && <div className="add-profile-error">{errors.permissions}</div>}
                         <div className="add-profile-permissions">
                           <label className="add-profile-radio">
-                            <input type="radio" name="permission" value="book"
-                              checked={formData.selectedPermission === "book"}
-                              onChange={() => setFormData({ ...formData, selectedPermission: "book" })}
-                            />
+                              <input
+                                type="checkbox"
+                                name="permission"
+                                value="book"
+                                checked={formData.permissions.includes("book")}
+                                onChange={() => togglePermission("book")}
+                              />
                             <span>Book Permission</span>
                           </label>
 
                           <label className="add-profile-radio">
-                            <input type="radio" name="permission" value="listing"
-                              checked={formData.selectedPermission === "listing"}
-                              onChange={() => setFormData({ ...formData, selectedPermission: "listing" })}
+                            <input
+                              type="checkbox"
+                              name="permission"
+                              value="listing"
+                              checked={formData.permissions.includes("listing")}
+                              onChange={() => togglePermission("listing")}
                             />
                             <span>Listing Permission</span>
                           </label>
 
                           <label className="add-profile-radio">
-                            <input type="radio" name="permission" value="analytics"
-                              checked={formData.selectedPermission === "analytics"}
-                              onChange={() => setFormData({ ...formData, selectedPermission: "analytics" })}
-                            />
+                              <input
+                                type="checkbox"
+                                name="permission"
+                                value="analytics"
+                                checked={formData.permissions.includes("analytics")}
+                                onChange={() => togglePermission("analytics")}
+                              />
                             <span>View Analytics Permission</span>
                           </label>
                         </div>
