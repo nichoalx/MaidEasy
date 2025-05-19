@@ -1,0 +1,902 @@
+[
+    {
+        "first_name": "Cheryl",
+        "last_name": "Hernandez",
+        "email": "jessica44@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1973-01-19",
+        "contact_number": "128169347528",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Matthew",
+        "last_name": "Espinoza",
+        "email": "andrewlynch@warner.com",
+        "password": "Test1234!",
+        "dob": "1968-12-28",
+        "contact_number": "872185479640",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Rachel",
+        "last_name": "Mathis",
+        "email": "angelayork@vega.com",
+        "password": "Test1234!",
+        "dob": "2002-05-03",
+        "contact_number": "365920968498",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Sarah",
+        "last_name": "Estrada",
+        "email": "moranchristina@petersen-thompson.com",
+        "password": "Test1234!",
+        "dob": "1999-12-22",
+        "contact_number": "475752733471",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Joseph",
+        "last_name": "Riley",
+        "email": "janet23@murphy.com",
+        "password": "Test1234!",
+        "dob": "1974-04-26",
+        "contact_number": "300309148901",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Brandon",
+        "last_name": "Dawson",
+        "email": "bushjonathan@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1977-02-15",
+        "contact_number": "389054029218",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Douglas",
+        "last_name": "Paul",
+        "email": "davidmontgomery@baker-simmons.com",
+        "password": "Test1234!",
+        "dob": "2004-10-06",
+        "contact_number": "383508986707",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Deanna",
+        "last_name": "Flores",
+        "email": "richardwood@reed-garza.com",
+        "password": "Test1234!",
+        "dob": "1974-02-12",
+        "contact_number": "587159173780",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Elizabeth",
+        "last_name": "Mahoney",
+        "email": "samanthaayala@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1971-12-20",
+        "contact_number": "530127319419",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Matthew",
+        "last_name": "Santiago",
+        "email": "jasonray@hotmail.com",
+        "password": "Test1234!",
+        "dob": "2007-02-13",
+        "contact_number": "733028750384",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Antonio",
+        "last_name": "Hudson",
+        "email": "georgemarissa@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1982-10-01",
+        "contact_number": "328765223695",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Sharon",
+        "last_name": "Reed",
+        "email": "margaret03@gmail.com",
+        "password": "Test1234!",
+        "dob": "1968-05-06",
+        "contact_number": "811936859581",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Barbara",
+        "last_name": "Benson",
+        "email": "garymontes@hernandez-clark.com",
+        "password": "Test1234!",
+        "dob": "2002-11-22",
+        "contact_number": "870715099493",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Kelli",
+        "last_name": "Franklin",
+        "email": "ukeller@hayes-rivera.org",
+        "password": "Test1234!",
+        "dob": "1995-07-09",
+        "contact_number": "032707420095",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Charles",
+        "last_name": "Goodman",
+        "email": "wbauer@gmail.com",
+        "password": "Test1234!",
+        "dob": "1970-06-03",
+        "contact_number": "882810222767",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Thomas",
+        "last_name": "Moore",
+        "email": "bvalencia@williams.com",
+        "password": "Test1234!",
+        "dob": "1997-08-06",
+        "contact_number": "343637954366",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Elizabeth",
+        "last_name": "Gillespie",
+        "email": "greenbrian@gmail.com",
+        "password": "Test1234!",
+        "dob": "1974-03-27",
+        "contact_number": "532467879000",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Joann",
+        "last_name": "Torres",
+        "email": "williamskristen@christian.com",
+        "password": "Test1234!",
+        "dob": "2006-04-06",
+        "contact_number": "129824374126",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Sarah",
+        "last_name": "Murphy",
+        "email": "harrissierra@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1996-12-25",
+        "contact_number": "610968113244",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Adrian",
+        "last_name": "Bryan",
+        "email": "jacob89@little-dean.net",
+        "password": "Test1234!",
+        "dob": "1980-06-07",
+        "contact_number": "540626414144",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Ariel",
+        "last_name": "Fowler",
+        "email": "richard95@hughes.com",
+        "password": "Test1234!",
+        "dob": "1985-08-27",
+        "contact_number": "003851428113",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Sarah",
+        "last_name": "Hanson",
+        "email": "tarasmith@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1965-11-02",
+        "contact_number": "341732768279",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Travis",
+        "last_name": "Davis",
+        "email": "millerwhitney@lawrence.com",
+        "password": "Test1234!",
+        "dob": "1965-08-31",
+        "contact_number": "807036862129",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Karen",
+        "last_name": "Bonilla",
+        "email": "baileyjeremy@gmail.com",
+        "password": "Test1234!",
+        "dob": "1964-06-26",
+        "contact_number": "228607266121",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Chad",
+        "last_name": "Ware",
+        "email": "anthony38@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1990-10-15",
+        "contact_number": "897301858135",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Lauren",
+        "last_name": "Watts",
+        "email": "gglenn@gmail.com",
+        "password": "Test1234!",
+        "dob": "1987-03-05",
+        "contact_number": "157003532013",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "John",
+        "last_name": "Blair",
+        "email": "annemack@gmail.com",
+        "password": "Test1234!",
+        "dob": "2002-08-05",
+        "contact_number": "951856890030",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Gabriela",
+        "last_name": "Carroll",
+        "email": "bvaughn@hernandez.com",
+        "password": "Test1234!",
+        "dob": "1998-02-18",
+        "contact_number": "486389794352",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Michael",
+        "last_name": "Park",
+        "email": "ryanmyers@reyes.net",
+        "password": "Test1234!",
+        "dob": "1972-04-27",
+        "contact_number": "067419916639",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Donald",
+        "last_name": "Bean",
+        "email": "danielschelsea@flores.org",
+        "password": "Test1234!",
+        "dob": "1983-12-13",
+        "contact_number": "328500945655",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Rebekah",
+        "last_name": "Walker",
+        "email": "beckcharles@proctor-blankenship.com",
+        "password": "Test1234!",
+        "dob": "1994-01-08",
+        "contact_number": "695110971835",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Pamela",
+        "last_name": "Burke",
+        "email": "jessica46@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1987-09-06",
+        "contact_number": "966013892001",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Kyle",
+        "last_name": "Gibson",
+        "email": "eriklang@yahoo.com",
+        "password": "Test1234!",
+        "dob": "2000-11-23",
+        "contact_number": "764939985993",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Brian",
+        "last_name": "Conner",
+        "email": "trevor76@baker-snyder.com",
+        "password": "Test1234!",
+        "dob": "1983-02-22",
+        "contact_number": "108878066420",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Russell",
+        "last_name": "Jackson",
+        "email": "zbrown@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1982-12-09",
+        "contact_number": "589757082866",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Christina",
+        "last_name": "Peterson",
+        "email": "smithjohn@garrison-gutierrez.com",
+        "password": "Test1234!",
+        "dob": "1972-06-13",
+        "contact_number": "897614277713",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Kristen",
+        "last_name": "Green",
+        "email": "oflores@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1980-01-15",
+        "contact_number": "654780683168",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Trevor",
+        "last_name": "Jensen",
+        "email": "jamesfrey@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1982-09-07",
+        "contact_number": "954132008599",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Natasha",
+        "last_name": "Johnson",
+        "email": "ellisscott@gmail.com",
+        "password": "Test1234!",
+        "dob": "1985-10-25",
+        "contact_number": "784285590679",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Natalie",
+        "last_name": "Baker",
+        "email": "karenhill@young-smith.org",
+        "password": "Test1234!",
+        "dob": "1981-05-05",
+        "contact_number": "569976585140",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Johnathan",
+        "last_name": "Hicks",
+        "email": "yesenia68@brennan-edwards.biz",
+        "password": "Test1234!",
+        "dob": "2006-01-05",
+        "contact_number": "505098405901",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Mary",
+        "last_name": "Morales",
+        "email": "yvonne16@gmail.com",
+        "password": "Test1234!",
+        "dob": "1973-03-31",
+        "contact_number": "153589817637",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "James",
+        "last_name": "Vega",
+        "email": "cody00@bishop.com",
+        "password": "Test1234!",
+        "dob": "1966-07-04",
+        "contact_number": "272791469472",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Sheila",
+        "last_name": "Kim",
+        "email": "cooperrobert@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1992-01-05",
+        "contact_number": "282748371275",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Thomas",
+        "last_name": "Wright",
+        "email": "lindaallen@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1996-03-31",
+        "contact_number": "476934631652",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Tyler",
+        "last_name": "Edwards",
+        "email": "djohnson@yahoo.com",
+        "password": "Test1234!",
+        "dob": "2002-01-04",
+        "contact_number": "089466679911",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Zachary",
+        "last_name": "Stevens",
+        "email": "deborahjordan@adams-jordan.com",
+        "password": "Test1234!",
+        "dob": "1972-05-06",
+        "contact_number": "212840342579",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Danielle",
+        "last_name": "Graves",
+        "email": "rscott@yahoo.com",
+        "password": "Test1234!",
+        "dob": "2004-06-14",
+        "contact_number": "041824315961",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Paige",
+        "last_name": "Ibarra",
+        "email": "williamholland@gmail.com",
+        "password": "Test1234!",
+        "dob": "1982-02-04",
+        "contact_number": "576941162344",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Tiffany",
+        "last_name": "Horton",
+        "email": "carnold@walton-hall.com",
+        "password": "Test1234!",
+        "dob": "1967-03-30",
+        "contact_number": "134502878705",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Robert",
+        "last_name": "Jimenez",
+        "email": "kimberlywhitaker@brown.com",
+        "password": "Test1234!",
+        "dob": "2003-03-09",
+        "contact_number": "853802482135",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Stephanie",
+        "last_name": "Martinez",
+        "email": "angel30@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1976-12-25",
+        "contact_number": "225829432921",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Jeanne",
+        "last_name": "Logan",
+        "email": "kimberly92@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1993-01-09",
+        "contact_number": "136709517234",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Tracy",
+        "last_name": "Noble",
+        "email": "craigsandra@white.com",
+        "password": "Test1234!",
+        "dob": "1983-06-23",
+        "contact_number": "988020486697",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Katherine",
+        "last_name": "Smith",
+        "email": "josegomez@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1972-07-31",
+        "contact_number": "594621079974",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Kelsey",
+        "last_name": "Lopez",
+        "email": "sandra30@palmer.org",
+        "password": "Test1234!",
+        "dob": "1979-10-30",
+        "contact_number": "758585056156",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Diane",
+        "last_name": "Mckee",
+        "email": "michelle84@pearson-collins.com",
+        "password": "Test1234!",
+        "dob": "1977-05-26",
+        "contact_number": "616208899524",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Christopher",
+        "last_name": "Lam",
+        "email": "millerwendy@love.com",
+        "password": "Test1234!",
+        "dob": "1972-11-05",
+        "contact_number": "532559939104",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Mathew",
+        "last_name": "Reynolds",
+        "email": "ryan51@washington-martin.org",
+        "password": "Test1234!",
+        "dob": "1996-02-16",
+        "contact_number": "287367646377",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Jonathan",
+        "last_name": "Torres",
+        "email": "tvelasquez@hotmail.com",
+        "password": "Test1234!",
+        "dob": "2003-05-23",
+        "contact_number": "850618671052",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Jerry",
+        "last_name": "Davis",
+        "email": "spencemelanie@gmail.com",
+        "password": "Test1234!",
+        "dob": "1998-06-22",
+        "contact_number": "638783476602",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Stephanie",
+        "last_name": "Romero",
+        "email": "jenniferyang@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1989-04-25",
+        "contact_number": "852185233475",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Rita",
+        "last_name": "Mcclain",
+        "email": "wyattfletcher@stewart.com",
+        "password": "Test1234!",
+        "dob": "2000-02-02",
+        "contact_number": "895226065844",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Amanda",
+        "last_name": "Pearson",
+        "email": "hbrown@yahoo.com",
+        "password": "Test1234!",
+        "dob": "2002-07-05",
+        "contact_number": "900565718703",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Jessica",
+        "last_name": "Anderson",
+        "email": "jonathanyoung@gmail.com",
+        "password": "Test1234!",
+        "dob": "1999-03-31",
+        "contact_number": "289202901951",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Michael",
+        "last_name": "Walter",
+        "email": "uwoodard@myers.com",
+        "password": "Test1234!",
+        "dob": "1982-07-23",
+        "contact_number": "127820847726",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Kyle",
+        "last_name": "Simmons",
+        "email": "idyer@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1968-10-23",
+        "contact_number": "564879295299",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Stephanie",
+        "last_name": "Mccormick",
+        "email": "marccampbell@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1976-05-18",
+        "contact_number": "753305006459",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Larry",
+        "last_name": "Alvarado",
+        "email": "eharper@jimenez.net",
+        "password": "Test1234!",
+        "dob": "1966-02-18",
+        "contact_number": "456764747134",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Christopher",
+        "last_name": "Vaughn",
+        "email": "roweandrea@davis.info",
+        "password": "Test1234!",
+        "dob": "1965-02-18",
+        "contact_number": "572348955878",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Kimberly",
+        "last_name": "Butler",
+        "email": "gcoleman@james-fischer.org",
+        "password": "Test1234!",
+        "dob": "1988-04-19",
+        "contact_number": "422234798489",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Jason",
+        "last_name": "Bauer",
+        "email": "omiller@hill.com",
+        "password": "Test1234!",
+        "dob": "1979-07-27",
+        "contact_number": "636812755870",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Sarah",
+        "last_name": "Austin",
+        "email": "andrewcruz@rodriguez-spencer.com",
+        "password": "Test1234!",
+        "dob": "1970-11-27",
+        "contact_number": "357942061129",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "James",
+        "last_name": "Anderson",
+        "email": "katrinakelly@lopez.info",
+        "password": "Test1234!",
+        "dob": "1970-02-27",
+        "contact_number": "554881026761",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Justin",
+        "last_name": "Sanders",
+        "email": "george94@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1983-06-01",
+        "contact_number": "486907823994",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Lori",
+        "last_name": "Gomez",
+        "email": "osmith@gmail.com",
+        "password": "Test1234!",
+        "dob": "1993-09-04",
+        "contact_number": "254594793158",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Amanda",
+        "last_name": "Cordova",
+        "email": "andrew02@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1994-07-18",
+        "contact_number": "868286277214",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "David",
+        "last_name": "Reynolds",
+        "email": "ndelacruz@garcia-graham.info",
+        "password": "Test1234!",
+        "dob": "1967-03-03",
+        "contact_number": "621638565849",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "David",
+        "last_name": "Sparks",
+        "email": "jared04@thompson.org",
+        "password": "Test1234!",
+        "dob": "1966-05-02",
+        "contact_number": "157418834611",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Jennifer",
+        "last_name": "Peterson",
+        "email": "camachocarolyn@rosario.com",
+        "password": "Test1234!",
+        "dob": "1996-06-14",
+        "contact_number": "677365176028",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Ashley",
+        "last_name": "Lee",
+        "email": "ambergutierrez@riddle-thompson.com",
+        "password": "Test1234!",
+        "dob": "1989-06-08",
+        "contact_number": "017673914894",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Terri",
+        "last_name": "Reynolds",
+        "email": "moyerjanet@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1965-01-04",
+        "contact_number": "682261806944",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Louis",
+        "last_name": "Hall",
+        "email": "henryobrien@gmail.com",
+        "password": "Test1234!",
+        "dob": "2005-07-08",
+        "contact_number": "641739711886",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Richard",
+        "last_name": "Woods",
+        "email": "alexandria89@herrera.com",
+        "password": "Test1234!",
+        "dob": "1965-12-14",
+        "contact_number": "708097795158",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Chad",
+        "last_name": "Fields",
+        "email": "matthewhernandez@kelley-lowe.com",
+        "password": "Test1234!",
+        "dob": "1983-05-16",
+        "contact_number": "137358362578",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "John",
+        "last_name": "Willis",
+        "email": "stacyjones@yahoo.com",
+        "password": "Test1234!",
+        "dob": "1985-02-08",
+        "contact_number": "095329021010",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Zachary",
+        "last_name": "Barry",
+        "email": "lindathompson@perez-taylor.info",
+        "password": "Test1234!",
+        "dob": "1966-01-12",
+        "contact_number": "351129261674",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Ryan",
+        "last_name": "Singh",
+        "email": "rushcarl@gonzalez.com",
+        "password": "Test1234!",
+        "dob": "1996-11-11",
+        "contact_number": "090088006807",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Katrina",
+        "last_name": "Lee",
+        "email": "jamie32@hotmail.com",
+        "password": "Test1234!",
+        "dob": "2000-09-15",
+        "contact_number": "825885668945",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Kara",
+        "last_name": "Steele",
+        "email": "fernandezmelissa@hicks.biz",
+        "password": "Test1234!",
+        "dob": "1989-01-27",
+        "contact_number": "823645090048",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Brandon",
+        "last_name": "Davis",
+        "email": "martinwilson@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1966-01-29",
+        "contact_number": "360779292479",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Erin",
+        "last_name": "Sanchez",
+        "email": "henryjennifer@gmail.com",
+        "password": "Test1234!",
+        "dob": "1983-06-23",
+        "contact_number": "083595562070",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Michael",
+        "last_name": "Lopez",
+        "email": "kristinbrown@gmail.com",
+        "password": "Test1234!",
+        "dob": "2002-01-10",
+        "contact_number": "662154804764",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Jason",
+        "last_name": "Moss",
+        "email": "brownmichael@golden.com",
+        "password": "Test1234!",
+        "dob": "1991-12-04",
+        "contact_number": "577465654343",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Benjamin",
+        "last_name": "Johnson",
+        "email": "lammelanie@moreno.com",
+        "password": "Test1234!",
+        "dob": "1988-03-22",
+        "contact_number": "858578403801",
+        "role_name": "platform_manager"
+    },
+    {
+        "first_name": "Donald",
+        "last_name": "Brooks",
+        "email": "dangibbs@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1987-04-06",
+        "contact_number": "116734578153",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Christopher",
+        "last_name": "Richards",
+        "email": "coxhector@gmail.com",
+        "password": "Test1234!",
+        "dob": "1968-08-23",
+        "contact_number": "745704601545",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Megan",
+        "last_name": "Snyder",
+        "email": "mariesmith@morales.com",
+        "password": "Test1234!",
+        "dob": "2006-08-01",
+        "contact_number": "236074346118",
+        "role_name": "homeowner"
+    },
+    {
+        "first_name": "Karen",
+        "last_name": "Bauer",
+        "email": "teresa44@robbins.com",
+        "password": "Test1234!",
+        "dob": "1979-01-18",
+        "contact_number": "650911609338",
+        "role_name": "cleaner"
+    },
+    {
+        "first_name": "Elizabeth",
+        "last_name": "Dunn",
+        "email": "sean86@hotmail.com",
+        "password": "Test1234!",
+        "dob": "1978-08-22",
+        "contact_number": "315061255711",
+        "role_name": "homeowner"
+    }
+]

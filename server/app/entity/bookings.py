@@ -4,9 +4,9 @@ from .user import User
 from .service import Service
 from .profile import Profile
 from .category import Category
-
+from datetime import date
 class Booking(db.Model):
-    __tablename__ = 'bookings'
+    _tablename_ = 'bookings'
 
     booking_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     homeowner_user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
@@ -102,3 +102,7 @@ class Booking(db.Model):
 
         except Exception as e:
             return {"error": str(e)}, 500
+        
+    @classmethod
+    def get_booking_count_by_date_range(cls, start_date: date) -> int:
+        return cls.query.filter(cls.booking_date >= start_date).count()

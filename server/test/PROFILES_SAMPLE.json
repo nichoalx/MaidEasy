@@ -1,0 +1,20 @@
+[
+    {
+        "role_name": "homeowner",
+        "has_booking_permission": true,
+        "has_listing_permission": false,
+        "has_view_analytics_permission": false
+    },
+    {
+        "role_name": "cleaner",
+        "has_booking_permission": false,
+        "has_listing_permission": true,
+        "has_view_analytics_permission": false
+    },
+    {
+        "role_name": "platform_manager",
+        "has_booking_permission": false,
+        "has_listing_permission": false,
+        "has_view_analytics_permission": true
+    }
+]
