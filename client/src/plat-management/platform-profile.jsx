@@ -1,26 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "../utils/axiosInstance"
 import "./platform-style.css"
-import categoryIcon from "../assets/category.png";
-import personIcon from "../assets/circle_person.png";
-import reportIcon from "../assets/report.png";
-import logoutIcon from "../assets/logout.png";
+
+import categoryIcon from "../assets/category.png"
+import personIcon from "../assets/circle_person.png"
+import reportIcon from "../assets/report.png"
+import logoutIcon from "../assets/logout.png"
 
 import userIcon from "../assets/person_icon.png"
 import calendarIcon from "../assets/calender_icon.png"
 import phoneIcon from "../assets/phone.png"
 import mailIcon from "../assets/mail_icon.png"
-import lockIcon from "../assets/lock_icon.png"
 import roleIcon from "../assets/circle_person.png"
 import statusIcon from "../assets/green.png"
-import eyeIcon from "../assets/visibility_on.png"
-import eyeOffIcon from "../assets/visibility_off.png"
 
 function PlatformProfile() {
   const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false) 
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id")
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`)
+        setUser(data.success)
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error)
+      }
+    }
+
+    fetchUser()
+  }, [])
 
   return (
     <div className="platform-layout">
@@ -30,40 +43,17 @@ function PlatformProfile() {
         </div>
 
         <nav className="nav-menu">
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-management")
-            }}
-          >
-            <i className="icon grid-icon"></i>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
             <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
-          <a
-            href="#"
-            className="nav-item active"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-profile")
-            }}
-          >
-            <i className="icon profile-icon"></i>
-            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
+            <span><img src={personIcon} alt="profile icon" />My Profile</span>
           </a>
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/report")
-            }}
-          >
-            <i className="icon report-icon"></i>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
             <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
+
         <div className="logout-container">
           <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
             <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
@@ -71,24 +61,20 @@ function PlatformProfile() {
         </div>
       </div>
 
-
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, Platform123{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
+              Hi, {user?.first_name || "User"} 👋
             </h2>
           </div>
 
           <div className="user-profile">
             <div className="user-info">
-              <img src={personIcon} alt="person icon" />
+              <img src={personIcon} alt="icon" />
               <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
               </div>
             </div>
           </div>
@@ -97,108 +83,77 @@ function PlatformProfile() {
         <div className="whiteSpace">
           <div className="platform-content">
             <div className="search-header">
-                <h1 className="services-title">My Profile</h1>
+              <h1 className="services-title">My Profile</h1>
             </div>
+
             <div className="profile-container">
-              <div className="form-grid">
-              <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
-                <div className="input-container">
-                  <img src={userIcon} alt="first" className="input-icon" />
-                  <input type="text" id="firstName" value="Kieron" readOnly />
-                </div>
-              </div>
+              {user ? (
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>First Name</label>
+                    <div className="input-container">
+                      <img src={userIcon} className="input-icon" />
+                      <input type="text" value={user.first_name} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
-                <div className="input-container">
-                  <img src={userIcon} alt="last" className="input-icon" />
-                  <input type="text" id="lastName" value="Yolin" readOnly />
-                </div>
-              </div>
+                  <div className="form-group">
+                    <label>Last Name</label>
+                    <div className="input-container">
+                      <img src={userIcon} className="input-icon" />
+                      <input type="text" value={user.last_name} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="dob">Date of Birth</label>
-                <div className="input-container">
-                  <img src={calendarIcon} alt="dob" className="input-icon" />
-                  <input type="text" id="dob" value="12/10/2004" readOnly />
-                </div>
-              </div>
+                  <div className="form-group">
+                    <label>Date of Birth</label>
+                    <div className="input-container">
+                      <img src={calendarIcon} className="input-icon" />
+                      <input type="text" value={user.dob} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number</label>
-                <div className="input-container">
-                  <img src={phoneIcon} alt="phone" className="input-icon" />
-                  <input type="text" id="contactNumber" value="82622526" readOnly />
-                </div>
-              </div>
+                  <div className="form-group">
+                    <label>Contact Number</label>
+                    <div className="input-container">
+                      <img src={phoneIcon} className="input-icon" />
+                      <input type="text" value={user.contact_number} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group full-width">
-                <label htmlFor="email">Email</label>
-                <div className="input-container-email">
-                  <img src={mailIcon} alt="email" className="input-icon" />
-                  <input type="email" id="email" value="Kieronyolin12@gmail.com" readOnly />
-                </div>
-              </div>
+                  <div className="form-group full-width">
+                    <label>Email</label>
+                    <div className="input-container-email">
+                      <img src={mailIcon} className="input-icon" />
+                      <input type="email" value={user.email} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <div className="input-container">
-                  <img src={lockIcon} alt="password" className="input-icon" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value="password123"
-                    readOnly
-                  />
-                  <button
-                    className="password-toggle"
-                    onClick={() => setShowPassword(!showPassword)}
-                    type="button"
-                  >
-                    <img
-                      src={showPassword ? eyeIcon : eyeOffIcon}
-                      alt="Toggle"
-                      className="toggle"
-                    />
-                  </button>
-                </div>
-              </div>
+                  <div className="form-group">
+                    <label>Role</label>
+                    <div className="input-container">
+                      <img src={roleIcon} className="input-icon" />
+                      <input type="text" value={user.profile_name} readOnly />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="role">Role</label>
-                <div className="input-container">
-                  <img src={roleIcon} alt="role" className="role-icon" />
-                  <div className="select-container">
-                    <input type="text" id="role" value="Cleaner" readOnly />
+                  <div className="form-group">
+                    <label>Status</label>
+                    <div className="input-container">
+                      <img src={statusIcon} className="status-icon" />
+                      <input type="text" value={user.is_active ? "Active" : "Suspended"} readOnly />
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="status">Status</label>
-                <div className="input-container">
-                <img src={statusIcon} alt="status" className="status-icon" />
-                  <div className="status-indicator">
-                    <input type="text" id="status" value="Active" readOnly />
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="createdDate">Created Date</label>
-                <div className="input-container">
-                  <img src={calendarIcon} alt="created" className="input-icon" />
-                  <input type="text" id="createdDate" value="09/04/2025" readOnly />
-                </div>
-              </div>
-              </div>
-            </div>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
           </div>
         </div>
+      </div>
     </div>
   )
 }
 
-export default PlatformProfile
+export default PlatformProfile;

@@ -13,6 +13,7 @@ from server.app.controller import (
     delete_user_blueprint,
     search_user_blueprint,
     suspend_user_blueprint,
+    activate_user_blueprint,
 
     # Profile
     create_profile_blueprint,
@@ -20,6 +21,7 @@ from server.app.controller import (
     search_profile_blueprint,
     view_profile_blueprint,
     suspend_profile_blueprint,
+    activate_profile_blueprint,
     get_all_profiles_blueprint,
 
     # Auth
@@ -74,6 +76,7 @@ def create_app(config_name="development"):
     app.register_blueprint(delete_user_blueprint)
     app.register_blueprint(search_user_blueprint)
     app.register_blueprint(suspend_user_blueprint)
+    app.register_blueprint(activate_user_blueprint)
 
     # Profile
     app.register_blueprint(create_profile_blueprint)
@@ -81,6 +84,7 @@ def create_app(config_name="development"):
     app.register_blueprint(search_profile_blueprint)
     app.register_blueprint(view_profile_blueprint)
     app.register_blueprint(suspend_profile_blueprint)
+    app.register_blueprint(activate_profile_blueprint)
     app.register_blueprint(get_all_profiles_blueprint)
 
     # Auth

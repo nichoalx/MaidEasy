@@ -176,3 +176,21 @@ class User(db.Model):
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 500
+        
+    @classmethod
+    def activate_user(cls, user_id: int) -> tuple[dict, int]:
+        user = cls.query.get(user_id)
+        if not user:
+            return {"error": "User not found"}, 404
+
+        try:
+            if user.is_active:
+                return {"error": "User is already active"}, 400
+
+            user.is_active = True
+            db.session.commit()
+            return {"message": f"User {user.email} activated successfully."}, 200
+
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500

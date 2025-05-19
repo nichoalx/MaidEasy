@@ -8,6 +8,7 @@ from .user.update_user import update_user_blueprint
 from .user.delete_user import delete_user_blueprint
 from .user.search_user import search_user_blueprint
 from .user.suspend_user import suspend_user_blueprint
+from .user.activate_users import activate_user_blueprint
 
 # PROFILE controllers
 from .profile.create_profile import create_profile_blueprint
@@ -15,6 +16,7 @@ from .profile.update_profile import update_profile_blueprint
 from .profile.search_profile import search_profile_blueprint
 from .profile.view_profile import view_profile_blueprint
 from .profile.suspend_profile import suspend_profile_blueprint
+from .profile.activate_profile import activate_profile_blueprint
 from .profile.get_all_profiles import get_all_profiles_blueprint
 
 # AUTH controllers
@@ -59,6 +61,7 @@ __all__ = [
     "delete_user_blueprint",
     "search_user_blueprint",
     "suspend_user_blueprint",
+    "activate_user_blueprint",
 
     # profile
     "create_profile_blueprint",
@@ -66,6 +69,7 @@ __all__ = [
     "search_profile_blueprint",
     "view_profile_blueprint",
     "suspend_profile_blueprint",
+    "activate_profile_blueprint",
     "get_all_profiles_blueprint",
 
     # auth

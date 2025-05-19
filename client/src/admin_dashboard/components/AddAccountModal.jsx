@@ -54,11 +54,11 @@ function AddAccountModal({ onClose, onSave }) {
   }
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <div className="modal-header">
+    <div className="modal-overlay2">
+      <div className="modal-container2">
+        <div className="modal-header2">
           <h2>Add New Account</h2>
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button5" onClick={onClose}>
             ×
           </button>
         </div>

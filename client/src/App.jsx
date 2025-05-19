@@ -11,13 +11,13 @@ import ToiletCleaningPage from "./main-page/toilet-cleaning";
 import WindowCleaningPage from "./main-page/window-cleaning";
 
 // Admin Dashboard
-import Dashboard from "./main-page/admin_dashboard/dashboard";
-import EditUser from "./main-page/admin_dashboard/edit-user";
-import ViewUser from "./main-page/admin_dashboard/view-user";
-import AddUser from "./main-page/admin_dashboard/add-user";
-import EditProfile from "./main-page/admin_dashboard/edit-profile";
-import ViewProfile from "./main-page/admin_dashboard/view-profile";
-import AddProfile from "./main-page/admin_dashboard/add-profile";
+import Dashboard from "./admin_dashboard/dashboard";
+import EditUser from "./admin_dashboard/edit-user";
+import ViewUser from "./admin_dashboard/view-user";
+import AddUser from "./admin_dashboard/add-user";
+import EditProfile from "./admin_dashboard/edit-profile";
+import ViewProfile from "./admin_dashboard/view-profile";
+import AddProfile from "./admin_dashboard/add-profile";
 
 // Platform Manager
 import PlatformManagement from "./plat-management/platformManagement";
@@ -87,9 +87,6 @@ export default function App() {
       <Route path="/edit-profile/:profileId" element={<EditProfile />} />
       <Route path="/view-profile/:profileId" element={<ViewProfile />} />
       <Route path="/add-profile" element={<AddProfile />} />
-
-      {/* 🌍 Default Redirects (if needed) */}
-      <Route path="/home" element={<Navigate to="/" />} />
     </Routes>
   );
 }

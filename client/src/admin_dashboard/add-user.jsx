@@ -4,17 +4,17 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashstyle.css"
 import Toast from "./components/Toast"
-import logout from "../../assets/logout.png"
-
-import person_icon from "../../assets/person_icon.png"
-import calendar_icon from "../../assets/calender_icon.png"
-import mail_icon from "../../assets/mail_icon.png"
-import lock_icon from "../../assets/lock_icon.png"
-import visibility_on from "../../assets/visibility_on.png"
-import visibility_off from "../../assets/visibility_off.png"
-import Vector from "../../assets/Vector.png"
-import Human from "../../assets/Human.png"
-import circle_person from "../../assets/circle_person.png"
+import logout from "../assets/logout.png"
+import axios from "../utils/axiosInstance";
+import person_icon from "../assets/person_icon.png"
+import calendar_icon from "../assets/calender_icon.png"
+import mail_icon from "../assets/mail_icon.png"
+import lock_icon from "../assets/lock_icon.png"
+import visibility_on from "../assets/visibility_on.png"
+import visibility_off from "../assets/visibility_off.png"
+import Vector from "../assets/Vector.png"
+import Human from "../assets/Human.png"
+import circle_person from "../assets/circle_person.png"
 
 function AddUser() {
   const navigate = useNavigate()
@@ -28,8 +28,7 @@ function AddUser() {
     contactNumber: "",
     email: "",
     password: "",
-    role: "Cleaner",
-    status: "Active",
+    role: "cleaner",
   })
 
   const [errors, setErrors] = useState({})
@@ -61,22 +60,43 @@ function AddUser() {
     navigate(-1)
   }
 
-  const handleSave = () => {
-    if (validateForm()) {
-      // In a real app, this would send data to an API
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const payload = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        dob: formData.dateOfBirth,
+        contact_number: formData.contactNumber,
+        role_name: formData.role
+      };
+
+      const response = await axios.post("/api/users/create", payload);
+      console.log("Sending payload:", payload);
+
       setToast({
         show: true,
-        message: "User added successfully!",
-        type: "success",
-      })
+        message: "User created successfully!",
+        type: "success"
+      });
 
-      // Hide toast after 3 seconds and navigate back
       setTimeout(() => {
-        setToast({ show: false, message: "", type: "" })
-        navigate("/dashboard", { state: { page: "account" } })
-      }, 3000)
+        setToast({ show: false, message: "", type: "" });
+        navigate("/dashboard", { state: { page: "account" } });
+      }, 3000);
+
+    } catch (error) {
+      console.error("Create user error:", error.response?.data || error.message);
+      setToast({
+        show: true,
+        message: error.response?.data?.message || "Failed to create user",
+        type: "error"
+      });
     }
-  }
+  };
 
   return (
     <div className="dashboard-layout">
@@ -297,32 +317,10 @@ function AddUser() {
                     <div className="input-container">
                       <i className="icon role-icon"></i>
                       <select id="role" value={formData.role} onChange={handleChange}>
-                        <option value="Cleaner">Cleaner</option>
-                        <option value="Home Owner">Home Owner</option>
-                        <option value="Project Management">Project Management</option>
-                        <option value="Admin">Admin</option>
+                        <option value="cleaner">Cleaner</option>
+                        <option value="homeowner">Home Owner</option>
+                        <option value="project_manager">Project Management</option>
                       </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="status">Status</label>
-                    <div className="input-container">
-                      <span className={`status-indicator ${formData.status.toLowerCase()}`}></span>
-                      <select id="status" value={formData.status} onChange={handleChange}>
-                        <option value="Active">Active</option>
-                        <option value="Suspended">Suspended</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="createdDate">Created Date</label>
-                    <div className="input-container">
-                      <img src={calendar_icon || "/placeholder.svg"} alt="Calendar" className="input-icon" />
-                      <input type="text" id="createdDate" value={new Date().toLocaleDateString()} readOnly />
                     </div>
                   </div>
                 </div>
