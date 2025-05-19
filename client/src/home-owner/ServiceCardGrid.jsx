@@ -8,8 +8,8 @@ export default function ServiceCardGrid({ services, onViewClick, onToggleFavorit
         <ServiceCard
           key={service.id}
           service={service}
-          onViewClick={onViewClick}             // ✅ make sure this is passed
-          onToggleFavorite={onToggleFavorite}   // ✅ if used
+          onViewClick={onViewClick}             
+          onToggleFavorite={onToggleFavorite}   
         />
       ))}
     </div>
