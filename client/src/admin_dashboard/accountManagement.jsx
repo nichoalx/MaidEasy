@@ -262,7 +262,7 @@ function AccountManagement() {
                           Edit
                         </button>
                         <button
-                          className={user.status === "Active" ? "suspend-button" : "edit-btn"}
+                          className={user.status === "Active" ? "suspend-button" : "activate-button"}
                           onClick={() => handleSuspend(user.id)}
                         >
                           {user.status === "Active" ? "Suspend" : "Activate"}

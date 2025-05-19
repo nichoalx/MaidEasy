@@ -22,10 +22,14 @@ function AdminPanel() {
     }
   }, [location])
 
-  const handleLogout = (e) => {
-    e.preventDefault()
-    navigate("/")
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+
+    navigate("/");
+  };
 
   return (
     <div className="platform-layout">
@@ -74,10 +78,10 @@ function AdminPanel() {
 
 
           <div className="logout-container">
-            <a href="#" className="logout-link" onClick={handleLogout}>
-            <img src={logout} alt="logout icon" />
-            Log Out
-            </a>
+            <button className="logoutButton" onClick={() => setShowLogoutModal(true)}>
+              <img src={logoutIcon} alt="logout" />
+              Log Out
+            </button>
           </div>
         </div>
 
@@ -90,9 +94,9 @@ function AdminPanel() {
               </h2>
             </div>
 
-            <div className="user-profile">
+            <div className="user-summary">
               <img src={circlePersonIcon} alt="user icon" />
-              <div className="user-details">
+              <div className="user-info">
                 <div className="user-name">Admin Ganteng</div>
                 <div className="user-email">admin@example.com</div>
               </div>
@@ -102,6 +106,12 @@ function AdminPanel() {
           {currentPage === "profile" && <Profile />}
           {currentPage === "account" && <AccountManagement />}
           {currentPage === "profileManagement" && <ProfileManagement />}
+          {showLogoutModal && (
+            <LogoutModal
+              onConfirm={handleLogout}
+              onCancel={() => setShowLogoutModal(false)}
+            />
+          )}
         </div>
     </div>
   )

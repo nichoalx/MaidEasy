@@ -49,7 +49,6 @@ function ViewAccountModal({ user, onClose }) {
               </div>
             )}
 
-            {/* Additional user details would be displayed here */}
             <div className="detail-row">
               <span className="detail-label">Created Date:</span>
               <span className="detail-value">{new Date().toLocaleDateString()}</span>

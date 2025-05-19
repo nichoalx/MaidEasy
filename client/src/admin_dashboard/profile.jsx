@@ -37,6 +37,7 @@ function Profile() {
   if (!user) return <p>Loading profile...</p>;
 
   return (
+    
     <div className="whiteSpace">
       <div className="profile-content">
         <h1 className="services-title7">My Profile</h1>

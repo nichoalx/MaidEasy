@@ -2,20 +2,31 @@
 
 import { useState } from "react"
 import "../modal.css"
+import axios from "../../utils/axiosInstance";
+import userIcon from "../../assets/person_icon.png"
+import calendarIcon from "../../assets/calender_icon.png"
+import phoneIcon from "../../assets/phone.png"
+import mailIcon from "../../assets/mail_icon.png"
+import lockIcon from "../../assets/lock_icon.png"
+import roleIcon from "../../assets/circle_person.png"
+import eyeIcon from "../../assets/visibility_on.png"
+import eyeOffIcon from "../../assets/visibility_off.png"
+import arrowIcon from "../../assets/arrow.png"
 
 function AddAccountModal({ onClose, onSave }) {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    role: "Cleaner",
+    role: "cleaner",
     password: "",
-    confirmPassword: "",
     dateOfBirth: "",
     contactNumber: "",
   })
 
   const [errors, setErrors] = useState({})
-
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({
@@ -27,14 +38,13 @@ function AddAccountModal({ onClose, onSave }) {
   const validateForm = () => {
     const newErrors = {}
 
-    if (!formData.name.trim()) newErrors.name = "Name is required"
+    if (!formData.firstName.trim()) newErrors.firstName = "First name is required"
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required"
     if (!formData.email.trim()) newErrors.email = "Email is required"
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid"
 
     if (!formData.password) newErrors.password = "Password is required"
     else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters"
-
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match"
 
     if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of birth is required"
     if (!formData.contactNumber) newErrors.contactNumber = "Contact number is required"
@@ -43,133 +53,400 @@ function AddAccountModal({ onClose, onSave }) {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+const handleSave = async (e) => {
+  e.preventDefault();
 
-    if (validateForm()) {
-      // Remove confirmPassword before saving
-      const { confirmPassword, ...dataToSave } = formData
-      onSave(dataToSave)
-    }
+  if (!validateForm()) return;
+
+  const payload = {
+    first_name: formData.firstName,
+    last_name: formData.lastName,
+    email: formData.email,
+    password: formData.password,
+    dob: formData.dateOfBirth,
+    contact_number: formData.contactNumber,
+    role_name: formData.role,
+  };
+
+  try {
+    await axios.post("/api/users/create", payload);
+
+    // Notify parent or close modal
+    onSave(payload); // optional depending on your parent behavior
+  } catch (error) {
+    console.error("Failed to create user:", error.response?.data || error.message);
+    alert("Failed to create account. Please try again.");
   }
+};
 
   return (
-    <div className="modal-overlay2">
-      <div className="modal-container2">
-        <div className="modal-header2">
-          <h2>Add New Account</h2>
-          <button className="close-button5" onClick={onClose}>
-            ×
-          </button>
-        </div>
+    <div
+      className="modal-overlay"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          borderRadius: "12px",
+          width: "600px",
+          padding: "30px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            color: "#3e4772",
+            fontSize: "40px",
+            marginBottom: "25px",
+            fontWeight: "600",
+          }}
+        >
+          Add New Account
+        </h1>
 
-        <div className="modal-body">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={errors.name ? "error" : ""}
-              />
-              {errors.name && <span className="error-message">{errors.name}</span>}
+        <form onSubmit={handleSave}>
+          <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>
+                First Name
+              </label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                  border: errors.firstName ? "1px solid #ca3032" : "1px solid transparent",
+                }}
+              >
+                <img src={userIcon} alt="first" className="input-icon" />            
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="First Name"
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
+                />
+              </div>
+              {errors.firstName && <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.firstName}</span>}
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={errors.email ? "error" : ""}
-              />
-              {errors.email && <span className="error-message">{errors.email}</span>}
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>
+                Last Name
+              </label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                  border: errors.lastName ? "1px solid #ca3032" : "1px solid transparent",
+                }}
+              >
+                <img src={userIcon} alt="last" className="input-icon" /> 
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Last Name"
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
+                />
+              </div>
+              {errors.lastName && <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.lastName}</span>}
             </div>
+          </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="dateOfBirth">Date of Birth</label>
+          <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>
+                Date of Birth
+              </label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                  border: errors.dateOfBirth ? "1px solid #ca3032" : "1px solid transparent",
+                }}
+              >
+                <img src={calendarIcon} alt="date" className="input-icon" /> 
                 <input
                   type="date"
-                  id="dateOfBirth"
                   name="dateOfBirth"
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                  className={errors.dateOfBirth ? "error" : ""}
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
                 />
-                {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
               </div>
+              {errors.dateOfBirth && <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.dateOfBirth}</span>}
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number</label>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>
+                Contact Number
+              </label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                  border: errors.contactNumber ? "1px solid #ca3032" : "1px solid transparent",
+                }}
+              >
+                <img src={phoneIcon} alt="contact" className="input-icon" /> 
                 <input
                   type="text"
-                  id="contactNumber"
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleChange}
-                  className={errors.contactNumber ? "error" : ""}
+                  placeholder="Phone Number"
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
                 />
-                {errors.contactNumber && <span className="error-message">{errors.contactNumber}</span>}
               </div>
+              {errors.contactNumber && (
+                <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.contactNumber}</span>
+              )}
             </div>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="role">Role</label>
-              <select id="role" name="role" value={formData.role} onChange={handleChange}>
-                <option value="Cleaner">Cleaner</option>
-                <option value="Home Owner">Home Owner</option>
-                <option value="Project Management">Project Management</option>
-                <option value="Admin">Admin</option>
-              </select>
+          <div style={{ marginBottom: "15px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>Email</label>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#f5f5f5",
+                borderRadius: "50px",
+                padding: "0 15px",
+                border: errors.email ? "1px solid #ca3032" : "1px solid transparent",
+              }}
+            >
+              <img src={mailIcon} alt="mmail" className="input-icon" /> 
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                style={{
+                  flex: 1,
+                  border: "none",
+                  background: "transparent",
+                  height: "45px",
+                  fontSize: "14px",
+                  outline: "none",
+                }}
+              />
             </div>
+            {errors.email && <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.email}</span>}
+          </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
+          <div style={{ display: "flex", gap: "15px", marginBottom: "25px" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>
+                Password
+              </label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                  border: errors.password ? "1px solid #ca3032" : "1px solid transparent",
+                }}
+              >
+                <img src={lockIcon} alt="password" className="input-icon" /> 
                 <input
-                  type="password"
-                  id="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={errors.password ? "error" : ""}
+                  placeholder="Password"
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                  }}
                 />
-                {errors.password && <span className="error-message">{errors.password}</span>}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    right: "15px",
+                    marginTop: "18px",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",              
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={showPassword ? eyeOffIcon : eyeIcon}
+                    alt="Toggle visibility"
+                    style={{ width: "18px", height: "18px"}}
+                  />
+                </button>
               </div>
+              {errors.password && <span style={{ color: "#ca3032", fontSize: "12px" }}>{errors.password}</span>}
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+            <div style={{ flex: 1 }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}>Role</label>
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "50px",
+                  padding: "0 15px",
+                }}
+              >
+                <img
+                  src={roleIcon}
+                  alt="role"
+                  className="input-icon"
+                  style={{ filter: "grayscale(100%) brightness(0) opacity(0.55)" }}
+                />
+                <select
+                  id="role"
+                  value={formData.role}
                   onChange={handleChange}
-                  className={errors.confirmPassword ? "error" : ""}
+                  onClick={() => setIsSelectOpen(true)}
+                  onBlur={() => setIsSelectOpen(false)}
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    background: "transparent",
+                    height: "45px",
+                    fontSize: "14px",
+                    outline: "none",
+                    appearance: "none",
+                    width: "100%",
+                    paddingRight: "20px",
+                  }}
+                >
+                  <option value="cleaner">Cleaner</option>
+                  <option value="homeowner">Home Owner</option>
+                  <option value="project_manager">Project Management</option>
+                </select>
+                <img
+                  src={arrowIcon}
+                  alt="arrow"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    position: "absolute",
+                    right: "10px",
+                    transition: "transform 0.3s ease",
+                    transform: isSelectOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
                 />
-                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
               </div>
             </div>
+          </div>
 
-            <div className="modal-footer">
-              <button type="button" className="cancel-button" onClick={onClose}>
-                Cancel
-              </button>
-              <button type="submit" className="save-button">
-                Save
-              </button>
-            </div>
-          </form>
-        </div>
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              backgroundColor: "#3e4772",
+              color: "white",
+              border: "none",
+              borderRadius: "50px",
+              padding: "14px",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer",
+              marginBottom: "10px",
+            }}
+          >
+            Add Account
+          </button>
+
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              width: "100%",
+              backgroundColor: "#e8eeff",
+              color: "#3e4772",
+              border: "none",
+              borderRadius: "50px",
+              padding: "14px",
+              fontSize: "16px",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
+        </form>
       </div>
     </div>
   )
 }
 
-export default AddAccountModal
+export default AddAccountModal
