@@ -1,3 +1,7 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Search, ChevronDown } from "lucide-react";
+import "./singleDropdown.css";
+
 export default function SingleCategoryDropdown({ selected, onChange, options = [] }) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState("")

@@ -1,9 +1,6 @@
 // components/ViewCleaningService.jsx
 import { useState } from "react"
 import "./ViewCleaningService.css"
-import leftArrow from "../assets/leftchevron.png"
-import rightArrow from "../assets/rightchevron.png"
-import defaultImage from "../assets/photo.png"
 import closeIcon from "../assets/close.png"
 import redHeart from "../assets/RedHeart.svg"
 import noHeart from "../assets/NoHeart.svg"
@@ -19,20 +16,14 @@ export default function ViewCleaningService({ service, onClose, onToggleFavorite
     phone,
     cleanerName,
     joinedDate,
-    providerImage,
-    images = [defaultImage]
   } = service
 
-  const [index, setIndex] = useState(0)
   const [favorite, setFavorite] = useState(service.isFavorite || false)
 
   const handleFavoriteClick = () => {
     setFavorite(!favorite)
     onToggleFavorite(service.id)
   }
-
-  const nextImage = () => setIndex((prev) => (prev + 1) % images.length)
-  const prevImage = () => setIndex((prev) => (prev - 1 + images.length) % images.length)
 
   return (
     <div className="modal-overlay">
@@ -45,24 +36,12 @@ export default function ViewCleaningService({ service, onClose, onToggleFavorite
         </div>
 
         <div className="modal-body">
-          {/* Left side: image & cleaner */}
+          {/* Left side: cleaner info only */}
           <div className="left-section">
-            <div className="image-slider">
-              <button onClick={prevImage} className="arrow-btn">
-                <img src={leftArrow} alt="Previous" />
-              </button>
-
-              <div className="image-box">
-                <img src={images[index]} alt="service" />
-              </div>
-
-              <button onClick={nextImage} className="arrow-btn">
-                <img src={rightArrow} alt="Next" />
-              </button>
-            </div>
-
             <div className="provider-info">
-              <img className="provider-avatar" src={providerImage || defaultImage} alt="provider" />
+              <div className="provider-initials">
+                {cleanerName?.charAt(0).toUpperCase() || "?"}
+              </div>
               <div>
                 <div className="provider-name">{cleanerName}</div>
                 <div className="joined-text">Joined From {joinedDate}</div>
@@ -102,11 +81,10 @@ export default function ViewCleaningService({ service, onClose, onToggleFavorite
             </div>
 
             <div className="view-action-row">
-                <button className="view-back-btn" onClick={onClose}>Back</button>
-
-                <button className="view-favorite-btn" onClick={handleFavoriteClick}>
-                    <img src={favorite ? redHeart : noHeart} alt="favorite icon" />
-                </button>
+              <button className="view-back-btn" onClick={onClose}>Back</button>
+              <button className="view-favorite-btn" onClick={handleFavoriteClick}>
+                <img src={favorite ? redHeart : noHeart} alt="favorite icon" />
+              </button>
             </div>
           </div>
         </div>

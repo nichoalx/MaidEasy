@@ -1,10 +1,9 @@
-import { useState } from "react"
 import redHeart from "../assets/RedHeart.svg"
 import noHeart from "../assets/NoHeart.svg"
 import menuIcon from "../assets/menu.svg"
 import styles from "./ServiceCard.module.css"
 
-export default function ServiceCard({ service, onViewClick, onToggleFavorite}) {
+export default function ServiceCard({ service, onViewClick, onToggleFavorite }) {
   const {
     id,
     serviceName,
@@ -12,23 +11,13 @@ export default function ServiceCard({ service, onViewClick, onToggleFavorite}) {
     price,
     cleanerName,
     joinedDate,
-    isFavorite = false,
-    images = [],
-    providerImage
+    isFavorite = false
   } = service
 
   return (
     <div className={styles.serviceCard}>
       {/* Top Section */}
       <div className={styles.topSection}>
-        <div className={styles.serviceImage}>
-          {images[0] ? (
-            <img src={images[0]} alt={serviceName} className={styles.serviceImgPreview} />
-          ) : (
-            <span>Image</span>
-          )}
-        </div>
-
         <div className={styles.serviceDetails}>
           <div className={styles.label}>Service Name:</div>
           <div className={styles.value}>{serviceName || "Unnamed Service"}</div>
@@ -43,11 +32,7 @@ export default function ServiceCard({ service, onViewClick, onToggleFavorite}) {
       <div className={styles.bottomSection}>
         <div className={styles.provider}>
           <div className={styles.avatar}>
-            {providerImage ? (
-              <img src={providerImage} alt={cleanerName} className={styles.avatarImg} />
-            ) : (
-              cleanerName?.charAt(0)
-            )}
+            {cleanerName?.charAt(0) || "?"}
           </div>
           <div>
             <div className={styles.cleanerName}>{cleanerName || "Unknown Cleaner"}</div>
@@ -61,7 +46,7 @@ export default function ServiceCard({ service, onViewClick, onToggleFavorite}) {
           </button>
 
           <button className={styles.favoriteButton} onClick={() => onToggleFavorite(service.id)}>
-            <img src={service.isFavorite ? redHeart : noHeart} alt="favorite icon" />
+            <img src={isFavorite ? redHeart : noHeart} alt="favorite icon" />
           </button>
         </div>
       </div>
