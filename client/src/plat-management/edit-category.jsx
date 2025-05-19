@@ -92,7 +92,7 @@ function EditCategory() {
       <div className="main-content">
         <Header />
         <div className="platform-content">
-          <h1 className="platform-title">Categories &gt; Edit Category</h1>
+          <h1 className="platform-title75">Categories &gt; Edit Category</h1>
           <div className="category-detail-card">
             <div className="card-header">
               <h3>Categories Detail</h3>

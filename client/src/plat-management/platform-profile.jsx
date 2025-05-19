@@ -47,7 +47,7 @@ function PlatformProfile() {
             <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
           <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
-            <span><img src={personIcon} alt="profile icon" />My Profile</span>
+            <span1><img src={personIcon} alt="profile icon" />My Profile</span1>
           </a>
           <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
             <span><img src={reportIcon} alt="report icon" />Report</span>
@@ -70,14 +70,15 @@ function PlatformProfile() {
           </div>
 
           <div className="user-profile">
-            <div className="user-info">
+            <div className="user-summary">
               <img src={personIcon} alt="icon" />
-              <div className="user-details">
+              <div className="user-info">
                 <div className="user-name">{user?.first_name}</div>
                 <div className="user-email">{user?.email}</div>
               </div>
             </div>
           </div>
+
         </header>
 
         <div className="whiteSpace">
@@ -123,7 +124,7 @@ function PlatformProfile() {
 
                   <div className="form-group full-width">
                     <label>Email</label>
-                    <div className="input-container-email">
+                    <div className="input-container15">
                       <img src={mailIcon} className="input-icon" />
                       <input type="email" value={user.email} readOnly />
                     </div>
@@ -132,7 +133,7 @@ function PlatformProfile() {
                   <div className="form-group">
                     <label>Role</label>
                     <div className="input-container">
-                      <img src={roleIcon} className="input-icon" />
+                      <img src={roleIcon} className="role-icon" />
                       <input type="text" value={user.profile_name} readOnly />
                     </div>
                   </div>

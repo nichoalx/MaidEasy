@@ -175,6 +175,7 @@
   }
 
   .platform-layout .user-name {
+    margin-left: -83px !important;
     font-size: 16px;
     font-weight: 600;
     margin: 0;
@@ -372,6 +373,7 @@
 .platform-layout .header-with-icon {
   display: inline-flex;
   align-items: center;
+  margin-bottom: -12px;
 }
 
 .platform-layout .header-with-icon img {
@@ -404,7 +406,14 @@
   font-size: 36px;
   font-weight: 700;
   color: #3e4772;
-  margin-left: -32rem;
+  margin-left: -5rem;
+}
+
+.platform-layout .platform-title75 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #3e4772;
+  margin-left: -5rem;
 }
 
 
@@ -553,13 +562,14 @@
 
 .platform-layout .category-detail-card {
   width: 1032px;
-  height: 771px;
+  height: 471px;
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-top: 20px;
   border-radius: 20px;
+  margin-left: 40rem;
 }
 
 .platform-layout .card-header {
@@ -655,6 +665,7 @@
 
 .platform-layout .detail-textarea{
   height: 121px;
+  resize: none; 
 }
 
 .platform-layout .detail-value{
@@ -664,7 +675,7 @@
   height: 40px;
   text-align: left;
   font-size: 16px;
-  margin-right: 40px;
+  margin-left: 25rem;
 }
 
 .platform-layout .add-modal {
@@ -890,14 +901,16 @@
   cursor: pointer;
 }
 
-.platform-layout .report-cards-container {
+.platform-layout .report-cards-container3 {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 40px; 
   margin-top: 2rem;
   flex-wrap: wrap;
+  margin-right: -35rem;
 }
+
 .platform-layout .report-card {
   background-color: white;
   height: 200px;

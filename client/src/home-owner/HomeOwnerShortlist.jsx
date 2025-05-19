@@ -125,11 +125,11 @@ export default function HomeOwnerShortlist() {
 
       {/* Filter Bar */}
       <div className="HomeOwnerSearchContainer">
-        <div className="labelRow">
-          <label>Keywords</label>
-          <label>Type</label>
-          <label>Category</label>
-          <label>Price</label>
+        <div className="labelRow2">
+          <label5>Keywords</label5>
+          <label5>Type</label5>
+          <label5>Category</label5>
+          <label5>Price</label5>
         </div>
 
         <div className="HomeOwnerSearchBar">

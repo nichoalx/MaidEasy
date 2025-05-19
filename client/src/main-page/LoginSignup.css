@@ -151,3 +151,6 @@ body, html {
 .inputs.error input::placeholder {
     color: red;
 }
+.box {
+  height: 1rem;
+}
