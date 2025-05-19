@@ -11,7 +11,7 @@
     max-width: 100%;
   }
   
-  .dropdown-button {
+  .dropdown-button5 {
     width: 100%;
     height: 2.5rem;
     padding: 0 1.25rem;
@@ -22,7 +22,7 @@
     font-weight: 500;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     cursor: pointer;
     color: #374151;
   }
@@ -56,12 +56,12 @@
     margin-left: 5px;
   }
   
-.dropdown-button {
+.dropdown-button5 {
   color: #818181;
   font-weight: 400;
   font-size: 16px;
   text-align: center;       
-  padding-left: 1rem !important;      /* 👈 optional: adds spacing from the left */
+  padding-left: 1rem !important;     
 }
 
   .dropdown-search input {
@@ -92,26 +92,23 @@
     margin-left: 1rem;
     }
 
-  .dropdown-list {
+  .dropdown-list3 {
     overflow-y: auto;
-    padding: 8px;
-    margin-left: 1rem;
     height: 20rem;
+    padding-left: 1rem; 
+    margin: 0; 
   }
   
   .dropdown-item {
-    display: block;
-    padding: 6px 0;
+    display: flex;
+    align-items: center;
     font-size: 14px;
     color: black;
-    display: flex;
-    align-items: center;  
-    margin-left: 1rem;
+    padding: 6px 1rem;
+ 
   }
 
-  .forpadding {
-    margin-right: 5px !important;
-  }
+
   
   .dropdown-button:focus,
   .dropdown-search input:focus {

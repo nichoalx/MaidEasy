@@ -213,49 +213,66 @@ export default function ConfirmedJobsPage() {
           <h1 className="services-title3">Confirmed Jobs</h1>
         </div>
 
-        <div className="cleanerSearchContainer">
-          <div className="labelRow2">
-            <label>Keywords</label>
-            <label>Type</label>
-            <label>Category</label>
-            <label>Date</label>
-          </div>
+        <div className="cleanerSearchContainerWrapper">
+          <div className="cleanerSearchContainer2">
+            <div className="filterRow">
+              {/* Keywords */}
+              <div className="filterGroup">
+                <div className="filterLabel">
+                  <label3>Keywords</label3>
+                  <label3>Type</label3>
+                </div>
+                <div className="keywordSearchByBox">
+                  {/* Search input */}
+                  <div className="searchSection">
+                    <img src={searchIcon} alt="search" className="searchIcon" />
+                    <input
+                      type="text"
+                      placeholder="Enter service or home owner name"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
 
-          <div className="cleanerSearchBar">
-            <div className="searchGroup3">
-              <span className="searchIcon2">
-                <img src={searchIcon} alt="search icon" />
-              </span>
-              <input
-                type="text"
-                placeholder="Search By Services or Cleaners"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+                  {/* Dropdown */}
+                  <div className="dropdownSection">
+                    <span className="leftArrow">&#9662;</span> {/* ▼ */}
+                    <select
+                      value={typeFilter}
+                      onChange={(e) => setTypeFilter(e.target.value)}
+                    >
+                      <option value="service">Service</option>
+                      <option value="cleaner">Cleaner</option>
+                      <option value="homeowner">Home Owner</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+
+              {/* Category */}
+              <div className="filterGroup">
+                <label className="filterLabel5">Select Category</label>
+                <CategoryDropdown
+                  selectedCategories={selectedCategories}
+                  onChange={setSelectedCategories}
+                  availableCategories={categoryOptions}
+                />
+              </div>
+
+              {/* Filter Button */}
+              <div className="filterGroup3">
+              
+                <button className="filterButton3">Filter</button>
+              </div>
             </div>
 
-            <div className="cleanerBy">
-              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-                <option value="service">By Service</option>
-                <option value="cleaner">By Cleaners</option>
-              </select>
+            <div className="result-count2">
+              Showing {filtered.length} of {services.length} Results
             </div>
+          </div>  
+        </div>
 
-            <div className="cleanerCategoryDropdown">
-              <CategoryDropdown
-                selectedCategories={selectedCategories}
-                onChange={setSelectedCategories}
-                availableCategories={categoryOptions}
-              />
-            </div>
-
-
-            <button className="filterButton">Filter</button>
-          </div>
-
-          <div className="result-count2">
-            Showing {filtered.length} of {services.length} Results
-          </div>
 
           <div className="categories-table-container">
             <table className="categories-table">
@@ -304,7 +321,7 @@ export default function ConfirmedJobsPage() {
             </div>
           </div>
         </div>
-      </div>
+      
       {showLogoutModal && (
         <LogoutModal
           onConfirm={async () => {

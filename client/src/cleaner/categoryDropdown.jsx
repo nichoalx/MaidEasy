@@ -37,7 +37,7 @@ export default function CategoryDropdown({
 
   return (
     <div className="dropdown-wrapper" ref={dropdownRef}>
-      <button className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
+      <button className="dropdown-button5" onClick={() => setIsOpen(!isOpen)}>
         <span>
           {selectedCategories.length > 0
             ? `${selectedCategories.length} selected`
@@ -69,7 +69,7 @@ export default function CategoryDropdown({
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="dropdown-list">
+          <div className="dropdown-list3">
             {filteredCategories.length > 0 ? (
               filteredCategories.map((cat) => (
                 <label key={cat.id} className="dropdown-item">
