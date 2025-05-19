@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "../utils/axiosInstance"
 import "./platform-style.css"
-import logout from "../assets/logout.png"
-import reportS from "../assets/report.png"
-import category from "../assets/category.png"
-import circle_person from "../assets/circle_person.png"
+
+import categoryIcon from "../assets/category.png"
+import personIcon from "../assets/circle_person.png"
+import reportIcon from "../assets/report.png"
+import logoutIcon from "../assets/logout.png"
+
 
 function Report() {
   const navigate = useNavigate()
@@ -142,85 +144,44 @@ function Report() {
 
   return (
     <div className="platform-layout">
-      {/* Sidebar */}
       <div className="sidebar">
         <div className="logo-container">
-          <h1 className="logo">
-            Garuda
-            <br />
-            Indonesia
-          </h1>
+          <h1 className="logo">Garuda<br />Indonesia</h1>
         </div>
 
         <nav className="nav-menu">
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-management")
-            }}
-          >
-            <img src={category || "/placeholder.svg"} className="icon" alt="Categories" />
-            <span>Categories</span>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-management") }}>
+            <span><img src={categoryIcon} alt="category icon" />Categories</span>
           </a>
-          <a
-            href="#"
-            className="nav-item"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/platform-profile")
-            }}
-          >
-            <img src={circle_person || "/placeholder.svg"} className="icon" alt="My Profile" />
-            <span>My Profile</span>
+          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-profile") }}>
+            <span1><img src={personIcon} alt="profile icon" />My Profile</span1>
           </a>
-          <a
-            href="#"
-            className="nav-item active"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/report")
-            }}
-          >
-            <img src={reportS || "/placeholder.svg"} className="icon" alt="Reports" />
-            <span>Reports</span>
+          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/report") }}>
+            <span><img src={reportIcon} alt="report icon" />Report</span>
           </a>
         </nav>
 
         <div className="logout-container">
-          <a
-            href="#"
-            className="logout-link"
-            onClick={(e) => {
-              e.preventDefault()
-              navigate("/")
-            }}
-          >
-            <img src={logout || "/placeholder.svg"} alt="Logout" className="logout-icon" />
-            <span>Log Out</span>
+          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout") }}>
+            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
           </a>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
             <h2>
-              Hi, {user?.first_name }{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
+              Hi, {user?.first_name || "User"} 👋
             </h2>
           </div>
 
           <div className="user-profile">
-            <div className="user-info">
-              <img src={circle_person || "/placeholder.svg"} alt="profile icon" />
-              <div className="user-details">
-                <div className="user-name">{user?.first_name }</div>
-                <div className="user-email">{user?.email }</div>
+            <div className="user-summary">
+              <img src={personIcon} alt="icon" />
+              <div className="user-info">
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
               </div>
             </div>
           </div>
@@ -244,7 +205,7 @@ function Report() {
             </div>
           )}
 
-          <div className="report-cards-container">
+          <div className="report-cards-container3">
             {/* Daily Report Card */}
             <div className="report-card">
               <h2 className="report-card-title">Daily Report</h2>

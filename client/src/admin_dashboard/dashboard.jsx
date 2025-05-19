@@ -23,7 +23,22 @@ function AdminPanel() {
       setCurrentPage(location.state.page)
     }
   }, [location])
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id");
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`);
+        setUser(data.success);
+      } catch (error) {
+        console.error("Failed to load user profile:", error);
+        alert("Unable to load user profile.");
+      }
+    };
+
+    fetchUser();
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
@@ -80,7 +95,7 @@ function AdminPanel() {
 
 
           <div className="logout-container">
-            <button className="logoutButton" onClick={() => setShowLogoutModal(true)}>
+            <button className="logout-link" onClick={() => setShowLogoutModal(true)}>
               <img src={logoutIcon} alt="logout" />
               Log Out
             </button>
@@ -89,21 +104,24 @@ function AdminPanel() {
 
         {/* Main Content */}
         <div className="main-content">
-          <header className="platform-header">
-            <div className="greeting">
-              <h2>
-                Hi, Admin Ganteng 👋
-              </h2>
-            </div>
+        <header className="platform-header">
+          <div className="greeting">
+            <h2>
+              Hi, {user?.first_name || "User"} 👋
+            </h2>
+          </div>
 
+          <div className="user-profile">
             <div className="user-summary">
-              <img src={circlePersonIcon} alt="user icon" />
+              <img src={circlePersonIcon} alt="icon" />
               <div className="user-info">
-                <div className="user-name">Admin Ganteng</div>
-                <div className="user-email">admin@example.com</div>
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
               </div>
             </div>
-          </header>
+          </div>
+
+        </header>
 
           {currentPage === "profile" && <Profile />}
           {currentPage === "account" && <AccountManagement />}

@@ -143,11 +143,11 @@ export default function HomeOwnerHistory() {
 
       {/* 🔍 Search & Filters */}
       <div className="HomeOwnerSearchContainer">
-        <div className="labelRow">
-          <label>Keywords</label>
-          <label>Type</label>
-          <label>Category</label>
-          <label>Date</label>
+        <div className="labelRow2">
+          <label5>Keywords</label5>
+          <label5>Type</label5>
+          <label5>Category</label5>
+          <label5>Price</label5>
         </div>
 
         <div className="HomeOwnerSearchBar">
@@ -229,12 +229,12 @@ export default function HomeOwnerHistory() {
       </div>
 
       {/* 📊 Result Count */}
-      <div className="result-count">
+      <div className="result-count8">
         Showing {filtered.length} of {services.length} Results
       </div>
 
       {/* 📋 Table View */}
-      <div className="categories-table-container">
+      <div className="categories-table-container99">
         <table className="categories-table">
           <thead>
             <tr>

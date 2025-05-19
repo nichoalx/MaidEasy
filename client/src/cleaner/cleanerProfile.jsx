@@ -99,17 +99,23 @@ export default function CleanerProfile() {
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
-            <h2>Hi, {user.first_name} 👋</h2>
+            <h2>
+              Hi, {user?.first_name || "User"} 👋
+            </h2>
           </div>
 
           <div className="user-profile">
-            <img src={personIcon} alt="user icon" />
-            <div className="user-details">
-              <div className="user-name">{user.first_name} {user.last_name}</div>
-              <div className="user-email">{user.email}</div>
+            <div className="user-summary">
+              <img src={personIcon} alt="icon" />
+              <div className="user-info">
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
+              </div>
             </div>
           </div>
+
         </header>
+        
 
         <div className="whiteSpace">
           <div className="platform-content">

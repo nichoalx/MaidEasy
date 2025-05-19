@@ -166,25 +166,25 @@ html, body, #root {
     margin: 3rem auto 2rem auto;
   }
   
-  .labelRow label {
+  .labelRow2 label5 {
     font-weight: 500;
     font-size: 16px;
     color: #000;
 }
   
-  .labelRow label:nth-child(1) {
+  .labelRow2 label5:nth-child(1) {
     margin-left: 1rem;
   }
   
-  .labelRow label:nth-child(2) {
+  .labelRow2 label5:nth-child(2) {
     margin-left: 22rem;
   }
   
-  .labelRow label:nth-child(3) {
+  .labelRow2 label5:nth-child(3) {
     margin-left: 9rem;
   }
 
-  .labelRow label:nth-child(4) {
+  .labelRow2 label5:nth-child(4) {
     margin-left: 8rem;
   }
   
@@ -281,14 +281,24 @@ html, body, #root {
   }
 
 
-  .HomeOwnerShortListName, .HomeOwnerHistoryName{
+  .HomeOwnerShortListName{
     font-size: 36px;
     color: #3E4772;
     margin-top: 4rem;
     font-weight: 800;
-    margin-left: -1rem;
+
     margin-bottom: -2rem;
   }
+
+.HomeOwnerHistoryName{
+    font-size: 36px;
+    color: #3E4772;
+    margin-top: 4rem;
+    font-weight: 800;
+
+    margin-bottom: -2rem;
+  }
+
 
   .HomeOwnerHistoryBar {
     display: flex;
@@ -354,7 +364,7 @@ html, body, #root {
   }
   
 
-  .categories-table-container {
+  .categories-table-container99 {
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -458,3 +468,8 @@ html, body, #root {
     padding: 6px 12px;
   }
   
+  .result-count8{
+    margin-left: 3rem;
+    font-size: 14px;
+    color: #888;
+  }

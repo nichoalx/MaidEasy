@@ -15,6 +15,7 @@ function ViewCategory() {
   const { categoryId } = useParams();
 
   const [loading, setLoading] = useState(true);
+
   const [categoryData, setCategoryData] = useState({
     name: "",
     description: "",
@@ -35,6 +36,7 @@ function ViewCategory() {
           name: data.category_name,
           description: data.description,
           createdOn: new Date(data.created_at).toLocaleDateString("en-GB"),
+          services: data.services || 0,
         });
       } catch (error) {
         console.error("Failed to fetch category:", error);
@@ -56,24 +58,68 @@ function ViewCategory() {
     <div className="platform-layout">
       <div className="sidebar">
         <div className="logo-container">
-          <h1 className="logo">Garuda<br />Indonesia</h1>
+          <h1 className="logo">
+            Garuda
+            <br />
+            Indonesia
+          </h1>
         </div>
 
         <nav className="nav-menu">
-          <a href="#" className="nav-item active" onClick={(e) => { e.preventDefault(); navigate("/platform-management"); }}>
-            <span><img src={categoryIcon} alt="category icon" />Categories</span>
+          <a
+            href="#"
+            className="nav-item active"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/platform-management");
+            }}
+          >
+            <span>
+              <img src={categoryIcon} alt="category icon" />
+              Categories
+            </span>
           </a>
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/platform-profile"); }}>
-            <span1><img src={personIcon} alt="person icon" />My Profile</span1>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/platform-profile");
+            }}
+          >
+            <span>
+              <img src={personIcon} alt="person icon" />
+              My Profile
+            </span>
           </a>
-          <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); navigate("/report"); }}>
-            <span><img src={reportIcon} alt="report icon" />Report</span>
+          <a
+            href="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/report");
+            }}
+          >
+            <span>
+              <img src={reportIcon} alt="report icon" />
+              Report
+            </span>
           </a>
         </nav>
 
         <div className="logout-container">
-          <a href="#" className="logout-link" onClick={(e) => { e.preventDefault(); navigate("/Logout"); }}>
-            <span><img src={logoutIcon} alt="logout icon" />Log Out</span>
+          <a
+            href="#"
+            className="logout-link"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/Logout");
+            }}
+          >
+            <span>
+              <img src={logoutIcon} alt="logout icon" />
+              Log Out
+            </span>
           </a>
         </div>
       </div>
@@ -102,8 +148,12 @@ function ViewCategory() {
             <div className="card-header">
               <h3>Category Detail</h3>
               <div className="button-group">
-                <button className="back-btn2" onClick={handleBack}>Back</button>
-                <button className="edit-btn2" onClick={handleEdit}>Edit</button>
+                <button className="back-btn2" onClick={handleBack}>
+                  Back
+                </button>
+                <button className="edit-btn2" onClick={handleEdit}>
+                  Edit
+                </button>
               </div>
             </div>
             <div className="card-body">
@@ -120,6 +170,11 @@ function ViewCategory() {
               <div className="form-line">
                 <label>Description:</label>
                 <div className="detail-textarea">{categoryData.description}</div>
+              </div>
+
+              <div className="form-line">
+                <label>Total Services:</label>
+                <div className="detail-value">{categoryData.services}</div>
               </div>
             </div>
           </div>

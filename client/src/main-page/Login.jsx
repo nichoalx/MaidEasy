@@ -73,6 +73,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="box"
                 placeholder={errors.email ? "This field must be filled in!" : "your@mail.com"}
               />
             </div>
@@ -85,6 +86,7 @@ export default function Login() {
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
+                className="box"
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={errors.password ? "This field must be filled in!" : "Password"}
               />

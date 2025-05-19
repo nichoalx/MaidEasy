@@ -1,31 +1,27 @@
+
 .cleanerSearchContainer {
   display: block;
   margin: 1rem auto 2rem auto !important;   
-  width: 1188px;
 }
 
-  .labelRow2 label {
+  .labelRow3 label3 {
     font-weight: 500;
     font-size: 16px;
     color: #000;
 }
   
-  .labelRow2 label:nth-child(1) {
+  .labelRow3 label3:nth-child(1) {
     margin-left: 20px;
   }
   
-  .labelRow2 label:nth-child(2) {
+  .labelRow3 label3:nth-child(2) {
     margin-left: 355px;
   }
   
-  .labelRow2 label:nth-child(3) {
-    margin-left: 185px;
+  .labelRow3 label3:nth-child(3) {
+    margin-left: 200px;
   }
 
-  .labelRow2 label:nth-child(4) {
-    margin-left: 180px;
-  }
-  
   .cleanerSearchBar {
     display: flex;
     align-items: center;
@@ -37,7 +33,7 @@
     margin-top: 0.5rem !important;
     z-index: 1;
     position: relative;
-    width: 1300px;
+    width: 500px;
   }
 
   .searchGroup3 {
@@ -63,9 +59,8 @@
     margin-right: 0.5rem;
   }
   
-  .cleanerBy,
-  .cleanerPrice {
-    border-right: 1px solid #ccc;
+  .cleanerBy {
+    border-radius: 999px !important;
   }
   
   .cleanerBy select {
@@ -85,15 +80,15 @@
     background-color: transparent;
   }
 
-  .filterButton {
+  .filterButton3 {
     background-color: #3E4772;
     color: white;
     border: none;
-    padding: 0 3rem;
+
     font-size: 14px;
     font-weight: 500;
-    height: 100%;
-    border-radius: 0 999px 999px 0;
+    height: 40px !important;
+    border-radius: 999px;
     cursor: pointer;
     transition: background-color 0.2s ease;
     width: 10rem;
@@ -130,7 +125,8 @@
 
 .categories-table-container {
     margin-top: 1rem !important;
-    margin-left: 8rem !important;
+    margin-left: 21rem !important;
+    width: 67rem !important;
 }
 
 .categories-table thead th {
@@ -143,4 +139,171 @@
     color: #3E4772;
     margin-left: 18rem !important;
     margin-top: 2rem !important;
+}
+
+.cleanerSearchContainer2 {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.filterLabel {
+  font-size: 12px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filterGroup .filterLabel5 {
+  font-size: 16px !important;
+  margin-bottom: 3px;
+  font-weight: 500;
+  color: #333;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.searchInputGroup {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  padding: 8px 12px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.searchInputGroup input {
+  border: none;
+  outline: none;
+  margin-left: 8px;
+  width: 100%;
+}
+
+.searchIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.dropdownInput {
+  border: none;
+  border-radius: 30px;
+  padding: 8px 12px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.keywordSearchByBox {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  width: 40rem;
+}
+
+.searchSection {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  flex: 1;
+}
+
+.searchSection input {
+  border: none;
+  outline: none;
+  margin-left: 8px;
+  width: 100%;
+}
+
+.dropdownSection select {
+  border: none;
+  outline: none;
+  height: 100%;
+  padding: 8px 12px;
+  border-left: 1px solid #ccc;
+  background: #fff;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  font-size: 14px;
+  color: #777777;
+}
+.cleanerSearchContainerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* or center if you want vertical too */
+  min-height: 100px; /* or 100vh if you want it vertically centered */
+  padding: 20px;
+}
+
+.cleanerSearchContainer2 {
+  width: fit-content;
+  max-width: 100%;
+}
+  .filterLabel label3 {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+  
+  .filterLabel label3:nth-child(1) {
+    margin-left: 20px;
+  }
+  
+  .filterLabel label3:nth-child(2) {
+    margin-left: 430px;
+  }
+  
+  .filterLabel label3:nth-child(3) {
+    margin-left: 200px;
+  }
+
+  .dropdownSection {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: white;
+
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  height: 40px;
+  padding-left: 10px; /* Space for arrow */
+}
+
+.dropdownSection select {
+  border: none;
+  outline: none;
+
+  padding-left: 0px;
+  font-size: 14px;
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;               /* 🟢 Force text to left */
+  direction: ltr;                 /* 🟢 Ensures left alignment works */
+}
+
+
+.leftArrow {
+  position: absolute;
+  right: 1px;
+  font-size: 25px;
+  pointer-events: none;
+  color: #333;
 }

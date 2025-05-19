@@ -119,6 +119,7 @@
   color: white;
   text-decoration: none;
   transition: background-color 0.2s;
+  background-color: #3e4772;
 }
 
 .platform-layout .logout-link span {
@@ -138,10 +139,8 @@
 }
 
 .platform-layout .logout-link:hover {
-  background-color: #8D96A9;
+  background-color: #c5c5c5 ;
 }
-
-
 
 /* Main Content */
 .main-content {
@@ -336,7 +335,6 @@
   .role-icon5 {
     filter: brightness(0) saturate(100%) invert(36%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(0.9);
   }
-
 
   .status-icon {
     width: 25px;

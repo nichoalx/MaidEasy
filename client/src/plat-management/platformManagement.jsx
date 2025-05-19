@@ -57,6 +57,21 @@ function PlatformManagement() {
     setCurrentPage(1);
   }, [categories, isAscending, searchTerm]);
 
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("user_id")
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`)
+        setUser(data.success)
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error)
+      }
+    }
+
+    fetchUser()
+  }, [])
   const indexOfLastItem = currentPage * showingCount;
   const indexOfFirstItem = indexOfLastItem - showingCount;
   const currentItems = filteredCategories.slice(indexOfFirstItem, indexOfLastItem);
@@ -133,13 +148,13 @@ function PlatformManagement() {
 
       <div className="main-content">
         <header className="platform-header">
-          <div className="greeting"><h2>Hi, Platform123 👋</h2></div>
+          <div className="greeting"><h2>Hi, {user?.first_name || "User"} 👋</h2></div>
           <div className="user-profile">
-            <div className="user-info">
-              <img src={personIcon} alt="person icon" />
-              <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
+            <div className="user-summary">
+              <img src={personIcon} alt="icon" />
+              <div className="user-info">
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
               </div>
             </div>
           </div>
