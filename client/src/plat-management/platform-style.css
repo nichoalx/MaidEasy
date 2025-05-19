@@ -217,6 +217,15 @@
   margin: 0;
 }
 
+.platform-layout .platform-title15 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #3e4772;
+  margin: 0;
+  margin-left: -10rem !important;
+}
+
+
 .platform-layout .reportTitle {
   font-size: 36px;
   font-weight: 700;
@@ -248,6 +257,18 @@
   font-weight: 500;
   font-size: 18px;
 }
+
+.platform-layout .categories-table-container8 {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 1150px;
+    padding: 20px;
+    position: relative;
+    padding-bottom: 70px;
+    height: auto;
+  }
 
 .platform-layout .showing-section {
   display: flex;
@@ -334,6 +355,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
   overflow: hidden;
   margin-bottom: 20px;
+  margin-left: -1rem !important;
   width: 1033px;
   padding: 20px; 
   position: relative;

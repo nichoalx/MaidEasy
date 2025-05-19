@@ -11,6 +11,8 @@ import logoutIcon from "../assets/logout.png"
 import circlePersonIcon from "../assets/circle_person.png"
 import vectorIcon from "../assets/Vector.png"
 import humanIcon from "../assets/Human.png"
+import axios from "../utils/axiosInstance";
+
 
 function AdminPanel() {
   const location = useLocation()
@@ -33,7 +35,6 @@ function AdminPanel() {
         setUser(data.success);
       } catch (error) {
         console.error("Failed to load user profile:", error);
-        alert("Unable to load user profile.");
       }
     };
 

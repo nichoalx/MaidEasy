@@ -22,8 +22,8 @@ export default function SingleCategoryDropdown({ selected, onChange, options = [
   }, [])
 
   const handleSelect = (item) => {
-    onChange(item.name) // now you store the string directly
-    setIsOpen(false)
+    onChange(item); // ✅ send the full object back
+    setIsOpen(false);
   }
 
   return (

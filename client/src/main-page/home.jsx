@@ -44,9 +44,9 @@ export default function HomePage() {
         <div className="hero-container">
           <div className="hero-content">
             <div className="hero-text">
-              <h2 className="hero-title">A New Solutions For Your Home Cleaning</h2>
+              <h2 className="hero-title">Cleaning Made Easy Just For You</h2>
               <p className="hero-description">
-                Lorem ipsum dolor sit amet, consectetur dipiscing <br />elit eius mod tempor incididunt ut labore
+                High quality services straight to your door
               </p>
               <div className="search-container3">
                 <input type="text" placeholder="What service do you want to search?" className="search-input" />
@@ -80,7 +80,7 @@ export default function HomePage() {
             <div className="services-subtitle-container">
               <h3 className="services-subtitle">Our Services</h3>
               <p className="services-description">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, <br />sed do eiusmod tempor incididunt ut labore
+                Trained professionals, guaranteed satisfaction. We take pride in our work and it shows.
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="service-card-title">House Cleaning</h3>
                 <p className="service-card-description">
-                  Make your product more eye-catching with a touch of illustration
+                  Standard cleaning service for your home, including dusting, vacuuming, and mopping.
                 </p>
                 <div className="service-learn-more">
                   <span className="learn-more-text">Learn more</span>
@@ -115,7 +115,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="service-card-title">Office Cleaning</h3>
                 <p className="service-card-description">
-                  Make your product more eye-catching with a touch of illustration
+                  Comprehensive cleaning for your office space, ensuring a clean and productive environment.
                 </p>
                 <div className="service-learn-more">
                   <span className="learn-more-text">Learn more</span>
@@ -134,7 +134,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="service-card-title">Toilet Cleaning</h3>
                 <p className="service-card-description">
-                  Make your product more eye-catching with a touch of illustration
+                  Deep cleaning service for toilets, ensuring hygiene and freshness.
                 </p>
                 <div className="service-learn-more">
                   <span className="learn-more-text">Learn more</span>

@@ -29,6 +29,7 @@ export default function ConfirmedJobsPage() {
   const [range, setRange] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [user, setUser] = useState(null);
   const [filtered, setFiltered] = useState([]);
   const [services, setServices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +64,23 @@ export default function ConfirmedJobsPage() {
     };
 
     fetchJobHistory();
+  }, []);
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const userId = localStorage.getItem("user_id");
+      const res = await axios.get(`/api/users/${userId}`, {
+        withCredentials: true,
+      });
+      setUser(res.data.success);
+    } catch (err) {
+      console.error("Failed to fetch user:", err);
+      alert("Failed to load user profile.");
+    }
+  };
+
+  fetchUser();
   }, []);
 
   useEffect(() => {
@@ -193,20 +211,19 @@ export default function ConfirmedJobsPage() {
       <div className="main-content">
         <header className="platform-header">
           <div className="greeting">
-            <h2>
-              Hi, Platform123 👋
-            </h2>
+            <h2>Hi, {user?.first_name || "User"} 👋</h2>
           </div>
 
           <div className="user-profile">
-            <div className="user-info">
-              <img src={personIcon} alt="person icon" />
-              <div className="user-details">
-                <div className="user-name">Platform123</div>
-                <div className="user-email">plat123@gmail.com</div>
+            <div className="user-summary">
+              <img src={personIcon} alt="icon" />
+              <div className="user-info">
+                <div className="user-name">{user?.first_name}</div>
+                <div className="user-email">{user?.email}</div>
               </div>
             </div>
           </div>
+
         </header>
 
         <div className="search-header">
@@ -274,8 +291,8 @@ export default function ConfirmedJobsPage() {
         </div>
 
 
-          <div className="categories-table-container">
-            <table className="categories-table">
+          <div className="categories-table-container23">
+            <table className="categories-table23">
               <thead>
                 <tr>
                   <th className="col-id">ID</th>

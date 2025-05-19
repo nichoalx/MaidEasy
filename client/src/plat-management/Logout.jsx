@@ -9,6 +9,15 @@ export default function Logout() {
     navigate(-1)
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+
+    navigate("/"); // redirect to homepage
+  };
+
   return (
     <div className="logoutOverlay">
       <div className="logoutContainer">
@@ -18,7 +27,7 @@ export default function Logout() {
         <div className="body">
           <div className="text">Are you sure you want to logout?</div>
         </div>
-        <button className="logoutButton" >Logout</button>
+        <button className="logoutButton" onClick={handleLogout}>Logout</button>
         <button className="cancelButton" onClick={cancel}>Cancel</button>
       </div>
     </div>

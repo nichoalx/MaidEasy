@@ -93,13 +93,9 @@ export default function NewService({ onClose }) {
             <div className="inputRow">
               <label className="formLabel">Category:</label>
               <SingleDropdown
-                selected={category}
-                onChange={(selectedId) => {
-                  const found = categories.find((cat) => cat.id === selectedId);
-                  setCategory(found);
-                }}
+                selected={category?.name}  // ✅ display the name in the button
+                onChange={setCategory}     // ✅ directly set the category object
                 options={categories}
-                className="newCategory"
               />
             </div>
             {errors.category && <span className="errorText">*Please select a category</span>}

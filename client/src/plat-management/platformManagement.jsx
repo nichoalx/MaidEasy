@@ -181,7 +181,7 @@ function PlatformManagement() {
               <div className="results-info">Showing {filteredCategories.length} Results</div>
             </div>
 
-            <div className="categories-table-container">
+            <div className="categories-table-container8">
               <table className="categories-table">
                 <thead>
                   <tr>

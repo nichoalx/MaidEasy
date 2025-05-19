@@ -46,19 +46,15 @@
 }
 
 .logoutButton {
-    width: 261px;
-    height: 64px;
-    padding: 10px;
-    background-color: #3e4772;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 40px auto 0; 
-    display: block;
-    box-shadow: 0 2px 7px #3e4772;
+  background-color: #3e4772 !important;
+  color: white !important;
+  margin: 40px auto 0;
+  display: block;
+  width: 261px !important;
+  height: 64px !important;
+  padding: 10px !important;
+  border-radius: 20px !important;
+  margin-top: 1rem !important;
 }
 
 .cancelButton {

@@ -36,6 +36,76 @@
     width: 500px;
   }
 
+  .platform-layout .categories-table-container8 {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 1150px;
+    padding: 20px;
+    position: relative;
+    padding-bottom: 70px;
+    height: auto;
+  }
+
+  .categories-table8 {
+    width: 100%;
+    border-collapse: collapse; 
+  }
+.platform-layout .categories-table-container23 {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  overflow: hidden;
+  margin-bottom: 20px;
+  width: 1300px !important;
+  padding: 20px; 
+  margin-left: 11rem !important;
+  position: relative;
+  padding-bottom: 70px;
+}
+
+
+.platform-layout .categories-table23 .empty-placeholder-row{
+  visibility: hidden;
+  border-collapse: collapse;
+}
+
+.platform-layout .invisible-placeholder {
+  display: block;
+}
+
+.platform-layout .categories-table23 th,
+.platform-layout .categories-table23 td {
+  padding: 16px;
+  text-align: center;
+}
+
+.platform-layout .categories-table23 th {
+  font-weight: 500;
+  color: #888888; 
+  font-size: 16px;
+}
+
+.platform-layout .categories-table23 td {
+  padding: 16px 45px;
+  font-weight: 500;
+  color: #000;
+  font-size: 16px;
+}
+  
+.categories-table-container23 {
+    margin-top: 1rem !important;
+    margin-left: 21rem !important;
+    width: 67rem !important;
+}
+
+.categories-table23 thead th {
+  padding-top: 1px !important; 
+  padding-bottom: 6px;
+  vertical-align: bottom;
+}
+
   .searchGroup3 {
     display: flex;
     align-items: center;

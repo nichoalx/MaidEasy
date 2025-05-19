@@ -7,7 +7,7 @@ from server.app.entity.bookings import Booking
 from datetime import datetime, timedelta, timezone
 from server.app.controller.auth.permission_required import login_required
 
-report_blueprint = Blueprint('report', _name_)
+report_blueprint = Blueprint('report', __name__)
 
 class ReportController:
     @staticmethod

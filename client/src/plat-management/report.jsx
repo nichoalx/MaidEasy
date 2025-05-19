@@ -188,7 +188,7 @@ function Report() {
         </header>
 
         <div className="platform-content">
-          <h1 className="platform-title">Report</h1>
+          <h1 className="platform-title15">Report</h1>
 
           {error && (
             <div

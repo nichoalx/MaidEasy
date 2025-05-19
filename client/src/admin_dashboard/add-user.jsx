@@ -39,6 +39,8 @@ function AddUser() {
       ...formData,
       [id]: value,
     })
+
+    console.log("Current formData:", formData);
   }
 
   const validateForm = () => {
