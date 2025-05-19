@@ -15,9 +15,6 @@ class ViewAllCategoriesController:
         user = User.query.get(current_user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
-        profile = Profile.query.get(user.profile_id)
-        if not profile or profile.has_view_analytics_permission != True:
-            return jsonify({"error": "Only users with the 'has_view_listing_analytics' role can view all categories."}), 403
 
         response, status_code = Category.get_all_categories()
 

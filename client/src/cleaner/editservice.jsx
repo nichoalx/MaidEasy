@@ -16,6 +16,9 @@ export default function EditService() {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [createdAt, setCreatedAt] = useState("");
+  const [views, setViews] = useState("");
+  const [shortlisted, setShortlisted] = useState("");
 
   const [serviceName, setServiceName] = useState("");
   const [category, setCategory] = useState("");
@@ -33,7 +36,6 @@ export default function EditService() {
     availability: false,
   });
 
-  // ✅ Fetch user
   useEffect(() => {
     const fetchUser = async () => {
       const userId = localStorage.getItem("user_id");
@@ -47,12 +49,11 @@ export default function EditService() {
     fetchUser();
   }, []);
 
-  // ✅ Fetch service details
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {
         const res = await axios.get(`/api/cleaner/view/${id}`, { withCredentials: true });
-        const service = res.data.services;
+        const service = Array.isArray(res.data.services) ? res.data.services[0] : res.data.services;
 
         if (!service) {
           alert("Service not found.");
@@ -66,6 +67,9 @@ export default function EditService() {
         setPrice(service.price ? String(service.price) : "");
         setDuration(service.duration || "");
         setAvailability(service.availability || "");
+        setCreatedAt(service.created_at ? formatDate(service.created_at) : "");
+        setViews(service.view_count || "");
+        setShortlisted(service.shortlist_count || "");
       } catch (error) {
         console.error("Failed to fetch service:", error);
         alert("Service not found.");
@@ -135,13 +139,12 @@ export default function EditService() {
 
             <div className="formGrid2">
               <div className="inputGroup">
-                {[
-                  { label: "Service Name", state: serviceName, setter: setServiceName, key: "serviceName" },
+                {[{ label: "Service Name", state: serviceName, setter: setServiceName, key: "serviceName" },
                   { label: "Category", state: category, setter: setCategory, key: "category" },
                   { label: "Description", state: description, setter: setDescription, key: "description", multiline: true },
                   { label: "Price", state: price, setter: setPrice, key: "price" },
                   { label: "Duration", state: duration, setter: setDuration, key: "duration" },
-                  { label: "Availability", state: availability, setter: setAvailability, key: "availability" },
+                  { label: "Availability", state: availability, setter: setAvailability, key: "availability" }
                 ].map(({ label, state, setter, key, multiline }) => (
                   <div className="inputRow" key={key}>
                     <label className="formLabel">{label}:</label>
@@ -154,18 +157,17 @@ export default function EditService() {
                   </div>
                 ))}
 
-                {/* Fake metadata */}
                 <div className="inputRow">
                   <label className="formLabel">Date Created:</label>
-                  <input type="text" value="31/01/2025" readOnly className="formValue" />
+                  <input type="text" value={createdAt} readOnly className="formValue" />
                 </div>
                 <div className="inputRow">
                   <label className="formLabel">Total Views:</label>
-                  <input type="text" value="214" readOnly className="formValue" />
+                  <input type="text" value={views} readOnly className="formValue" />
                 </div>
                 <div className="inputRow">
                   <label className="formLabel">Shortlisted:</label>
-                  <input type="text" value="12" readOnly className="formValue" />
+                  <input type="text" value={shortlisted} readOnly className="formValue" />
                 </div>
               </div>
             </div>
@@ -176,7 +178,15 @@ export default function EditService() {
   );
 }
 
-// Sidebar Component
+function formatDate(isoString) {
+  const date = new Date(isoString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 function Sidebar({ navigate }) {
   return (
     <div className="sidebar">
@@ -229,7 +239,6 @@ function Sidebar({ navigate }) {
   );
 }
 
-// Header Component (now receives `user`)
 function Header({ user }) {
   return (
     <header className="platform-header">

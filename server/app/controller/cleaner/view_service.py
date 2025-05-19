@@ -16,9 +16,6 @@ class ViewServiceController:
         user = User.query.get(current_user_id)
         profile = Profile.query.get(user.profile_id)
 
-        data = request.get_json()
-        service_id = data.get("service_id")
-
         if profile.role_name != "cleaner":
             return jsonify({"error": "Only cleaners can view services."}), 403
 
